@@ -3,6 +3,7 @@ package cn.lunadeer.dominion.events;
 import cn.lunadeer.dominion.api.dtos.DominionDTO;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Event triggered when a player moves out of a dominion.
@@ -18,7 +19,7 @@ public class PlayerMoveOutDominionEvent extends CallableEvent {
      * @param player   the player who moved out
      * @param dominion the dominion the player moved out of
      */
-    public PlayerMoveOutDominionEvent(Player player, DominionDTO dominion) {
+    public PlayerMoveOutDominionEvent(@NotNull Player player, @Nullable DominionDTO dominion) {
         this.player = player;
         this.dominion = dominion;
     }
@@ -34,10 +35,12 @@ public class PlayerMoveOutDominionEvent extends CallableEvent {
 
     /**
      * Gets the dominion the player moved out of.
+     * <p>
+     * Might be null if this dominion called because of dominion deletion.
      *
      * @return the dominion
      */
-    public @NotNull DominionDTO getDominion() {
+    public @Nullable DominionDTO getDominion() {
         return dominion;
     }
 }
