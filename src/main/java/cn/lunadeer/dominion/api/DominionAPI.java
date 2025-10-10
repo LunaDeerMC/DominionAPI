@@ -363,4 +363,20 @@ public abstract class DominionAPI {
     public static MemberProvider getMemberProvider() {
         return MemberProvider.getInstance();
     }
+
+    /**
+     * Reloads the dominion cache.
+     * <p>
+     * This method refreshes all cached dominion data, ensuring the latest state is loaded from the data source.
+     * Use this when external changes may have affected the cache.
+     */
+    public abstract void reloadCache();
+
+    /**
+     * Reloads the dominion configuration.
+     * <p>
+     * This method reloads configuration files and settings for the dominion system.
+     * Use this to apply changes made to configuration files without restarting the server.
+     */
+    public abstract void reloadConfig() throws Exception;
 }

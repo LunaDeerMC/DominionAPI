@@ -18,6 +18,7 @@ public class PriFlag extends Flag {
      * @param description   the description of the flag
      * @param default_value the default value of the flag
      * @param enable        the enable status of the flag
+     * @param material      the material of flag in CUI
      */
     public PriFlag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description, @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material) {
         super(flag_name, display_name, description, default_value, enable, material);

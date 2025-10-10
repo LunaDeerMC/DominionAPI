@@ -1,10 +1,9 @@
 package cn.lunadeer.dominion.api.dtos.flag;
 
+import cn.lunadeer.dominion.api.DominionAPI;
 import org.bukkit.Material;
 
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Flags {
@@ -236,10 +235,6 @@ public class Flags {
             } catch (IllegalAccessException ignored) {
             }
         }
-        Comparator<Object> comparator = Collator.getInstance(java.util.Locale.CHINA);
-        env_flags.sort((o1, o2) -> comparator.compare(o1.getDisplayName(), o2.getDisplayName()));
-        pri_flags.sort((o1, o2) -> comparator.compare(o1.getDisplayName(), o2.getDisplayName()));
-        all_flags.sort((o1, o2) -> comparator.compare(o1.getDisplayName(), o2.getDisplayName()));
     }
 
 
@@ -359,5 +354,56 @@ public class Flags {
      */
     public static PriFlag getPreFlag(String name) {
         return getFlagByName(pri_flags, name);
+    }
+
+    /**
+     * Registers a flag.
+     * <p>
+     * Need to run {@link #applyNewCustomFlags()} to make the new flag work.
+     *
+     * @param flag the flag to register
+     */
+    private static void registerFlag(Flag flag) {
+        if (flag instanceof EnvFlag) {
+            env_flags.add((EnvFlag) flag);
+        } else if (flag instanceof PriFlag) {
+            pri_flags.add((PriFlag) flag);
+        }
+        all_flags.add(flag);
+    }
+
+    /**
+     * Registers an environment flag.
+     * <p>
+     * Need to run {@link #applyNewCustomFlags()} to make the new flag work.
+     *
+     * @param flag the environment flag to register
+     */
+    public static void registerEnvFlag(EnvFlag flag) {
+        all_flags.add(flag);
+        env_flags.add(flag);
+    }
+
+    /**
+     * Registers a privilege flag.
+     * <p>
+     * Need to run {@link #applyNewCustomFlags()} to make the new flag work.
+     *
+     * @param flag the privilege flag to register
+     */
+    public static void registerPriFlag(PriFlag flag) {
+        all_flags.add(flag);
+        pri_flags.add(flag);
+    }
+
+    /**
+     * Applies new custom flags by reloading the configuration and cache.
+     * This should be called after registering new flags to ensure they take effect.
+     *
+     * @throws Exception if reloading the config or cache fails
+     */
+    public static void applyNewCustomFlags() throws Exception {
+        DominionAPI.getInstance().reloadConfig();
+        DominionAPI.getInstance().reloadCache();
     }
 }
