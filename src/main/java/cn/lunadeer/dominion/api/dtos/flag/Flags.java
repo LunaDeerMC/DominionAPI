@@ -54,6 +54,8 @@ public class Flags {
             = new EnvFlag("snow_melt", "Snow Melt", "Whether to allow snow to melt.", false, false, Material.SNOW_BLOCK);
     public static final EnvFlag TRAMPLE
             = new EnvFlag("trample", "Trample Farmland", "Whether farmland can be trampled (false means protect farmland).", false, true, Material.FARMLAND);
+    public static final EnvFlag DECAY
+            = new EnvFlag("decay", "Leaf Decay", "Whether leaves can decay.", false, true, Material.OAK_LEAVES);
 
     // red stone stuff
     public static final EnvFlag HOPPER_OUTSIDE
