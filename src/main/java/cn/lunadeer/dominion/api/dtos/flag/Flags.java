@@ -1,7 +1,9 @@
 package cn.lunadeer.dominion.api.dtos.flag;
 
 import cn.lunadeer.dominion.api.DominionAPI;
+import cn.lunadeer.dominion.events.FlagRegisterEvent;
 import org.bukkit.Material;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -379,11 +381,17 @@ public class Flags {
      * <p>
      * Need to run {@link #applyNewCustomFlags()} to make the new flag work.
      *
-     * @param flag the environment flag to register
+     * @param plugin the plugin registering the flag
+     * @param flag   the environment flag to register
+     * @return true if the flag was successfully registered, false otherwise
      */
-    public static void registerEnvFlag(EnvFlag flag) {
-        all_flags.add(flag);
-        env_flags.add(flag);
+    public static boolean registerEnvFlag(JavaPlugin plugin, EnvFlag flag) {
+        if (new FlagRegisterEvent(plugin, flag).call()) {
+            all_flags.add(flag);
+            env_flags.add(flag);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -391,11 +399,17 @@ public class Flags {
      * <p>
      * Need to run {@link #applyNewCustomFlags()} to make the new flag work.
      *
-     * @param flag the privilege flag to register
+     * @param plugin the plugin registering the flag
+     * @param flag   the privilege flag to register
+     * @return true if the flag was successfully registered, false otherwise
      */
-    public static void registerPriFlag(PriFlag flag) {
-        all_flags.add(flag);
-        pri_flags.add(flag);
+    public static boolean registerPriFlag(JavaPlugin plugin, PriFlag flag) {
+        if (new FlagRegisterEvent(plugin, flag).call()) {
+            all_flags.add(flag);
+            pri_flags.add(flag);
+            return true;
+        }
+        return false;
     }
 
     /**
