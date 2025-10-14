@@ -153,6 +153,8 @@ public class Flags {
             new PriFlag("jukebox", "Jukebox", "Whether can interact with jukebox.", false, true, Material.JUKEBOX);
     public static final PriFlag LECTERN =
             new PriFlag("lectern", "Lectern", "Whether can interact with lectern.", false, true, Material.LECTERN);
+    public static final PriFlag BOOKSHELF =
+            new PriFlag("bookshelf", "Chiseled Bookshelf", "Whether can interact with chiseled bookshelf.", false, true, Material.CHISELED_BOOKSHELF);
 
     // special items and interactions
     public static final PriFlag DRAGON_EGG =
