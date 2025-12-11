@@ -89,6 +89,8 @@ public class Flags {
     // movement and teleportation
     public static final PriFlag MOVE =
             new PriFlag("move", "Player Move", "Whether player can move in dominion.", true, true, Material.LEATHER_BOOTS);
+    public static final PriFlag JUMP =
+            new PriFlag("jump", "Player Jump", "Whether player can jump in dominion.", true, true, Material.LEATHER_BOOTS);
     public static final PriFlag TELEPORT =
             new PriFlag("teleport", "Teleportation", "False means can't teleport to this dominion.", false, true, Material.ENDER_EYE);
     public static final PriFlag FLY =
