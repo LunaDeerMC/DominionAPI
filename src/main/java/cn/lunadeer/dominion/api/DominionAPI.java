@@ -74,6 +74,16 @@ public abstract class DominionAPI {
     public abstract List<DominionDTO> getAllDominions();
 
     /**
+     * Retrieves all DominionDTO objects owned by a specific player.
+     * <p>
+     * This method retrieves the dominions owned by the specified player from the cache of this server.
+     *
+     * @param player the UUID of the player
+     * @return a list of DominionDTO objects owned by the specified player
+     */
+    public abstract List<DominionDTO> getAllDominionsOfPlayer(@NotNull UUID player);
+
+    /**
      * Retrieves the child dominions of a given parent dominion.
      * <p>
      * This method retrieves the child dominions of the specified parent dominion from the cache of this server.
