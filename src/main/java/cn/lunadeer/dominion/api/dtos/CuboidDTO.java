@@ -309,7 +309,7 @@ public class CuboidDTO {
      * @return true if this cuboid contains the specified coordinates, false otherwise
      */
     public boolean contain(int x, int y, int z) {
-        return x1() <= x && x2() >= x && y1() <= y && y2() >= y && z1() <= z && z2() >= z;
+        return x1() <= x && x2() > x && y1() <= y && y2() > y && z1() <= z && z2() > z;
     }
 
     /**
