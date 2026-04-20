@@ -227,4 +227,18 @@ public abstract class DominionProvider {
                                                                         @NotNull DominionDTO dominion,
                                                                         @NotNull PriFlag flag,
                                                                         boolean newValue);
+                                                                        
+    /**
+     * Sets the owner glow flag for the dominion. When enabled, the dominion owner will have a glowing effect within their dominion.
+     * This is a visual effect that helps identify the owner of the dominion. It does not affect gameplay mechanics.
+     * @param operator the command sender performing this operation
+     * @param dominion the dominion whose owner glow flag will be updated
+     * @param ownerGlow the new value for the owner glow flag (true to enable, false to disable)
+     * @return a CompletableFuture that resolves to the updated DominionDTO.
+     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed
+     *  @since 4.6.0
+     */
+    public abstract CompletableFuture<DominionDTO> setDominionOwnerGlow(@NotNull CommandSender operator,
+                                                                        @NotNull DominionDTO dominion,
+                                                                        boolean ownerGlow);
 }

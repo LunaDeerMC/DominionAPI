@@ -210,6 +210,15 @@ public interface DominionDTO {
     @NotNull DominionDTO setTpLocation(Location tpLocation) throws SQLException;
 
     /**
+     * Sets the owner glow flag of the dominion. Returns the dominion object if successful, otherwise returns null.
+     *
+     * @param ownerGlow the owner glow flag of the dominion
+     * @return the dominion object
+     * @throws SQLException if a database access error occurs
+     */
+    @NotNull DominionDTO setOwnerGlow(Boolean ownerGlow) throws SQLException;
+
+    /**
      * Gets the red component of the dominion's color.
      *
      * @return the red component of the dominion's color
@@ -273,4 +282,10 @@ public interface DominionDTO {
      * @return the server ID associated with the dominion
      */
     Integer getServerId();
+
+    /**
+     * Get the owner glow flag of the dominion.
+     * @return the owner glow flag of the dominion
+     */
+    Boolean getOwnerGlow();
 }
