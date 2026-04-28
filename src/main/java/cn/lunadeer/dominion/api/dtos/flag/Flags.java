@@ -97,6 +97,8 @@ public class Flags {
             new PriFlag("riding", "Riding", "Whether can ride vehicle (boat, minecart, horse etc.).", false, true, Material.SADDLE);
     public static final PriFlag ENDER_PEARL =
             new PriFlag("ender_pearl", "End Pearl", "Whether can throw ender pearl.", false, true, Material.ENDER_PEARL);
+    public static final PriFlag RAID =
+            new PriFlag("raid", "Raid", "Whether can trigger raid.", false, true, Material.IRON_AXE);
 
     // building and placing
     public static final PriFlag PLACE =
