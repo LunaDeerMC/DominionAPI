@@ -80,6 +80,25 @@ publishing {
 }
 
 signing { // 文件签名
+    val hasGpgCmdConfig = listOf(
+        "signing.gnupg.keyName",
+        "signing.gnupg.executable",
+        "signing.gnupg.homeDir",
+        "signing.gnupg.optionsFile"
+    ).any { !providers.gradleProperty(it).orNull.isNullOrBlank() }
+    val inMemorySigningKey = providers.gradleProperty("signingKey").orNull
+    val inMemorySigningPassword =
+        providers.gradleProperty("signingPassword").orNull
+            ?: providers.gradleProperty("signing.password").orNull
+
+    when {
+        hasGpgCmdConfig -> useGpgCmd()
+        !inMemorySigningKey.isNullOrBlank() -> useInMemoryPgpKeys(
+            inMemorySigningKey,
+            inMemorySigningPassword
+        )
+    }
+
     sign(publishing.publications["mavenJava"])
 }
 
