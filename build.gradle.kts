@@ -41,7 +41,9 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             artifactId = project.name
-            from(components["java"])
+            artifact(tasks.named("jar"))
+            artifact(tasks.named("sourcesJar"))
+            artifact(tasks.named("javadocJar"))
 
             pom {
                 name = project.name
