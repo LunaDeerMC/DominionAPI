@@ -42,8 +42,10 @@ public class Flags {
     // natural
     public static final EnvFlag FIRE_SPREAD
             = new EnvFlag("fire_spread", "Fire Spread", "Prevent fire spread in dominion.", false, true, Material.CAMPFIRE);
-    public static final EnvFlag BURN
-            = new EnvFlag("burn", "Burn", "Whether blocks can burn and entities can take high-temperature damage.", false, true, Material.FIRE_CHARGE);
+    public static final EnvFlag BURN_BLOCK
+            = new EnvFlag("burn_block", "Burn Block", "Whether blocks can burn.", false, true, Material.FIRE);
+    public static final EnvFlag BURN_ENTITY
+            = new EnvFlag("burn_entity", "Burn Entity", "Whether entity can burn or take high-temperature damage (not including player).", false, true, Material.FIRE_CHARGE);
     public static final EnvFlag FLOW_IN_PROTECTION
             = new EnvFlag("flow_in_protection", "Flow In", "Prevent external water/lava flow into dominion.", false, true, Material.WATER_BUCKET);
     public static final EnvFlag GRAVITY_BLOCK
