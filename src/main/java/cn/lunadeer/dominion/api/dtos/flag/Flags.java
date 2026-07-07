@@ -224,10 +224,6 @@ public class Flags {
     public static final PriFlag VILLAGER_KILLING =
             new PriFlag("villager_killing", "Villager Killing", "Whether can do harm to villager.", false, true, Material.WOODEN_SWORD);
 
-    // special effects
-    public static final PriFlag GLOW =
-            new PriFlag("glow", "Glow", "Like glowing arrow effect.", false, true, Material.SPECTRAL_ARROW);
-
     private static final List<EnvFlag> env_flags = new ArrayList<>();
     private static final List<PriFlag> pri_flags = new ArrayList<>();
     private static final List<Flag> all_flags = new ArrayList<>();
