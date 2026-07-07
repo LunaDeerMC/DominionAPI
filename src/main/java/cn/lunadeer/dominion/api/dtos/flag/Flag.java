@@ -4,11 +4,14 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a flag in the Dominion system.
+ * Represents a legacy flag in the Dominion system.
  * This abstract class provides the basic structure and methods
  * for flags, including their name, display name, description,
  * default value, and enable status.
+ *
+ * @deprecated use {@link FlagDefinition}, {@link FlagDefinitions}, {@link FlagRegistry}, and {@link FlagValueSet}.
  */
+@Deprecated
 public abstract class Flag {
 
     private final String flag_name;

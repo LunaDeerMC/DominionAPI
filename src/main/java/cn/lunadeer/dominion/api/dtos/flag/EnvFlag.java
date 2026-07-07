@@ -4,10 +4,13 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents an environment flag in the Dominion system.
+ * Represents a legacy environment flag in the Dominion system.
  * This class extends the Flag class and provides specific
  * configuration keys for environment-related flags.
+ *
+ * @deprecated use environment {@link FlagDefinition}s from {@link FlagDefinitions}.
  */
+@Deprecated
 public class EnvFlag extends Flag {
 
     /**

@@ -12,7 +12,11 @@ import java.util.function.Consumer;
 
 /**
  * Event triggered when a member's flag is set in the Dominion system.
+ *
+ * @deprecated legacy event based on {@link PriFlag}. New flag APIs use
+ * {@code FlagDefinition}.
  */
+@Deprecated
 public class MemberSetFlagEvent extends ResultEvent {
 
     private final DominionDTO dominion;
@@ -59,6 +63,7 @@ public class MemberSetFlagEvent extends ResultEvent {
      *
      * @return the flag being set
      */
+    @Deprecated
     public PriFlag getFlag() {
         return flag;
     }

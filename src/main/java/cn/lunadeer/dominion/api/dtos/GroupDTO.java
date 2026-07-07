@@ -1,5 +1,7 @@
 package cn.lunadeer.dominion.api.dtos;
 
+import cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition;
+import cn.lunadeer.dominion.api.dtos.flag.FlagValueSet;
 import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -70,15 +72,23 @@ public interface GroupDTO {
      *
      * @param flag the flag
      * @return the value of the flag, or the default value if the flag does not exist
+     * @deprecated use {@link #getFlagValue(PrivilegeFlagDefinition)} with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     @NotNull Boolean getFlagValue(@NotNull PriFlag flag);
+
+    @NotNull Boolean getFlagValue(@NotNull PrivilegeFlagDefinition flag);
 
     /**
      * Gets all flag values for the group.
      *
      * @return a map of flag values
+     * @deprecated use {@link #getFlags()}.
      */
+    @Deprecated
     @NotNull Map<PriFlag, Boolean> getFlagsValue();
+
+    @NotNull FlagValueSet getFlags();
 
     /**
      * Sets the value of a specific flag for the group.
@@ -88,8 +98,12 @@ public interface GroupDTO {
      * @param value the value of the flag
      * @return the group object
      * @throws SQLException if a database access error occurs
+     * @deprecated use {@link #setFlagValue(PrivilegeFlagDefinition, Boolean)} with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     @NotNull GroupDTO setFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;
+
+    @NotNull GroupDTO setFlagValue(@NotNull PrivilegeFlagDefinition flag, @NotNull Boolean value) throws SQLException;
 
     /**
      * Gets all members of the group.

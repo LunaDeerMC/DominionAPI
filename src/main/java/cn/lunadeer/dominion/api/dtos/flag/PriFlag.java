@@ -4,10 +4,13 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a privilege flag in the Dominion system.
+ * Represents a legacy privilege flag in the Dominion system.
  * This class extends the Flag class and provides specific
  * configuration keys for privilege-related flags.
+ *
+ * @deprecated use privilege {@link FlagDefinition}s from {@link FlagDefinitions}.
  */
+@Deprecated
 public class PriFlag extends Flag {
 
     /**

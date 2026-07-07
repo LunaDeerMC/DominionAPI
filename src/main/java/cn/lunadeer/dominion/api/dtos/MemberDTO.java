@@ -1,5 +1,7 @@
 package cn.lunadeer.dominion.api.dtos;
 
+import cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition;
+import cn.lunadeer.dominion.api.dtos.flag.FlagValueSet;
 import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,15 +47,23 @@ public interface MemberDTO {
      *
      * @param flag the flag
      * @return the value of the flag, or the default value if the flag does not exist
+     * @deprecated use {@link #getFlagValue(PrivilegeFlagDefinition)} with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     @NotNull Boolean getFlagValue(PriFlag flag);
+
+    @NotNull Boolean getFlagValue(@NotNull PrivilegeFlagDefinition flag);
 
     /**
      * Gets all flag values for the member.
      *
      * @return a map of flag values
+     * @deprecated use {@link #getFlags()}.
      */
+    @Deprecated
     @NotNull Map<PriFlag, Boolean> getFlagsValue();
+
+    @NotNull FlagValueSet getFlags();
 
     /**
      * Sets the value of a specific flag for the member.
@@ -63,8 +73,12 @@ public interface MemberDTO {
      * @param value the value of the flag
      * @return the member object, or null if the operation fails
      * @throws SQLException if a database access error occurs
+     * @deprecated use {@link #setFlagValue(PrivilegeFlagDefinition, Boolean)} with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     @Nullable MemberDTO setFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;
+
+    @Nullable MemberDTO setFlagValue(@NotNull PrivilegeFlagDefinition flag, @NotNull Boolean value) throws SQLException;
 
     /**
      * Gets the player object associated with the member.

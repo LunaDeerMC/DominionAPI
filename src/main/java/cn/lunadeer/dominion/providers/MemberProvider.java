@@ -48,7 +48,10 @@ public abstract class MemberProvider {
      * @param newValue the new value for the flag (true to allow, false to deny)
      * @return a CompletableFuture that resolves to the updated MemberDTO.
      * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @deprecated use {@link MemberDTO#setFlagValue(cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition, Boolean)}
+     * with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     public abstract CompletableFuture<MemberDTO> setMemberFlag(@NotNull CommandSender operator,
                                                                @NotNull DominionDTO dominion,
                                                                @NotNull MemberDTO member,

@@ -8,6 +8,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Legacy flag definitions and registration helpers.
+ *
+ * @deprecated use {@link FlagDefinitions}, {@link FlagRegistry}, {@link FlagGroupDefinition},
+ * and {@link FlagValueSet}. Legacy flags are kept for source/binary compatibility only.
+ */
+@Deprecated
 public class Flags {
     // ================================== ENV(Environment)
 

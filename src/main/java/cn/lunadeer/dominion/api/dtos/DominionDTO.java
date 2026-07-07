@@ -1,6 +1,9 @@
 package cn.lunadeer.dominion.api.dtos;
 
 import cn.lunadeer.dominion.api.dtos.flag.EnvFlag;
+import cn.lunadeer.dominion.api.dtos.flag.EnvironmentFlagDefinition;
+import cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition;
+import cn.lunadeer.dominion.api.dtos.flag.FlagValueSet;
 import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -147,41 +150,47 @@ public interface DominionDTO {
      * Gets all environment flag values of the dominion.
      *
      * @return the environment flag values of the dominion
+     * @deprecated use {@link #getEnvironmentFlags()}.
      */
+    @Deprecated
     @NotNull Map<EnvFlag, Boolean> getEnvironmentFlagValue();
+
+    @NotNull FlagValueSet getEnvironmentFlags();
 
     /**
      * Gets the value of a specific environment flag of the dominion.
      *
      * @param flag the environment flag
      * @return the value of the environment flag
+     * @deprecated use {@link #getEnvFlagValue(EnvironmentFlagDefinition)} with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     boolean getEnvFlagValue(@NotNull EnvFlag flag);
+
+    boolean getEnvFlagValue(@NotNull EnvironmentFlagDefinition flag);
 
     /**
      * Gets all guest privilege flag values of the dominion.
      *
      * @return the guest privilege flag values of the dominion
+     * @deprecated use {@link #getGuestPrivilegeFlags()}.
      */
+    @Deprecated
     @NotNull Map<PriFlag, Boolean> getGuestPrivilegeFlagValue();
+
+    @NotNull FlagValueSet getGuestPrivilegeFlags();
 
     /**
      * Gets the value of a specific guest privilege flag of the dominion.
      *
      * @param flag the guest privilege flag
      * @return the value of the guest privilege flag
+     * @deprecated use {@link #getGuestFlagValue(PrivilegeFlagDefinition)} with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     boolean getGuestFlagValue(@NotNull PriFlag flag);
 
-    /**
-     * Sets the value of a specific environment or guest privilege flag of the dominion. Returns the dominion object if successful, otherwise returns null.
-     *
-     * @param flag  the flag
-     * @param value the value of the flag
-     * @return the dominion object
-     * @throws SQLException if a database access error occurs
-     */
-    @NotNull DominionDTO setEnvFlagValue(@NotNull EnvFlag flag, @NotNull Boolean value) throws SQLException;
+    boolean getGuestFlagValue(@NotNull PrivilegeFlagDefinition flag);
 
     /**
      * Sets the value of a specific environment or guest privilege flag of the dominion. Returns the dominion object if successful, otherwise returns null.
@@ -190,8 +199,26 @@ public interface DominionDTO {
      * @param value the value of the flag
      * @return the dominion object
      * @throws SQLException if a database access error occurs
+     * @deprecated use {@link #setEnvFlagValue(EnvironmentFlagDefinition, Boolean)} with {@code FlagDefinitions.X}.
      */
+    @Deprecated
+    @NotNull DominionDTO setEnvFlagValue(@NotNull EnvFlag flag, @NotNull Boolean value) throws SQLException;
+
+    @NotNull DominionDTO setEnvFlagValue(@NotNull EnvironmentFlagDefinition flag, @NotNull Boolean value) throws SQLException;
+
+    /**
+     * Sets the value of a specific environment or guest privilege flag of the dominion. Returns the dominion object if successful, otherwise returns null.
+     *
+     * @param flag  the flag
+     * @param value the value of the flag
+     * @return the dominion object
+     * @throws SQLException if a database access error occurs
+     * @deprecated use {@link #setGuestFlagValue(PrivilegeFlagDefinition, Boolean)} with {@code FlagDefinitions.X}.
+     */
+    @Deprecated
     @NotNull DominionDTO setGuestFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;
+
+    @NotNull DominionDTO setGuestFlagValue(@NotNull PrivilegeFlagDefinition flag, @NotNull Boolean value) throws SQLException;
 
     /**
      * Gets the teleport location of the dominion. If no teleport location is set, returns the center location of the dominion.

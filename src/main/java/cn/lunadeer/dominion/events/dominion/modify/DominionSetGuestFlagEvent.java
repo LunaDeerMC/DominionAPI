@@ -7,7 +7,11 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Event triggered when a guest flag is set for a Dominion in the Dominion system.
+ *
+ * @deprecated legacy event based on {@link PriFlag}. New flag APIs use
+ * {@code FlagDefinition}.
  */
+@Deprecated
 public class DominionSetGuestFlagEvent extends DominionModifyEvent {
 
     private final PriFlag flag;
@@ -34,6 +38,7 @@ public class DominionSetGuestFlagEvent extends DominionModifyEvent {
      *
      * @return the guest flag
      */
+    @Deprecated
     public PriFlag getFlag() {
         return flag;
     }

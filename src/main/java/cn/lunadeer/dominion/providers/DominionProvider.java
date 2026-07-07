@@ -206,7 +206,10 @@ public abstract class DominionProvider {
      * @param newValue the new value for the flag (true to enable, false to disable)
      * @return a CompletableFuture that resolves to the updated DominionDTO.
      * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @deprecated use {@link DominionDTO#setEnvFlagValue(cn.lunadeer.dominion.api.dtos.flag.EnvironmentFlagDefinition, Boolean)}
+     * with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     public abstract CompletableFuture<DominionDTO> setDominionEnvFlag(@NotNull CommandSender operator,
                                                                       @NotNull DominionDTO dominion,
                                                                       @NotNull EnvFlag flag,
@@ -222,7 +225,10 @@ public abstract class DominionProvider {
      * @param newValue the new value for the flag (true to allow, false to deny)
      * @return a CompletableFuture that resolves to the updated DominionDTO.
      * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @deprecated use {@link DominionDTO#setGuestFlagValue(cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition, Boolean)}
+     * with {@code FlagDefinitions.X}.
      */
+    @Deprecated
     public abstract CompletableFuture<DominionDTO> setDominionGuestFlag(@NotNull CommandSender operator,
                                                                         @NotNull DominionDTO dominion,
                                                                         @NotNull PriFlag flag,

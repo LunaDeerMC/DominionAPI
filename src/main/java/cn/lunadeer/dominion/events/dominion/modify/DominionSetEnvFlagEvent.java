@@ -7,7 +7,11 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Event triggered when an environmental flag is set for a Dominion in the Dominion system.
+ *
+ * @deprecated legacy event based on {@link EnvFlag}. New flag APIs use
+ * {@code FlagDefinition}.
  */
+@Deprecated
 public class DominionSetEnvFlagEvent extends DominionModifyEvent {
 
     private final EnvFlag flag;
@@ -34,6 +38,7 @@ public class DominionSetEnvFlagEvent extends DominionModifyEvent {
      *
      * @return the environmental flag
      */
+    @Deprecated
     public EnvFlag getFlag() {
         return flag;
     }

@@ -12,7 +12,11 @@ import java.util.function.Consumer;
 
 /**
  * Event triggered when group's flag is changed.
+ *
+ * @deprecated legacy event based on {@link PriFlag}. New flag APIs use
+ * {@code FlagDefinition}.
  */
+@Deprecated
 public class GroupSetFlagEvent extends ResultEvent {
 
     private final DominionDTO dominion;
@@ -58,6 +62,7 @@ public class GroupSetFlagEvent extends ResultEvent {
      *
      * @return the flag
      */
+    @Deprecated
     public PriFlag getFlag() {
         return flag;
     }
