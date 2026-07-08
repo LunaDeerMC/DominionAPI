@@ -68,6 +68,35 @@ public class FlagRegistry {
         return groups.get(id);
     }
 
+    public @Nullable FlagGroupDefinition getGroup(@NotNull FlagDefinition flag) {
+        for (FlagGroupDefinition group : groups.values()) {
+            if (group.children().contains(flag)) {
+                return group;
+            }
+        }
+        return null;
+    }
+
+    public @NotNull String getConfigurationNameKey(@NotNull FlagDefinition flag) {
+        FlagGroupDefinition group = getGroup(flag);
+        if (group == null) {
+            return flag.configurationNameKey();
+        }
+        return group.id() + "." + flag.id();
+    }
+
+    public @NotNull String getConfigurationDefaultKey(@NotNull FlagDefinition flag) {
+        return getConfigurationNameKey(flag) + ".default";
+    }
+
+    public @NotNull String getConfigurationEnableKey(@NotNull FlagDefinition flag) {
+        return getConfigurationNameKey(flag) + ".enable";
+    }
+
+    public @NotNull String getConfigurationMaterialKey(@NotNull FlagDefinition flag) {
+        return getConfigurationNameKey(flag) + ".material";
+    }
+
     public @NotNull List<EnvironmentFlagDefinition> getEnvironmentGroupChildren(@NotNull String id) {
         FlagGroupDefinition group = groups.get(id);
         if (group == null || group.domain() != FlagDomain.ENVIRONMENT) {
