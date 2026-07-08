@@ -14,6 +14,7 @@ public class FlagRegisterEvent extends CallableEvent implements Cancellable {
     private final JavaPlugin plugin;
     private Flag flag;
 
+    @Deprecated
     public FlagRegisterEvent(JavaPlugin plugin, Flag flag) {
         this.plugin = plugin;
         this.flag = flag;

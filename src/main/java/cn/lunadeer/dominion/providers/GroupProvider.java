@@ -4,6 +4,7 @@ import cn.lunadeer.dominion.api.dtos.DominionDTO;
 import cn.lunadeer.dominion.api.dtos.GroupDTO;
 import cn.lunadeer.dominion.api.dtos.MemberDTO;
 import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
+import cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +39,23 @@ public abstract class GroupProvider {
     }
 
     /**
+     * Sets a privilege flag for a specific group within a dominion.
+     *
+     * @param operator the command sender performing this operation
+     * @param dominion the dominion containing the group
+     * @param group    the group whose flag will be updated
+     * @param flag     the privilege flag definition to modify
+     * @param newValue the new value for the flag
+     * @return a CompletableFuture that resolves to the updated GroupDTO.
+     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     */
+    public abstract CompletableFuture<GroupDTO> setGroupFlag(@NotNull CommandSender operator,
+                                                             @NotNull DominionDTO dominion,
+                                                             @NotNull GroupDTO group,
+                                                             @NotNull PrivilegeFlagDefinition flag,
+                                                             boolean newValue);
+
+    /**
      * Sets a privilege flag for a specific group within a dominion. Group flags control what actions
      * members of this group can perform within the dominion.
      *
@@ -48,7 +66,7 @@ public abstract class GroupProvider {
      * @param newValue the new value for the flag (true to allow, false to deny)
      * @return a CompletableFuture that resolves to the updated GroupDTO.
      * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
-     * @deprecated use {@link GroupDTO#setFlagValue(cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition, Boolean)}
+     * @deprecated use {@link #setGroupFlag(CommandSender, DominionDTO, GroupDTO, PrivilegeFlagDefinition, boolean)}
      * with {@code FlagDefinitions.X}.
      */
     @Deprecated

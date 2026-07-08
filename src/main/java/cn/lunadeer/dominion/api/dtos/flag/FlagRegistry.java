@@ -189,7 +189,7 @@ public class FlagRegistry {
         group(registry, "environment.redstone", FlagDomain.ENVIRONMENT, "Redstone", "Environment redstone controls", TRANSFER_HOPPER_OUTSIDE, PUSH_PISTON_CROSS_BORDER, TRIGGER_PRESSURE_BY_PROJECTILE, TRIGGER_PRESSURE_BY_MOB, TRIGGER_PRESSURE_BY_ITEM);
         group(registry, "environment.entity_block", FlagDomain.ENVIRONMENT, "Entity Block", "Non-player entity-block damage controls", DAMAGE_ITEM_FRAME_BY_NON_PLAYER, DAMAGE_ARMOR_STAND_BY_NON_PLAYER, DAMAGE_BOAT_BY_NON_PLAYER, DAMAGE_MINECART_BY_NON_PLAYER);
         group(registry, "environment.others", FlagDomain.ENVIRONMENT, "Others", "Other environment controls", SHOW_BORDER);
-        group(registry, "privilege.admin", FlagDomain.PRIVILEGE, "Admin", "Administrative controls", MANAGE_MEMBERS, MANAGE_GROUPS, MANAGE_FLAGS);
+        group(registry, "privilege.admin", FlagDomain.PRIVILEGE, "Admin", "Administrative controls", MANAGE_MEMBERS, MANAGE_GROUPS, MANAGE_FLAGS, TRUST);
         group(registry, "privilege.movement", FlagDomain.PRIVILEGE, "Movement", "Movement and teleport controls", MOVE_PLAYER, TELEPORT_TO_DOMINION, FLY_PLAYER, RIDE_VEHICLE, THROW_ENDER_PEARL, TRIGGER_RAID);
         group(registry, "privilege.build", FlagDomain.PRIVILEGE, "Build", "Block build controls", PLACE_BLOCK, PLACE_LIQUID, PLACE_FLOWER_POT_ITEM, BREAK_BLOCK, BREAK_LIQUID, BREAK_FLOWER_POT_ITEM, IGNITE_FIRE);
         group(registry, "privilege.entity_block", FlagDomain.PRIVILEGE, "Entity Block", "Item frame and armor stand controls", PLACE_ITEM_FRAME, BREAK_ITEM_FRAME, BREAK_ITEM_FRAME_BY_PROJECTILE, EDIT_ITEM_FRAME_ITEM, ROTATE_ITEM_FRAME, PLACE_ARMOR_STAND, BREAK_ARMOR_STAND, EDIT_ARMOR_STAND);

@@ -139,7 +139,8 @@ public final class FlagDefinitions {
     public static final PrivilegeFlagDefinition DAMAGE_VILLAGER = pri("damage_villager", "Damage Villager", "Whether players can damage villagers.", Flags.VILLAGER_KILLING, Material.WOODEN_SWORD);
     public static final PrivilegeFlagDefinition PICKUP_ITEM = pri("pickup_item", "Pick Up Item", "Whether players can pick up items.", Flags.PICK_UP, Material.DIAMOND_PICKAXE);
     public static final PrivilegeFlagDefinition DROP_ITEM = pri("drop_item", "Drop Item", "Whether players can drop items.", Flags.DROP_ITEM, Material.IRON_INGOT);
-
+    public static final PrivilegeFlagDefinition TRUST = pri("trust", "Trust", "Player will be able to by pass any flag restrictions (Except for admin flags).", Flags.ADMIN, Material.PLAYER_HEAD);
+    
     public static List<EnvironmentFlagDefinition> environmentFlags() {
         return List.of(SPAWN_ANIMAL, SPAWN_VILLAGER, SPAWN_MONSTER, SPAWN_ENDERMAN, SPAWN_WITHER, MOVE_ANIMAL, MOVE_MONSTER,
                 MOVE_BLOCK_BY_ENDERMAN, TELEPORT_ENDERMAN, DAMAGE_PLAYER_BY_MONSTER_MELEE, DAMAGE_PLAYER_BY_MONSTER_PROJECTILE,
@@ -167,7 +168,7 @@ public final class FlagDefinitions {
                 USE_FERTILIZER, FEED_ANIMAL, SHEAR_ENTITY, LEASH_ENTITY, DYE_ENTITY, HARVEST_HONEY, TRADE_VILLAGER,
                 SHOOT_ARROW, THROW_TRIDENT, SHOOT_FIREBALL, SHOOT_WIND_CHARGE, THROW_EGG, USE_FISHING_HOOK,
                 DAMAGE_PLAYER_MELEE, DAMAGE_PLAYER_PROJECTILE, DAMAGE_PLAYER_EFFECT, DAMAGE_MONSTER, DAMAGE_ANIMAL,
-                DAMAGE_VILLAGER, PICKUP_ITEM, DROP_ITEM);
+                DAMAGE_VILLAGER, PICKUP_ITEM, DROP_ITEM, TRUST);
     }
 
     private static EnvironmentFlagDefinition env(String id, String displayName, String description, Flag parent, Material material) {

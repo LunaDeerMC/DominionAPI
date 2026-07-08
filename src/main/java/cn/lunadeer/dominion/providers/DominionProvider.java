@@ -4,7 +4,9 @@ import cn.lunadeer.dominion.api.dtos.CuboidDTO;
 import cn.lunadeer.dominion.api.dtos.DominionDTO;
 import cn.lunadeer.dominion.api.dtos.PlayerDTO;
 import cn.lunadeer.dominion.api.dtos.flag.EnvFlag;
+import cn.lunadeer.dominion.api.dtos.flag.EnvironmentFlagDefinition;
 import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
+import cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition;
 import cn.lunadeer.dominion.events.dominion.modify.DominionReSizeEvent;
 import cn.lunadeer.dominion.events.dominion.modify.DominionSetMessageEvent;
 import org.bukkit.Color;
@@ -197,6 +199,21 @@ public abstract class DominionProvider {
                                                                        @NotNull Color newColor);
 
     /**
+     * Sets an environment flag for the dominion.
+     *
+     * @param operator the command sender performing this operation
+     * @param dominion the dominion whose environment flag will be updated
+     * @param flag     the environment flag definition to modify
+     * @param newValue the new value for the flag
+     * @return a CompletableFuture that resolves to the updated DominionDTO.
+     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     */
+    public abstract CompletableFuture<DominionDTO> setDominionEnvFlag(@NotNull CommandSender operator,
+                                                                      @NotNull DominionDTO dominion,
+                                                                      @NotNull EnvironmentFlagDefinition flag,
+                                                                      boolean newValue);
+
+    /**
      * Sets an environment flag for the dominion. Environment flags control various
      * world interactions within the dominion (like fire spread, mob spawning, etc.).
      *
@@ -206,7 +223,7 @@ public abstract class DominionProvider {
      * @param newValue the new value for the flag (true to enable, false to disable)
      * @return a CompletableFuture that resolves to the updated DominionDTO.
      * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
-     * @deprecated use {@link DominionDTO#setEnvFlagValue(cn.lunadeer.dominion.api.dtos.flag.EnvironmentFlagDefinition, Boolean)}
+     * @deprecated use {@link #setDominionEnvFlag(CommandSender, DominionDTO, EnvironmentFlagDefinition, boolean)}
      * with {@code FlagDefinitions.X}.
      */
     @Deprecated
@@ -214,6 +231,21 @@ public abstract class DominionProvider {
                                                                       @NotNull DominionDTO dominion,
                                                                       @NotNull EnvFlag flag,
                                                                       boolean newValue);
+
+    /**
+     * Sets a guest privilege flag for the dominion.
+     *
+     * @param operator the command sender performing this operation
+     * @param dominion the dominion whose guest flag will be updated
+     * @param flag     the privilege flag definition to modify
+     * @param newValue the new value for the flag
+     * @return a CompletableFuture that resolves to the updated DominionDTO.
+     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     */
+    public abstract CompletableFuture<DominionDTO> setDominionGuestFlag(@NotNull CommandSender operator,
+                                                                        @NotNull DominionDTO dominion,
+                                                                        @NotNull PrivilegeFlagDefinition flag,
+                                                                        boolean newValue);
 
     /**
      * Sets a guest privilege flag for the dominion. Guest flags control what actions
@@ -225,7 +257,7 @@ public abstract class DominionProvider {
      * @param newValue the new value for the flag (true to allow, false to deny)
      * @return a CompletableFuture that resolves to the updated DominionDTO.
      * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
-     * @deprecated use {@link DominionDTO#setGuestFlagValue(cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition, Boolean)}
+     * @deprecated use {@link #setDominionGuestFlag(CommandSender, DominionDTO, PrivilegeFlagDefinition, boolean)}
      * with {@code FlagDefinitions.X}.
      */
     @Deprecated

@@ -4,6 +4,7 @@ import cn.lunadeer.dominion.api.dtos.DominionDTO;
 import cn.lunadeer.dominion.api.dtos.MemberDTO;
 import cn.lunadeer.dominion.api.dtos.PlayerDTO;
 import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
+import cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +39,23 @@ public abstract class MemberProvider {
     }
 
     /**
+     * Sets a privilege flag for a specific member within a dominion.
+     *
+     * @param operator the command sender performing this operation
+     * @param dominion the dominion containing the member
+     * @param member   the member whose flag will be updated
+     * @param flag     the privilege flag definition to modify
+     * @param newValue the new value for the flag
+     * @return a CompletableFuture that resolves to the updated MemberDTO.
+     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     */
+    public abstract CompletableFuture<MemberDTO> setMemberFlag(@NotNull CommandSender operator,
+                                                               @NotNull DominionDTO dominion,
+                                                               @NotNull MemberDTO member,
+                                                               @NotNull PrivilegeFlagDefinition flag,
+                                                               boolean newValue);
+
+    /**
      * Sets a privilege flag for a specific member within a dominion. Member flags control what actions
      * this individual member can perform within the dominion, independent of any group memberships.
      *
@@ -48,7 +66,7 @@ public abstract class MemberProvider {
      * @param newValue the new value for the flag (true to allow, false to deny)
      * @return a CompletableFuture that resolves to the updated MemberDTO.
      * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
-     * @deprecated use {@link MemberDTO#setFlagValue(cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition, Boolean)}
+     * @deprecated use {@link #setMemberFlag(CommandSender, DominionDTO, MemberDTO, PrivilegeFlagDefinition, boolean)}
      * with {@code FlagDefinitions.X}.
      */
     @Deprecated

@@ -30,6 +30,7 @@ public abstract class Flag {
      * @param default_value the default value of the flag
      * @param enable        the enable status of the flag
      */
+    @Deprecated
     public Flag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description, @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material) {
         this.flag_name = flag_name;
         this.display_name = display_name;

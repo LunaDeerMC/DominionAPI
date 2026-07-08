@@ -1,7 +1,9 @@
 package cn.lunadeer.dominion.api.dtos.flag;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,6 +128,32 @@ public final class LegacyFlagBridge {
 
     public static @NotNull List<PrivilegeFlagDefinition> definitionsFor(@NotNull PriFlag flag) {
         return PRI_MAPPING.getOrDefault(flag.getFlagName(), List.of());
+    }
+
+    public static @NotNull Map<String, List<EnvironmentFlagDefinition>> environmentMappings() {
+        return Collections.unmodifiableMap(ENV_MAPPING);
+    }
+
+    public static @NotNull Map<String, List<PrivilegeFlagDefinition>> privilegeMappings() {
+        return Collections.unmodifiableMap(PRI_MAPPING);
+    }
+
+    public static @Nullable EnvFlag legacyFor(@NotNull EnvironmentFlagDefinition definition) {
+        for (EnvFlag flag : Flags.getAllEnvFlags()) {
+            if (definitionsFor(flag).contains(definition)) {
+                return flag;
+            }
+        }
+        return null;
+    }
+
+    public static @Nullable PriFlag legacyFor(@NotNull PrivilegeFlagDefinition definition) {
+        for (PriFlag flag : Flags.getAllPriFlags()) {
+            if (definitionsFor(flag).contains(definition)) {
+                return flag;
+            }
+        }
+        return null;
     }
 
     public static boolean get(@NotNull FlagValueSet values, @NotNull EnvFlag flag) {

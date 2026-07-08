@@ -2,25 +2,26 @@ package cn.lunadeer.dominion.events.member;
 
 import cn.lunadeer.dominion.api.dtos.DominionDTO;
 import cn.lunadeer.dominion.api.dtos.MemberDTO;
+import cn.lunadeer.dominion.api.dtos.flag.LegacyFlagBridge;
 import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
+import cn.lunadeer.dominion.api.dtos.flag.PrivilegeFlagDefinition;
 import cn.lunadeer.dominion.events.ResultEvent;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
- * Event triggered when a member's flag is set in the Dominion system.
- *
- * @deprecated legacy event based on {@link PriFlag}. New flag APIs use
- * {@code FlagDefinition}.
+ * Event triggered when a member's privilege flag is changed.
  */
-@Deprecated
 public class MemberSetFlagEvent extends ResultEvent {
 
     private final DominionDTO dominion;
-    private final PriFlag flag;
+    private final @Nullable PriFlag legacyFlag;
+    private final PrivilegeFlagDefinition flagDefinition;
     private final boolean oldValue;
     private boolean newValue;
     private final MemberDTO member;
@@ -35,6 +36,7 @@ public class MemberSetFlagEvent extends ResultEvent {
      * @param flag     the flag being set
      * @param newValue the new value of the flag
      */
+    @Deprecated
     public MemberSetFlagEvent(@NotNull CommandSender operator,
                               @NotNull DominionDTO dominion,
                               @NotNull MemberDTO member,
@@ -42,8 +44,23 @@ public class MemberSetFlagEvent extends ResultEvent {
                               boolean newValue) {
         super(operator);
         this.dominion = dominion;
-        this.flag = flag;
+        this.legacyFlag = flag;
+        this.flagDefinition = LegacyFlagBridge.definitionsFor(flag).get(0);
         this.oldValue = member.getFlagValue(flag);
+        this.newValue = newValue;
+        this.member = member;
+    }
+
+    public MemberSetFlagEvent(@NotNull CommandSender operator,
+                              @NotNull DominionDTO dominion,
+                              @NotNull MemberDTO member,
+                              @NotNull PrivilegeFlagDefinition flagDefinition,
+                              boolean newValue) {
+        super(operator);
+        this.dominion = dominion;
+        this.legacyFlag = LegacyFlagBridge.legacyFor(flagDefinition);
+        this.flagDefinition = flagDefinition;
+        this.oldValue = member.getFlagValue(flagDefinition);
         this.newValue = newValue;
         this.member = member;
     }
@@ -64,8 +81,12 @@ public class MemberSetFlagEvent extends ResultEvent {
      * @return the flag being set
      */
     @Deprecated
-    public PriFlag getFlag() {
-        return flag;
+    public @Nullable PriFlag getFlag() {
+        return legacyFlag;
+    }
+
+    public @NotNull PrivilegeFlagDefinition getFlagDefinition() {
+        return flagDefinition;
     }
 
     /**

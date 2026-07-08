@@ -258,6 +258,7 @@ public class Flags {
      *
      * @return a list of all flags
      */
+    @Deprecated
     public static List<Flag> getAllFlags() {
         return all_flags;
     }
@@ -267,6 +268,7 @@ public class Flags {
      *
      * @return a list of all environment flags
      */
+    @Deprecated
     public static List<EnvFlag> getAllEnvFlags() {
         return env_flags;
     }
@@ -276,6 +278,7 @@ public class Flags {
      *
      * @return a list of all privilege flags
      */
+    @Deprecated
     public static List<PriFlag> getAllPriFlags() {
         return pri_flags;
     }
@@ -302,6 +305,7 @@ public class Flags {
      *
      * @return a list of all enabled environment flags
      */
+    @Deprecated
     public static List<EnvFlag> getAllEnvFlagsEnable() {
         return getEnabledFlags(env_flags);
     }
@@ -311,6 +315,7 @@ public class Flags {
      *
      * @return a list of all enabled privilege flags
      */
+    @Deprecated
     public static List<PriFlag> getAllPriFlagsEnable() {
         return getEnabledFlags(pri_flags);
     }
@@ -320,6 +325,7 @@ public class Flags {
      *
      * @return a list of all enabled flags
      */
+    @Deprecated
     public static List<Flag> getAllFlagsEnable() {
         return getEnabledFlags(all_flags);
     }
@@ -347,6 +353,7 @@ public class Flags {
      * @param name the name of the flag
      * @return the flag with the given name, or null if not found
      */
+    @Deprecated
     public static Flag getFlag(String name) {
         return getFlagByName(all_flags, name);
     }
@@ -357,6 +364,7 @@ public class Flags {
      * @param name the name of the environment flag
      * @return the environment flag with the given name, or null if not found
      */
+    @Deprecated
     public static EnvFlag getEnvFlag(String name) {
         return getFlagByName(env_flags, name);
     }
@@ -367,6 +375,7 @@ public class Flags {
      * @param name the name of the privilege flag
      * @return the privilege flag with the given name, or null if not found
      */
+    @Deprecated
     public static PriFlag getPreFlag(String name) {
         return getFlagByName(pri_flags, name);
     }
@@ -396,6 +405,7 @@ public class Flags {
      * @param flag   the environment flag to register
      * @return true if the flag was successfully registered, false otherwise
      */
+    @Deprecated
     public static boolean registerEnvFlag(JavaPlugin plugin, EnvFlag flag) {
         if (new FlagRegisterEvent(plugin, flag).call()) {
             all_flags.add(flag);
@@ -414,6 +424,7 @@ public class Flags {
      * @param flag   the privilege flag to register
      * @return true if the flag was successfully registered, false otherwise
      */
+    @Deprecated
     public static boolean registerPriFlag(JavaPlugin plugin, PriFlag flag) {
         if (new FlagRegisterEvent(plugin, flag).call()) {
             all_flags.add(flag);
@@ -429,6 +440,7 @@ public class Flags {
      *
      * @throws Exception if reloading the config or cache fails
      */
+    @Deprecated
     public static void applyNewCustomFlags() throws Exception {
         DominionAPI.getInstance().reloadConfig();
         DominionAPI.getInstance().reloadCache();
