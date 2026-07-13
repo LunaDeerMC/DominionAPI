@@ -9,6 +9,10 @@ import cn.lunadeer.dominion.api.dtos.flag.PriFlag;
 import cn.lunadeer.dominion.providers.DominionProvider;
 import cn.lunadeer.dominion.providers.GroupProvider;
 import cn.lunadeer.dominion.providers.MemberProvider;
+import cn.lunadeer.dominion.providers.CopyProvider;
+import cn.lunadeer.dominion.providers.PlayerProvider;
+import cn.lunadeer.dominion.providers.TeleportProvider;
+import cn.lunadeer.dominion.providers.TemplateProvider;
 import cn.lunadeer.dominion.utils.McaRecord;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -373,6 +377,22 @@ public abstract class DominionAPI {
      */
     public static MemberProvider getMemberProvider() {
         return MemberProvider.getInstance();
+    }
+
+    public static TemplateProvider getTemplateProvider() {
+        return TemplateProvider.getInstance();
+    }
+
+    public static CopyProvider getCopyProvider() {
+        return CopyProvider.getInstance();
+    }
+
+    public static PlayerProvider getPlayerProvider() {
+        return PlayerProvider.getInstance();
+    }
+
+    public static TeleportProvider getTeleportProvider() {
+        return TeleportProvider.getInstance();
     }
 
     /**
