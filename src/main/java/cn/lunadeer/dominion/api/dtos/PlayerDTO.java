@@ -13,16 +13,6 @@ import java.util.UUID;
  */
 public interface PlayerDTO {
     /**
-     * Enum representing the type of user interface preferred by the player.
-     * CUI stands for Chest User Interface, and TUI stands for Text User Interface.
-     */
-    public enum UI_TYPE {
-        BY_PLAYER, // Determined by player settings
-        CUI, // Chest User Interface
-        TUI, // Text User Interface
-    }
-
-    /**
      * Gets the ID of the player.
      *
      * @return the ID of the player
@@ -65,18 +55,4 @@ public interface PlayerDTO {
      */
     @NotNull URL getSkinUrl() throws MalformedURLException;
 
-    /**
-     * Gets the player's preferred user interface type.
-     *
-     * @return the preferred user interface type
-     */
-    @NotNull UI_TYPE getUiPreference();
-
-    /**
-     * Sets the player's preferred user interface type.
-     *
-     * @param uiType the preferred user interface type to set
-     * @throws SQLException if an error occurs while updating the database
-     */
-    void setUiPreference(UI_TYPE uiType) throws SQLException;
 }
