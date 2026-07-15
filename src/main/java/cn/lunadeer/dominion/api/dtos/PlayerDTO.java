@@ -55,4 +55,36 @@ public interface PlayerDTO {
      */
     @NotNull URL getSkinUrl() throws MalformedURLException;
 
+    public static PlayerDTO UNKNOWN = new PlayerDTO() {
+        @Override
+        public Integer getId() {
+            return -1;
+        }
+
+        @Override
+        public UUID getUuid() {
+            return new UUID(0, 0);
+        }
+
+        @Override
+        public String getLastKnownName() {
+            return "Unknown";
+        }
+
+        @Override
+        public PlayerDTO updateLastKnownName(@NotNull String name, @Nullable URL skinUrl) {
+            return this;
+        }
+
+        @Override
+        public Integer getUsingGroupTitleID() {
+            return -1;
+        }
+
+        @Override
+        public @NotNull URL getSkinUrl() throws MalformedURLException {
+            return new URL("https://example.com/default-skin.png");
+        }
+    };
+
 }
