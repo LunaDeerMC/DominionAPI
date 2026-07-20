@@ -129,6 +129,8 @@ public class Flags {
             new PriFlag("pressure", "Pressure Plate (Player)", "Whether player can trigger pressure plate.", false, true, Material.STONE_PRESSURE_PLATE);
 
     // red stone
+    public static final PriFlag RED_STONE_POWDER =
+            new PriFlag("red_stone_powder", "Red Stone Powder", "Whether can interact with red stone powder.", false, true, Material.REDSTONE);
     public static final PriFlag REPEATER =
             new PriFlag("repeater", "Repeater", "Whether can change (interact with) repeater.", false, true, Material.REPEATER);
     public static final PriFlag COMPARER =
