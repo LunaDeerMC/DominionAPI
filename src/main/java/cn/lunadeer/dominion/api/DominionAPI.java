@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Interface representing the Dominion API.
@@ -410,6 +411,14 @@ public abstract class DominionAPI {
      * Use this to apply changes made to configuration files without restarting the server.
      */
     public abstract void reloadConfig() throws Exception;
+
+    /**
+     * Applies pending custom flag and flag-group changes. Calls made in the same
+     * server tick may share one application pass.
+     *
+     * @return a future completed after the pass containing this request finishes
+     */
+    public abstract CompletableFuture<Void> applyFlagChanges();
 
     /**
      * Retrieves the whitelist of MCA initiative.

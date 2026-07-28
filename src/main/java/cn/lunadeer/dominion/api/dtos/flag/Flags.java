@@ -4,9 +4,12 @@ import cn.lunadeer.dominion.api.DominionAPI;
 import cn.lunadeer.dominion.events.FlagRegisterEvent;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Flags {
     // ================================== ENV(Environment)
@@ -14,28 +17,70 @@ public class Flags {
     // animals
     public static final EnvFlag ANIMAL_SPAWN
             = new EnvFlag("animal_spawn", "Animal Spawn (Breeding)", "Whether animals can spawn (including spawn egg & breeding).", true, false, Material.COW_SPAWN_EGG);
+    public static final EnvFlag ANIMAL_BREED
+            = new EnvFlag("animal_breed", "Animal Breeding", "Whether animal breeding can create offspring.", true, false, Material.WHEAT);
+    public static final EnvFlag ANIMAL_SPAWNER
+            = new EnvFlag("animal_spawner", "Animal Spawner", "Whether animals can spawn from monster spawners.", true, false, Material.SPAWNER);
+    public static final EnvFlag ANIMAL_SPAWN_EGG
+            = new EnvFlag("animal_spawn_egg", "Animal Spawn Egg", "Whether animals can be created with spawn eggs.", true, false, Material.COW_SPAWN_EGG);
     public static final EnvFlag ANIMAL_MOVE
             = new EnvFlag("animal_move", "Animal Move", "Whether animals can move in dominion.", true, false, Material.CHERRY_FENCE);
     public static final EnvFlag VILLAGER_SPAWN
             = new EnvFlag("villager_spawn", "Villager Breed", "Whether villager can breeding (including spawn egg).", true, false, Material.VILLAGER_SPAWN_EGG);
+    public static final EnvFlag VILLAGER_BREED
+            = new EnvFlag("villager_breed", "Villager Breeding", "Whether villager breeding can create children.", true, false, Material.BREAD);
+    public static final EnvFlag VILLAGER_SPAWNER
+            = new EnvFlag("villager_spawner", "Villager Spawner", "Whether villagers can spawn from monster spawners.", true, false, Material.SPAWNER);
+    public static final EnvFlag VILLAGER_SPAWN_EGG
+            = new EnvFlag("villager_spawn_egg", "Villager Spawn Egg", "Whether villagers can be created with spawn eggs.", true, false, Material.VILLAGER_SPAWN_EGG);
 
     // monster
     public static final EnvFlag MONSTER_SPAWN
             = new EnvFlag("monster_spawn", "Monster Spawn", "Whether monster can spawn (including spawn egg).", false, false, Material.ZOMBIE_SPAWN_EGG);
+    public static final EnvFlag MONSTER_SPAWNER
+            = new EnvFlag("monster_spawner", "Monster Spawner", "Whether monsters can spawn from monster spawners.", false, false, Material.SPAWNER);
+    public static final EnvFlag MONSTER_SPAWN_EGG
+            = new EnvFlag("monster_spawn_egg", "Monster Spawn Egg", "Whether monsters can be created with spawn eggs.", true, false, Material.ZOMBIE_SPAWN_EGG);
     public static final EnvFlag MONSTER_MOVE
             = new EnvFlag("monster_move", "Monster Move", "Whether monster can move in dominion.", true, false, Material.CRIMSON_FENCE);
     public static final EnvFlag MONSTER_DAMAGE
             = new EnvFlag("monster_damage", "Monster Kill Player", "Whether monster can do harm to player.", true, false, Material.SKELETON_SPAWN_EGG);
     public static final EnvFlag ENDER_MAN
-            = new EnvFlag("ender_man", "Ender Man", "False to prevent ender-man from picking up blocks, spawning, teleporting.", false, true, Material.ENDERMAN_SPAWN_EGG);
+            = new EnvFlag("ender_man", "Enderman Block Movement", "Whether endermen can pick up or place blocks.", false, true, Material.ENDERMAN_SPAWN_EGG);
+    public static final EnvFlag ENDER_MAN_SPAWN
+            = new EnvFlag("ender_man_spawn", "Enderman Spawn", "Whether endermen can spawn.", false, true, Material.ENDERMAN_SPAWN_EGG);
+    public static final EnvFlag ENDER_MAN_TELEPORT
+            = new EnvFlag("ender_man_teleport", "Enderman Teleport", "Whether endermen can teleport.", false, true, Material.ENDER_PEARL);
 
     // explode
     public static final EnvFlag TNT_EXPLODE
-            = new EnvFlag("tnt_explode", "TNT Explode", "Whether TNT can explode.", false, true, Material.TNT);
+            = new EnvFlag("tnt_explode", "TNT Block Damage", "Whether TNT explosions can destroy blocks.", false, true, Material.TNT);
+    public static final EnvFlag TNT_DAMAGE_ENTITY
+            = new EnvFlag("tnt_damage_entity", "TNT Entity Damage", "Whether TNT explosions can damage entities and hanging objects.", false, true, Material.TNT);
     public static final EnvFlag WITHER_SPAWN
-            = new EnvFlag("wither_spawn", "Wither Spawn", "Whether can spawn wither, and wither' explode.", false, true, Material.WITHER_SKELETON_SKULL);
+            = new EnvFlag("wither_spawn", "Wither Spawn", "Whether withers can spawn.", false, true, Material.WITHER_SKELETON_SKULL);
+    public static final EnvFlag WITHER_EXPLODE
+            = new EnvFlag("wither_explode", "Wither Spawn Explosion", "Whether a spawning wither can destroy blocks.", false, true, Material.NETHER_STAR);
+    public static final EnvFlag WITHER_BREAK_BLOCK
+            = new EnvFlag("wither_break_block", "Wither Block Breaking", "Whether a harmed wither can break blocks.", false, true, Material.WITHER_SKELETON_SKULL);
     public static final EnvFlag CREEPER_EXPLODE
-            = new EnvFlag("creeper_explode", "Entity Explode (No-TNT)", "Creeper/Wither Skull/Ender Crystal/Fireball/Bed/Respawn Anchor.", false, true, Material.CREEPER_HEAD);
+            = new EnvFlag("creeper_explode", "Creeper Block Damage", "Whether creeper explosions can destroy blocks.", false, true, Material.CREEPER_HEAD);
+    public static final EnvFlag CREEPER_DAMAGE_ENTITY
+            = new EnvFlag("creeper_damage_entity", "Creeper Decoration Damage", "Whether creeper explosions can damage armor stands and hanging objects.", false, true, Material.CREEPER_HEAD);
+    public static final EnvFlag WITHER_SKULL_EXPLODE
+            = new EnvFlag("wither_skull_explode", "Wither Skull Block Damage", "Whether wither skull explosions can destroy blocks.", false, true, Material.WITHER_SKELETON_SKULL);
+    public static final EnvFlag WITHER_SKULL_DAMAGE_ENTITY
+            = new EnvFlag("wither_skull_damage_entity", "Wither Skull Decoration Damage", "Whether wither skull explosions can damage armor stands and hanging objects.", false, true, Material.WITHER_SKELETON_SKULL);
+    public static final EnvFlag ENDER_CRYSTAL_EXPLODE
+            = new EnvFlag("ender_crystal_explode", "End Crystal Block Damage", "Whether end crystal explosions can destroy blocks.", false, true, Material.END_CRYSTAL);
+    public static final EnvFlag ENDER_CRYSTAL_DAMAGE_ENTITY
+            = new EnvFlag("ender_crystal_damage_entity", "End Crystal Decoration Damage", "Whether end crystal explosions can damage armor stands and hanging objects.", false, true, Material.END_CRYSTAL);
+    public static final EnvFlag FIREBALL_EXPLODE
+            = new EnvFlag("fireball_explode", "Fireball Block Damage", "Whether fireball explosions can destroy blocks.", false, true, Material.FIRE_CHARGE);
+    public static final EnvFlag FIREBALL_DAMAGE_ENTITY
+            = new EnvFlag("fireball_damage_entity", "Fireball Decoration Damage", "Whether fireball explosions can damage armor stands and hanging objects.", false, true, Material.FIRE_CHARGE);
+    public static final EnvFlag BLOCK_EXPLODE
+            = new EnvFlag("block_explode", "Bed and Anchor Block Damage", "Whether bed and respawn-anchor explosions can destroy blocks.", false, true, Material.RESPAWN_ANCHOR);
     public static final EnvFlag DRAGON_BREAK_BLOCK
             = new EnvFlag("dragon_break_block", "Ender Dragon Break Block", "Whether ender dragon can break blocks.", false, true, Material.ENDER_DRAGON_SPAWN_EGG);
 
@@ -59,7 +104,9 @@ public class Flags {
     public static final EnvFlag SNOW_MELT
             = new EnvFlag("snow_melt", "Snow Melt", "Whether to allow snow to melt.", false, false, Material.SNOW_BLOCK);
     public static final EnvFlag TRAMPLE
-            = new EnvFlag("trample", "Trample Farmland", "Whether farmland can be trampled (false means protect farmland).", false, true, Material.FARMLAND);
+            = new EnvFlag("trample", "Player Trample Farmland", "Whether players can trample farmland.", false, true, Material.FARMLAND);
+    public static final EnvFlag MOB_TRAMPLE
+            = new EnvFlag("mob_trample", "Mob Trample Farmland", "Whether non-player entities can trample farmland.", false, true, Material.FARMLAND);
     public static final EnvFlag DECAY
             = new EnvFlag("decay", "Leaf Decay", "Whether leaves can decay.", false, true, Material.OAK_LEAVES);
 
@@ -106,9 +153,17 @@ public class Flags {
 
     // building and placing
     public static final PriFlag PLACE =
-            new PriFlag("place", "Place Block", "Whether can place blocks (normal blocks, item frame, lava, water).", false, true, Material.GRASS_BLOCK);
+            new PriFlag("place", "Place Block", "Whether normal blocks and flower-pot contents can be placed.", false, true, Material.GRASS_BLOCK);
+    public static final PriFlag PLACE_LIQUID =
+            new PriFlag("place_liquid", "Place Liquid", "Whether water and lava can be placed.", false, true, Material.WATER_BUCKET);
+    public static final PriFlag PLACE_ENTITY =
+            new PriFlag("place_entity", "Place Decorative Entity", "Whether armor stands and item frames can be placed.", false, true, Material.ARMOR_STAND);
     public static final PriFlag BREAK_BLOCK =
-            new PriFlag("break", "Break Block", "Whether can break blocks (including item frame, armor stand).", false, true, Material.IRON_PICKAXE);
+            new PriFlag("break", "Break Block", "Whether normal blocks and flower-pot contents can be removed.", false, true, Material.IRON_PICKAXE);
+    public static final PriFlag BREAK_LIQUID =
+            new PriFlag("break_liquid", "Collect Liquid", "Whether water and lava can be collected.", false, true, Material.BUCKET);
+    public static final PriFlag BREAK_ENTITY =
+            new PriFlag("break_entity", "Break Decorative Entity", "Whether armor stands and item frames can be broken.", false, true, Material.IRON_AXE);
     public static final PriFlag IGNITE =
             new PriFlag("ignite", "Ignite", "Whether can ignite fire.", false, true, Material.FLINT_AND_STEEL);
 
@@ -140,7 +195,11 @@ public class Flags {
 
     // containers and storage
     public static final PriFlag CONTAINER =
-            new PriFlag("container", "Special Container", "Such as hopper, furnace, dropper, dispenser, blast furnace, smoker.", false, true, Material.CHEST);
+            new PriFlag("container", "Storage Container", "Whether chest-like storage containers can be opened.", false, true, Material.CHEST);
+    public static final PriFlag ARMOR_STAND_INTERACTIVE =
+            new PriFlag("armor_stand_interactive", "Armor Stand Interaction", "Whether equipment on armor stands can be changed.", false, true, Material.ARMOR_STAND);
+    public static final PriFlag ITEM_FRAME_CONTENT =
+            new PriFlag("item_frame_content", "Item Frame Content", "Whether items can be inserted into or removed from item frames.", false, true, Material.ITEM_FRAME);
     public static final PriFlag HOPPER =
             new PriFlag("hopper", "Special Container", "Such as hopper, furnace, dropper, dispenser, blast furnace, smoker.", false, true, Material.HOPPER);
 
@@ -188,7 +247,11 @@ public class Flags {
     public static final PriFlag HARVEST =
             new PriFlag("harvest", "Harvest", "Whether player can harvest crops.", false, true, Material.WHEAT);
     public static final PriFlag SOWING =
-            new PriFlag("sowing", "Sowing", "Whether to allow sowing crops (wheat, carrot etc.).", false, true, Material.WHEAT_SEEDS);
+            new PriFlag("sowing", "Sowing", "Whether crops can be planted.", false, true, Material.WHEAT_SEEDS);
+    public static final PriFlag FERTILIZER =
+            new PriFlag("fertilizer", "Fertilizer", "Whether bone meal and other fertilizer can be used.", false, true, Material.BONE_MEAL);
+    public static final PriFlag PLANT_TREE =
+            new PriFlag("plant_tree", "Plant Tree", "Whether saplings and similar tree plants can be planted.", false, true, Material.OAK_SAPLING);
     public static final PriFlag FEED =
             new PriFlag("feed", "Feed Animal", "Whether can feed animals.", false, true, Material.WHEAT);
     public static final PriFlag SHEAR =
@@ -210,7 +273,13 @@ public class Flags {
 
     // projectiles and throwing
     public static final PriFlag SHOOT =
-            new PriFlag("shoot", "Shooting", "Include arrow/snowball/trident/fireball/wind-charge(1.21).", false, true, Material.BOW);
+            new PriFlag("shoot", "Shoot Arrows", "Whether bows and crossbows can shoot arrows.", false, true, Material.BOW);
+    public static final PriFlag TRIDENT =
+            new PriFlag("trident", "Throw Trident", "Whether tridents can be thrown.", false, true, Material.TRIDENT);
+    public static final PriFlag FIREBALL =
+            new PriFlag("fireball", "Launch Fireball", "Whether players can launch fireballs.", false, true, Material.FIRE_CHARGE);
+    public static final PriFlag WIND_CHARGE =
+            new PriFlag("wind_charge", "Use Wind Charge", "Whether players can launch wind charges.", false, true, Material.FIRE_CHARGE);
     public static final PriFlag EGG =
             new PriFlag("egg", "Throw Egg", "Whether can throw egg.", false, true, Material.EGG);
     public static final PriFlag HOOK =
@@ -229,6 +298,7 @@ public class Flags {
     private static final List<EnvFlag> env_flags = new ArrayList<>();
     private static final List<PriFlag> pri_flags = new ArrayList<>();
     private static final List<Flag> all_flags = new ArrayList<>();
+    private static final AtomicLong revision = new AtomicLong();
 
     static {
         for (java.lang.reflect.Field field : Flags.class.getDeclaredFields()) {
@@ -395,6 +465,7 @@ public class Flags {
         if (new FlagRegisterEvent(plugin, flag).call()) {
             all_flags.add(flag);
             env_flags.add(flag);
+            revision.incrementAndGet();
             return true;
         }
         return false;
@@ -413,6 +484,7 @@ public class Flags {
         if (new FlagRegisterEvent(plugin, flag).call()) {
             all_flags.add(flag);
             pri_flags.add(flag);
+            revision.incrementAndGet();
             return true;
         }
         return false;
@@ -424,8 +496,50 @@ public class Flags {
      *
      * @throws Exception if reloading the config or cache fails
      */
+    public static CompletableFuture<Void> applyChanges() {
+        return DominionAPI.getInstance().applyFlagChanges();
+    }
+
+    /**
+     * Queues registered flag and flag-group changes for application.
+     *
+     * @deprecated use {@link #applyChanges()} and observe the returned future
+     */
+    @Deprecated
     public static void applyNewCustomFlags() throws Exception {
-        DominionAPI.getInstance().reloadConfig();
-        DominionAPI.getInstance().reloadCache();
+        applyChanges();
+    }
+
+    public static long getRevision() {
+        return revision.get();
+    }
+
+    /**
+     * Returns the legacy flag whose value should seed a newly split flag.
+     */
+    @ApiStatus.Internal
+    public static Flag getLegacySource(Flag flag) {
+        if (flag == ANIMAL_BREED || flag == ANIMAL_SPAWNER || flag == ANIMAL_SPAWN_EGG) return ANIMAL_SPAWN;
+        if (flag == VILLAGER_BREED || flag == VILLAGER_SPAWNER || flag == VILLAGER_SPAWN_EGG) return VILLAGER_SPAWN;
+        if (flag == MONSTER_SPAWNER || flag == MONSTER_SPAWN_EGG) return MONSTER_SPAWN;
+        if (flag == ENDER_MAN_SPAWN || flag == ENDER_MAN_TELEPORT) return ENDER_MAN;
+        if (flag == WITHER_EXPLODE || flag == WITHER_BREAK_BLOCK) return WITHER_SPAWN;
+        if (flag == BLOCK_EXPLODE || flag == CREEPER_DAMAGE_ENTITY
+                || flag == WITHER_SKULL_EXPLODE || flag == WITHER_SKULL_DAMAGE_ENTITY
+                || flag == ENDER_CRYSTAL_EXPLODE || flag == ENDER_CRYSTAL_DAMAGE_ENTITY
+                || flag == FIREBALL_EXPLODE || flag == FIREBALL_DAMAGE_ENTITY) return CREEPER_EXPLODE;
+        if (flag == TNT_DAMAGE_ENTITY) return TNT_EXPLODE;
+        if (flag == MOB_TRAMPLE) return TRAMPLE;
+        if (flag == PLACE_LIQUID || flag == PLACE_ENTITY) return PLACE;
+        if (flag == BREAK_LIQUID || flag == BREAK_ENTITY) return BREAK_BLOCK;
+        if (flag == ARMOR_STAND_INTERACTIVE || flag == ITEM_FRAME_CONTENT) return CONTAINER;
+        if (flag == FERTILIZER || flag == PLANT_TREE) return SOWING;
+        if (flag == TRIDENT || flag == FIREBALL || flag == WIND_CHARGE) return SHOOT;
+        return null;
+    }
+
+    @ApiStatus.Internal
+    public static boolean preserveAllowedSpawnEggValue(Flag flag) {
+        return flag == ANIMAL_SPAWN_EGG || flag == MONSTER_SPAWN_EGG;
     }
 }
