@@ -130,7 +130,7 @@ public final class FlagGroups {
     public static @NotNull List<PriFlagGroup> defaultPrivilegeGroups() {
         return List.of(
                 pri("administration", "Administration", "Dominion administration privileges.",
-                        Material.NETHER_STAR, Flags.ADMIN),
+                        Material.NETHER_STAR, Flags.ADMIN, Flags.RESIZE, Flags.RENAME, Flags.CREATE_SUB, Flags.DELETE_SUB, Flags.RESIZE_SUB, Flags.RENAME_SUB),
                 pri("movement", "Movement", "Movement and travel inside a dominion.",
                         Material.LEATHER_BOOTS, Flags.MOVE, Flags.TELEPORT, Flags.FLY, Flags.RIDING, Flags.ENDER_PEARL),
                 pri("building", "Building", "Place and remove blocks, liquids and decorative entities.",
