@@ -494,7 +494,6 @@ public class Flags {
      * Applies new custom flags by reloading the configuration and cache.
      * This should be called after registering new flags to ensure they take effect.
      *
-     * @throws Exception if reloading the config or cache fails
      */
     public static CompletableFuture<Void> applyChanges() {
         return DominionAPI.getInstance().applyFlagChanges();
