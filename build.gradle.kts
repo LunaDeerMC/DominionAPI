@@ -15,7 +15,7 @@ java {
 }
 
 group = "cn.lunadeer"
-version = "4.9.1" // << The main version should keep consistent with the core module
+version = "4.9.3" // << The main version should keep consistent with the core module
 
 // utf-8
 tasks.withType<JavaCompile> {
