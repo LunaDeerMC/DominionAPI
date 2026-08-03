@@ -158,7 +158,7 @@ public class Flags {
                         "Member with this flag can manage normal members and groups.", false, true,Material.NETHER_STAR);
         public static final PriFlag RESIZE = new PriFlag("resize", "Resize Dominion",
                         "Member with this flag can resize dominion.", false, true, Material.OAK_SIGN);
-        public static final PriFlag RENAME = new PriFlag("rename", "Rename Dominion",
+        public static final PriFlag RENAME = new PriFlag("rename_dominion", "Rename Dominion",
                         "Member with this flag can rename dominion.", false, true, Material.NAME_TAG);
         public static final PriFlag CREATE_SUB = new PriFlag("create_sub", "Create Sub-Dominion",
                         "Member with this flag can create sub-dominion.", false, true, Material.GREEN_DYE);
