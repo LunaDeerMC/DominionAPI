@@ -40,13 +40,13 @@ dependencies {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            artifactId = project.name
+            artifactId = "DominionAPI"
             artifact(tasks.named("jar"))
             artifact(tasks.named("sourcesJar"))
             artifact(tasks.named("javadocJar"))
 
             pom {
-                name = project.name
+                name = "DominionAPI"
                 description = "Minecraft Bukkit Server Dominion Plugin API"
                 url = "https://dominion.lunadeer.cn/"
                 licenses {
