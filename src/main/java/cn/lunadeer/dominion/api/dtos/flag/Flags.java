@@ -103,7 +103,7 @@ public class Flags {
         public static final EnvFlag BURN_BLOCK = new EnvFlag("burn_block", "Burn Block", "Whether blocks can burn.",
                         false, true, Material.FIRE_CHARGE);
         public static final EnvFlag BURN_ENTITY = new EnvFlag("burn_entity", "Burn Entity",
-                        "Whether entity can burn or take high-temperature damage (not including player).", false, true,
+                        "Whether entity can burn or take high-temperature damage (not including player).", true, true,
                         Material.CAMPFIRE);
         public static final EnvFlag FLOW_IN_PROTECTION = new EnvFlag("flow_in_protection", "Flow In",
                         "Prevent external water/lava flow into dominion.", false, true, Material.WATER_BUCKET);
