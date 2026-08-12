@@ -2,6 +2,7 @@ package cn.lunadeer.dominion.api.dtos.flag;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a privilege flag in the Dominion system.
@@ -22,6 +23,12 @@ public class PriFlag extends Flag {
      */
     public PriFlag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description, @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material) {
         super(flag_name, display_name, description, default_value, enable, material);
+    }
+
+    public PriFlag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description,
+                   @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material,
+                   @Nullable String icon) {
+        super(flag_name, display_name, description, default_value, enable, material, icon);
     }
 
     /**

@@ -2,6 +2,7 @@ package cn.lunadeer.dominion.api.dtos.flag;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -20,6 +21,7 @@ public abstract class FlagGroup<T extends Flag> {
     private String displayName;
     private String description;
     private Material material;
+    private String icon;
     private final LinkedHashSet<T> flags = new LinkedHashSet<>();
     private transient Runnable changeListener = () -> {
     };
@@ -30,6 +32,16 @@ public abstract class FlagGroup<T extends Flag> {
                         @NotNull Material material,
                         @NotNull Class<T> flagType,
                         @NotNull Collection<? extends T> flags) {
+        this(id, displayName, description, material, null, flagType, flags);
+    }
+
+    protected FlagGroup(@NotNull String id,
+                        @NotNull String displayName,
+                        @NotNull String description,
+                        @NotNull Material material,
+                        @Nullable String icon,
+                        @NotNull Class<T> flagType,
+                        @NotNull Collection<? extends T> flags) {
         if (!id.matches("[a-z0-9_-]+")) {
             throw new IllegalArgumentException("Flag group id must match [a-z0-9_-]+: " + id);
         }
@@ -37,6 +49,7 @@ public abstract class FlagGroup<T extends Flag> {
         this.displayName = Objects.requireNonNull(displayName);
         this.description = Objects.requireNonNull(description);
         this.material = Objects.requireNonNull(material);
+        this.icon = normalizeIcon(icon);
         this.flagType = Objects.requireNonNull(flagType);
         for (T flag : flags) {
             requireType(flag);
@@ -73,6 +86,20 @@ public abstract class FlagGroup<T extends Flag> {
     public synchronized void setMaterial(@NotNull Material material) {
         this.material = Objects.requireNonNull(material);
         changed();
+    }
+
+    public synchronized @Nullable String getIcon() {
+        return icon;
+    }
+
+    /** Null or blank means that this group has no Dialog UI icon. */
+    public synchronized void setIcon(@Nullable String icon) {
+        this.icon = normalizeIcon(icon);
+        changed();
+    }
+
+    private static @Nullable String normalizeIcon(@Nullable String icon) {
+        return icon == null || icon.isBlank() ? null : icon.trim();
     }
 
     public synchronized boolean addFlag(@NotNull T flag) {
@@ -116,6 +143,11 @@ public abstract class FlagGroup<T extends Flag> {
      */
     public final @NotNull String getDescriptionKey() {
         return "flag-groups." + getLanguageNamespace() + "." + id + ".description";
+    }
+
+    /** Returns the flags.yml key for this group's Dialog UI icon. */
+    public final @NotNull String getConfigurationDialogUiIconKey() {
+        return "groups." + getLanguageNamespace() + "." + id + ".dialog-ui-icon";
     }
 
     protected abstract @NotNull String getLanguageNamespace();

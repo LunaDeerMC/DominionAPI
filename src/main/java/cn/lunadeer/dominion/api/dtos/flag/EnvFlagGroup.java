@@ -2,6 +2,7 @@ package cn.lunadeer.dominion.api.dtos.flag;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,15 @@ public final class EnvFlagGroup extends FlagGroup<EnvFlag> {
                         @NotNull Material material,
                         @NotNull Collection<? extends EnvFlag> flags) {
         super(id, displayName, description, material, EnvFlag.class, flags);
+    }
+
+    public EnvFlagGroup(@NotNull String id,
+                        @NotNull String displayName,
+                        @NotNull String description,
+                        @NotNull Material material,
+                        @Nullable String icon,
+                        @NotNull Collection<? extends EnvFlag> flags) {
+        super(id, displayName, description, material, icon, EnvFlag.class, flags);
     }
 
     public EnvFlagGroup(@NotNull String id,

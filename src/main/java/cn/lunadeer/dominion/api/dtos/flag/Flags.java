@@ -17,322 +17,322 @@ public class Flags {
         // animals
         public static final EnvFlag ANIMAL_SPAWN = new EnvFlag("animal_spawn", "Animal Spawn (Breeding)",
                         "Whether animals can spawn (including spawn egg & breeding).", true, false,
-                        Material.COW_SPAWN_EGG);
+                        Material.COW_SPAWN_EGG, "minecraft:items/item/cow_spawn_egg");
         public static final EnvFlag ANIMAL_BREED = new EnvFlag("animal_breed", "Animal Breeding",
-                        "Whether animal breeding can create offspring.", true, false, Material.WHEAT);
+                        "Whether animal breeding can create offspring.", true, false, Material.WHEAT, "minecraft:items/item/wheat");
         public static final EnvFlag ANIMAL_SPAWNER = new EnvFlag("animal_spawner", "Animal Spawner",
-                        "Whether animals can spawn from monster spawners.", true, false, Material.SPAWNER);
+                        "Whether animals can spawn from monster spawners.", true, false, Material.SPAWNER, "minecraft:blocks/block/spawner");
         public static final EnvFlag ANIMAL_SPAWN_EGG = new EnvFlag("animal_spawn_egg", "Animal Spawn Egg",
-                        "Whether animals can be created with spawn eggs.", true, false, Material.COW_SPAWN_EGG);
+                        "Whether animals can be created with spawn eggs.", true, false, Material.COW_SPAWN_EGG, "minecraft:items/item/cow_spawn_egg");
         public static final EnvFlag ANIMAL_MOVE = new EnvFlag("animal_move", "Animal Move",
-                        "Whether animals can move in dominion.", true, false, Material.CHERRY_FENCE);
+                        "Whether animals can move in dominion.", true, false, Material.CHERRY_FENCE, "minecraft:blocks/block/cherry_planks");
         public static final EnvFlag VILLAGER_SPAWN = new EnvFlag("villager_spawn", "Villager Breed",
                         "Whether villager can breeding (including spawn egg).", true, false,
-                        Material.VILLAGER_SPAWN_EGG);
+                        Material.VILLAGER_SPAWN_EGG, "minecraft:items/item/villager_spawn_egg");
         public static final EnvFlag VILLAGER_BREED = new EnvFlag("villager_breed", "Villager Breeding",
-                        "Whether villager breeding can create children.", true, false, Material.BREAD);
+                        "Whether villager breeding can create children.", true, false, Material.BREAD, "minecraft:items/item/bread");
         public static final EnvFlag VILLAGER_SPAWNER = new EnvFlag("villager_spawner", "Villager Spawner",
-                        "Whether villagers can spawn from monster spawners.", true, false, Material.SPAWNER);
+                        "Whether villagers can spawn from monster spawners.", true, false, Material.SPAWNER, "minecraft:blocks/block/spawner");
         public static final EnvFlag VILLAGER_SPAWN_EGG = new EnvFlag("villager_spawn_egg", "Villager Spawn Egg",
-                        "Whether villagers can be created with spawn eggs.", true, false, Material.VILLAGER_SPAWN_EGG);
+                        "Whether villagers can be created with spawn eggs.", true, false, Material.VILLAGER_SPAWN_EGG, "minecraft:items/item/villager_spawn_egg");
 
         // monster
         public static final EnvFlag MONSTER_SPAWN = new EnvFlag("monster_spawn", "Monster Spawn",
-                        "Whether monster can spawn (including spawn egg).", false, false, Material.ZOMBIE_SPAWN_EGG);
+                        "Whether monster can spawn (including spawn egg).", false, false, Material.ZOMBIE_SPAWN_EGG, "minecraft:items/item/zombie_spawn_egg");
         public static final EnvFlag MONSTER_SPAWNER = new EnvFlag("monster_spawner", "Monster Spawner",
-                        "Whether monsters can spawn from monster spawners.", false, false, Material.SPAWNER);
+                        "Whether monsters can spawn from monster spawners.", false, false, Material.SPAWNER, "minecraft:blocks/block/spawner");
         public static final EnvFlag MONSTER_SPAWN_EGG = new EnvFlag("monster_spawn_egg", "Monster Spawn Egg",
-                        "Whether monsters can be created with spawn eggs.", true, false, Material.ZOMBIE_SPAWN_EGG);
+                        "Whether monsters can be created with spawn eggs.", true, false, Material.ZOMBIE_SPAWN_EGG, "minecraft:items/item/zombie_spawn_egg");
         public static final EnvFlag MONSTER_MOVE = new EnvFlag("monster_move", "Monster Move",
-                        "Whether monster can move in dominion.", true, false, Material.CRIMSON_FENCE);
+                        "Whether monster can move in dominion.", true, false, Material.CRIMSON_FENCE, "minecraft:blocks/block/crimson_planks");
         public static final EnvFlag MONSTER_DAMAGE = new EnvFlag("monster_damage", "Monster Kill Player",
-                        "Whether monster can do harm to player.", true, false, Material.SKELETON_SPAWN_EGG);
+                        "Whether monster can do harm to player.", true, false, Material.SKELETON_SPAWN_EGG, "minecraft:items/item/skeleton_spawn_egg");
         public static final EnvFlag ENDER_MAN = new EnvFlag("ender_man", "Enderman Block Movement",
-                        "Whether endermen can pick up or place blocks.", false, true, Material.ENDERMAN_SPAWN_EGG);
+                        "Whether endermen can pick up or place blocks.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
         public static final EnvFlag ENDER_MAN_SPAWN = new EnvFlag("ender_man_spawn", "Enderman Spawn",
-                        "Whether endermen can spawn.", false, true, Material.ENDERMAN_SPAWN_EGG);
+                        "Whether endermen can spawn.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
         public static final EnvFlag ENDER_MAN_TELEPORT = new EnvFlag("ender_man_teleport", "Enderman Teleport",
-                        "Whether endermen can teleport.", false, true, Material.ENDER_PEARL);
+                        "Whether endermen can teleport.", false, true, Material.ENDER_PEARL, "minecraft:items/item/ender_pearl");
 
         // explode
         public static final EnvFlag TNT_EXPLODE = new EnvFlag("tnt_explode", "TNT Block Damage",
-                        "Whether TNT explosions can destroy blocks.", false, true, Material.TNT);
+                        "Whether TNT explosions can destroy blocks.", false, true, Material.TNT, "minecraft:blocks/block/tnt_side");
         public static final EnvFlag TNT_DAMAGE_ENTITY = new EnvFlag("tnt_damage_entity", "TNT Entity Damage",
-                        "Whether TNT explosions can damage entities and hanging objects.", false, true, Material.TNT);
+                        "Whether TNT explosions can damage entities and hanging objects.", false, true, Material.TNT, "minecraft:blocks/block/tnt_side");
         public static final EnvFlag WITHER_SPAWN = new EnvFlag("wither_spawn", "Wither Spawn",
-                        "Whether withers can spawn.", false, true, Material.WITHER_SKELETON_SKULL);
+                        "Whether withers can spawn.", false, true, Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
         public static final EnvFlag WITHER_EXPLODE = new EnvFlag("wither_explode", "Wither Spawn Explosion",
-                        "Whether a spawning wither can destroy blocks.", false, true, Material.NETHER_STAR);
+                        "Whether a spawning wither can destroy blocks.", false, true, Material.NETHER_STAR, "minecraft:items/item/nether_star");
         public static final EnvFlag WITHER_BREAK_BLOCK = new EnvFlag("wither_break_block", "Wither Block Breaking",
-                        "Whether a harmed wither can break blocks.", false, true, Material.WITHER_SKELETON_SKULL);
+                        "Whether a harmed wither can break blocks.", false, true, Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
         public static final EnvFlag CREEPER_EXPLODE = new EnvFlag("creeper_explode", "Creeper Block Damage",
-                        "Whether creeper explosions can destroy blocks.", false, true, Material.CREEPER_HEAD);
+                        "Whether creeper explosions can destroy blocks.", false, true, Material.CREEPER_HEAD, "minecraft:blocks/block/stone");
         public static final EnvFlag CREEPER_DAMAGE_ENTITY = new EnvFlag("creeper_damage_entity",
                         "Creeper Decoration Damage",
                         "Whether creeper explosions can damage armor stands and hanging objects.", false, true,
-                        Material.CREEPER_HEAD);
+                        Material.CREEPER_HEAD, "minecraft:blocks/block/stone");
         public static final EnvFlag WITHER_SKULL_EXPLODE = new EnvFlag("wither_skull_explode",
                         "Wither Skull Block Damage", "Whether wither skull explosions can destroy blocks.", false, true,
-                        Material.WITHER_SKELETON_SKULL);
+                        Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
         public static final EnvFlag WITHER_SKULL_DAMAGE_ENTITY = new EnvFlag("wither_skull_damage_entity",
                         "Wither Skull Decoration Damage",
                         "Whether wither skull explosions can damage armor stands and hanging objects.", false, true,
-                        Material.WITHER_SKELETON_SKULL);
+                        Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
         public static final EnvFlag ENDER_CRYSTAL_EXPLODE = new EnvFlag("ender_crystal_explode",
                         "End Crystal Block Damage", "Whether end crystal explosions can destroy blocks.", false, true,
-                        Material.END_CRYSTAL);
+                        Material.END_CRYSTAL, "minecraft:items/item/end_crystal");
         public static final EnvFlag ENDER_CRYSTAL_DAMAGE_ENTITY = new EnvFlag("ender_crystal_damage_entity",
                         "End Crystal Decoration Damage",
                         "Whether end crystal explosions can damage armor stands and hanging objects.", false, true,
-                        Material.END_CRYSTAL);
+                        Material.END_CRYSTAL, "minecraft:items/item/end_crystal");
         public static final EnvFlag FIREBALL_EXPLODE = new EnvFlag("fireball_explode", "Fireball Block Damage",
-                        "Whether fireball explosions can destroy blocks.", false, true, Material.FIRE_CHARGE);
+                        "Whether fireball explosions can destroy blocks.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final EnvFlag FIREBALL_DAMAGE_ENTITY = new EnvFlag("fireball_damage_entity",
                         "Fireball Decoration Damage",
                         "Whether fireball explosions can damage armor stands and hanging objects.", false, true,
-                        Material.FIRE_CHARGE);
+                        Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final EnvFlag BLOCK_EXPLODE = new EnvFlag("block_explode", "Bed and Anchor Block Damage",
                         "Whether bed and respawn-anchor explosions can destroy blocks.", false, true,
-                        Material.RESPAWN_ANCHOR);
+                        Material.RESPAWN_ANCHOR, "minecraft:blocks/block/respawn_anchor_top");
         public static final EnvFlag DRAGON_BREAK_BLOCK = new EnvFlag("dragon_break_block", "Ender Dragon Break Block",
-                        "Whether ender dragon can break blocks.", false, true, Material.ENDER_DRAGON_SPAWN_EGG);
+                        "Whether ender dragon can break blocks.", false, true, Material.ENDER_DRAGON_SPAWN_EGG, "minecraft:items/item/ender_dragon_spawn_egg");
 
         // natural
         public static final EnvFlag FIRE_SPREAD = new EnvFlag("fire_spread", "Fire Spread",
-                        "Prevent fire spread in dominion.", false, true, Material.FLINT_AND_STEEL);
+                        "Prevent fire spread in dominion.", false, true, Material.FLINT_AND_STEEL, "minecraft:items/item/flint_and_steel");
         public static final EnvFlag BURN_BLOCK = new EnvFlag("burn_block", "Burn Block", "Whether blocks can burn.",
-                        false, true, Material.FIRE_CHARGE);
+                        false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final EnvFlag BURN_ENTITY = new EnvFlag("burn_entity", "Burn Entity",
                         "Whether entity can burn or take high-temperature damage (not including player).", true, true,
-                        Material.CAMPFIRE);
+                        Material.CAMPFIRE, "minecraft:items/item/campfire");
         public static final EnvFlag FLOW_IN_PROTECTION = new EnvFlag("flow_in_protection", "Flow In",
-                        "Prevent external water/lava flow into dominion.", false, true, Material.WATER_BUCKET);
+                        "Prevent external water/lava flow into dominion.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
         public static final EnvFlag GRAVITY_BLOCK = new EnvFlag("gravity_block", "Falling Block",
                         "Whether gravity block can fall in dominion (false will make them to item).", false, true,
-                        Material.SAND);
+                        Material.SAND, "minecraft:blocks/block/sand");
         public static final EnvFlag ICE_MELT = new EnvFlag("ice_melt", "Ice Melt", "Whether to allow ice to melt.",
-                        false, false, Material.ICE);
+                        false, false, Material.ICE, "minecraft:blocks/block/ice");
         public static final EnvFlag ICE_FORM = new EnvFlag("ice_form", "Ice Form",
-                        "Whether to allow ice to form (prevents Frost Walker).", false, true, Material.PACKED_ICE);
+                        "Whether to allow ice to form (prevents Frost Walker).", false, true, Material.PACKED_ICE, "minecraft:blocks/block/packed_ice");
         public static final EnvFlag SNOW_ACCUMULATION = new EnvFlag("snow_accumulation", "Snow Accumulation",
-                        "Whether to allow snow accumulation.", false, false, Material.SNOW);
+                        "Whether to allow snow accumulation.", false, false, Material.SNOW, "minecraft:blocks/block/snow");
         public static final EnvFlag SNOW_MELT = new EnvFlag("snow_melt", "Snow Melt", "Whether to allow snow to melt.",
-                        false, false, Material.SNOW_BLOCK);
+                        false, false, Material.SNOW_BLOCK, "minecraft:blocks/block/stone");
         public static final EnvFlag TRAMPLE = new EnvFlag("trample", "Player Trample Farmland",
-                        "Whether players can trample farmland.", false, true, Material.FARMLAND);
+                        "Whether players can trample farmland.", false, true, Material.FARMLAND, "minecraft:blocks/block/farmland");
         public static final EnvFlag MOB_TRAMPLE = new EnvFlag("mob_trample", "Mob Trample Farmland",
-                        "Whether non-player entities can trample farmland.", false, true, Material.FARMLAND);
+                        "Whether non-player entities can trample farmland.", false, true, Material.FARMLAND, "minecraft:blocks/block/farmland");
         public static final EnvFlag DECAY = new EnvFlag("decay", "Leaf Decay", "Whether leaves can decay.", false, true,
-                        Material.OAK_LEAVES);
+                        Material.OAK_LEAVES, "minecraft:blocks/block/oak_leaves");
 
         // red stone stuff
         public static final EnvFlag HOPPER_OUTSIDE = new EnvFlag("hopper_outside", "Hopper (Outside)",
                         "False to prevent outside hopper from sucking container in dominion.", false, true,
-                        Material.HOPPER);
+                        Material.HOPPER, "minecraft:items/item/hopper");
         public static final EnvFlag PISTON_OUTSIDE = new EnvFlag("piston_outside", "Piston",
                         "False to prevent piston from pushing/pulling blocks across dominion.", false, true,
-                        Material.PISTON);
+                        Material.PISTON, "minecraft:blocks/block/piston_side");
         public static final EnvFlag TRIG_PRESSURE_PROJ = new EnvFlag("trig_pressure_proj",
                         "Pressure Plate (Projectile)", "When projectile (arrow/snowball) can trigger pressure plate.",
-                        false, true, Material.BIRCH_PRESSURE_PLATE);
+                        false, true, Material.BIRCH_PRESSURE_PLATE, "minecraft:blocks/block/birch_planks");
         public static final EnvFlag TRIG_PRESSURE_MOB = new EnvFlag("trig_pressure_mob", "Pressure Plate (Mob)",
                         "Whether mob (player not included) can trigger pressure plate.", false, true,
-                        Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
+                        Material.HEAVY_WEIGHTED_PRESSURE_PLATE, "minecraft:blocks/block/iron_block");
         public static final EnvFlag TRIG_PRESSURE_DROP = new EnvFlag("trig_pressure_drop", "Pressure Plate (Dropping)",
                         "Whether dropping items can trigger pressure plate.", false, true,
-                        Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
+                        Material.LIGHT_WEIGHTED_PRESSURE_PLATE, "minecraft:blocks/block/gold_block");
 
         // other
         public static final EnvFlag ITEM_FRAME_PROJ_DAMAGE = new EnvFlag("item_frame_proj_damage",
                         "Projectile Damage Item Frame", "Whether projectile (arrow/snowball) can break item frame.",
-                        false, true, Material.ITEM_FRAME);
+                        false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final EnvFlag MOB_DROP_ITEM = new EnvFlag("mob_drop_item", "Mob Drop Item",
-                        "Whether mob drop item when killed.", true, true, Material.DIAMOND);
+                        "Whether mob drop item when killed.", true, true, Material.DIAMOND, "minecraft:items/item/diamond");
         public static final EnvFlag SHOW_BORDER = new EnvFlag("show_border", "Show Border",
-                        "Show dominion border to player when walking in.", true, true, Material.BRICK_WALL);
+                        "Show dominion border to player when walking in.", true, true, Material.BRICK_WALL, "minecraft:blocks/block/bricks");
 
         // ================================== PRI(Privilege)
 
         // administration
         public static final PriFlag ADMIN = new PriFlag("admin", "Administrator",
-                        "Member with this flag can manage normal members and groups.", false, true,Material.NETHER_STAR);
+                        "Member with this flag can manage normal members and groups.", false, true,Material.NETHER_STAR, "minecraft:items/item/nether_star");
         public static final PriFlag RESIZE = new PriFlag("resize", "Resize Dominion",
-                        "Member with this flag can resize dominion.", false, true, Material.OAK_SIGN);
+                        "Member with this flag can resize dominion.", false, true, Material.OAK_SIGN, "minecraft:items/item/oak_sign");
         public static final PriFlag RENAME = new PriFlag("rename_dominion", "Rename Dominion",
-                        "Member with this flag can rename dominion.", false, true, Material.NAME_TAG);
+                        "Member with this flag can rename dominion.", false, true, Material.NAME_TAG, "minecraft:items/item/name_tag");
         public static final PriFlag CREATE_SUB = new PriFlag("create_sub", "Create Sub-Dominion",
-                        "Member with this flag can create sub-dominion.", false, true, Material.GREEN_DYE);
+                        "Member with this flag can create sub-dominion.", false, true, Material.GREEN_DYE, "minecraft:items/item/green_dye");
         public static final PriFlag DELETE_SUB = new PriFlag("delete_sub", "Delete Sub-Dominion",
-                        "Member with this flag can delete sub-dominion.", false, true, Material.RED_DYE);
+                        "Member with this flag can delete sub-dominion.", false, true, Material.RED_DYE, "minecraft:items/item/red_dye");
         public static final PriFlag RESIZE_SUB = new PriFlag("resize_sub", "Resize Sub-Dominion",
-                        "Member with this flag can resize sub-dominion.", false, true, Material.BAMBOO_SIGN);
+                        "Member with this flag can resize sub-dominion.", false, true, Material.BAMBOO_SIGN, "minecraft:items/item/bamboo_sign");
         public static final PriFlag RENAME_SUB = new PriFlag("rename_sub", "Rename Sub-Dominion",
-                        "Member with this flag can rename sub-dominion.", false, true, Material.WRITABLE_BOOK);
+                        "Member with this flag can rename sub-dominion.", false, true, Material.WRITABLE_BOOK, "minecraft:items/item/writable_book");
 
         // movement and teleportation
         public static final PriFlag MOVE = new PriFlag("move", "Player Move", "Whether player can move in dominion.",
-                        true, true, Material.LEATHER_BOOTS);
+                        true, true, Material.LEATHER_BOOTS, "minecraft:items/item/leather_boots");
         public static final PriFlag TELEPORT = new PriFlag("teleport", "Teleportation",
-                        "False means can't teleport to this dominion.", false, true, Material.ENDER_EYE);
+                        "False means can't teleport to this dominion.", false, true, Material.ENDER_EYE, "minecraft:items/item/ender_eye");
         public static final PriFlag FLY = new PriFlag("fly", "Fly", "NOT elytra fly, it's like creative mode fly.",
-                        false, false, Material.ELYTRA);
+                        false, false, Material.ELYTRA, "minecraft:items/item/elytra");
         public static final PriFlag RIDING = new PriFlag("riding", "Riding",
-                        "Whether can ride vehicle (boat, minecart, horse etc.).", false, true, Material.SADDLE);
+                        "Whether can ride vehicle (boat, minecart, horse etc.).", false, true, Material.SADDLE, "minecraft:items/item/saddle");
         public static final PriFlag ENDER_PEARL = new PriFlag("ender_pearl", "End Pearl",
-                        "Whether can throw ender pearl.", false, true, Material.ENDER_PEARL);
+                        "Whether can throw ender pearl.", false, true, Material.ENDER_PEARL, "minecraft:items/item/ender_pearl");
         public static final PriFlag RAID = new PriFlag("raid", "Raid", "Whether can trigger raid.", false, true,
-                        Material.IRON_AXE);
+                        Material.IRON_AXE, "minecraft:items/item/iron_axe");
 
         // building and placing
         public static final PriFlag PLACE = new PriFlag("place", "Place Block",
                         "Whether normal blocks and flower-pot contents can be placed.", false, true,
-                        Material.GRASS_BLOCK);
+                        Material.GRASS_BLOCK, "minecraft:blocks/block/grass_block_side");
         public static final PriFlag PLACE_LIQUID = new PriFlag("place_liquid", "Place Liquid",
-                        "Whether water and lava can be placed.", false, true, Material.WATER_BUCKET);
+                        "Whether water and lava can be placed.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
         public static final PriFlag PLACE_ENTITY = new PriFlag("place_entity", "Place Decorative Entity",
-                        "Whether armor stands and item frames can be placed.", false, true, Material.ARMOR_STAND);
+                        "Whether armor stands and item frames can be placed.", false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
         public static final PriFlag BREAK_BLOCK = new PriFlag("break", "Break Block",
                         "Whether normal blocks and flower-pot contents can be removed.", false, true,
-                        Material.IRON_PICKAXE);
+                        Material.IRON_PICKAXE, "minecraft:items/item/iron_pickaxe");
         public static final PriFlag BREAK_LIQUID = new PriFlag("break_liquid", "Collect Liquid",
-                        "Whether water and lava can be collected.", false, true, Material.BUCKET);
+                        "Whether water and lava can be collected.", false, true, Material.BUCKET, "minecraft:items/item/bucket");
         public static final PriFlag BREAK_ENTITY = new PriFlag("break_entity", "Break Decorative Entity",
-                        "Whether armor stands and item frames can be broken.", false, true, Material.IRON_AXE);
+                        "Whether armor stands and item frames can be broken.", false, true, Material.IRON_AXE, "minecraft:items/item/iron_axe");
         public static final PriFlag IGNITE = new PriFlag("ignite", "Ignite", "Whether can ignite fire.", false, true,
-                        Material.FLINT_AND_STEEL);
+                        Material.FLINT_AND_STEEL, "minecraft:items/item/flint_and_steel");
 
         // item management
         public static final PriFlag PICK_UP = new PriFlag("pick_up", "Pick Up Item",
-                        "Whether player can pick up items in dominion.", true, true, Material.DIAMOND_PICKAXE);
+                        "Whether player can pick up items in dominion.", true, true, Material.DIAMOND_PICKAXE, "minecraft:items/item/diamond_pickaxe");
         public static final PriFlag DROP_ITEM = new PriFlag("drop_item", "Drop Item",
-                        "Whether player can drop item in dominion.", true, true, Material.IRON_INGOT);
+                        "Whether player can drop item in dominion.", true, true, Material.IRON_INGOT, "minecraft:items/item/iron_ingot");
 
         // doors and access
         public static final PriFlag DOOR = new PriFlag("door", "Door",
                         "Whether can interact with door (including trapdoor, fence gate).", false, true,
-                        Material.OAK_DOOR);
+                        Material.OAK_DOOR, "minecraft:items/item/oak_door");
         public static final PriFlag BUTTON = new PriFlag("button", "Button", "Whether can click button.", false, true,
-                        Material.STONE_BUTTON);
+                        Material.STONE_BUTTON, "minecraft:blocks/block/stone");
         public static final PriFlag LEVER = new PriFlag("lever", "Lever", "Whether can switch lever.", false, true,
-                        Material.LEVER);
+                        Material.LEVER, "minecraft:blocks/block/lever");
         public static final PriFlag PRESSURE = new PriFlag("pressure", "Pressure Plate (Player)",
-                        "Whether player can trigger pressure plate.", false, true, Material.STONE_PRESSURE_PLATE);
+                        "Whether player can trigger pressure plate.", false, true, Material.STONE_PRESSURE_PLATE, "minecraft:blocks/block/stone");
 
         // red stone
         public static final PriFlag RED_STONE_POWDER = new PriFlag("red_stone_powder", "Red Stone Powder",
-                        "Whether can interact with red stone powder.", false, true, Material.REDSTONE);
+                        "Whether can interact with red stone powder.", false, true, Material.REDSTONE, "minecraft:items/item/redstone");
         public static final PriFlag REPEATER = new PriFlag("repeater", "Repeater",
-                        "Whether can change (interact with) repeater.", false, true, Material.REPEATER);
+                        "Whether can change (interact with) repeater.", false, true, Material.REPEATER, "minecraft:items/item/repeater");
         public static final PriFlag COMPARER = new PriFlag("comparer", "Comparer",
-                        "Whether can interact with comparer.", false, true, Material.COMPARATOR);
+                        "Whether can interact with comparer.", false, true, Material.COMPARATOR, "minecraft:items/item/comparator");
         public static final PriFlag NOTE_BLOCK = new PriFlag("note_block", "Note Block",
-                        "Whether can interact with note block.", false, true, Material.NOTE_BLOCK);
+                        "Whether can interact with note block.", false, true, Material.NOTE_BLOCK, "minecraft:blocks/block/note_block");
 
         // containers and storage
         public static final PriFlag CONTAINER = new PriFlag("container", "Storage Container",
-                        "Whether chest-like storage containers can be opened.", false, true, Material.CHEST);
+                        "Whether chest-like storage containers can be opened.", false, true, Material.CHEST, "minecraft:chests/entity/chest/normal");
         public static final PriFlag ARMOR_STAND_INTERACTIVE = new PriFlag("armor_stand_interactive",
                         "Armor Stand Interaction", "Whether equipment on armor stands can be changed.", false, true,
-                        Material.ARMOR_STAND);
+                        Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
         public static final PriFlag ITEM_FRAME_CONTENT = new PriFlag("item_frame_content", "Item Frame Content",
                         "Whether items can be inserted into or removed from item frames.", false, true,
-                        Material.ITEM_FRAME);
+                        Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final PriFlag HOPPER = new PriFlag("hopper", "Special Container",
                         "Such as hopper, furnace, dropper, dispenser, blast furnace, smoker.", false, true,
-                        Material.HOPPER);
+                        Material.HOPPER, "minecraft:items/item/hopper");
 
         // crafting and utilities
         public static final PriFlag CRAFT = new PriFlag("craft", "Crafting Table", "Whether can use crafting table.",
-                        false, true, Material.CRAFTING_TABLE);
+                        false, true, Material.CRAFTING_TABLE, "minecraft:blocks/block/crafting_table_side");
         public static final PriFlag CRAFTER = new PriFlag("crafter", "Crafter",
-                        "Whether can interact with crafter (1.21).", false, true, Material.CRAFTING_TABLE);
+                        "Whether can interact with crafter (1.21).", false, true, Material.CRAFTING_TABLE, "minecraft:blocks/block/crafting_table_side");
         public static final PriFlag ANVIL = new PriFlag("anvil", "Anvil", "Whether can use anvil.", false, true,
-                        Material.ANVIL);
+                        Material.ANVIL, "minecraft:blocks/block/anvil");
         public static final PriFlag ENCHANT = new PriFlag("enchant", "Enchant Table", "Whether can use enchant table.",
-                        false, true, Material.ENCHANTING_TABLE);
+                        false, true, Material.ENCHANTING_TABLE, "minecraft:blocks/block/enchanting_table_side");
         public static final PriFlag BREW = new PriFlag("brew", "Brewing Stand", "Whether can use brewing stand.", false,
-                        true, Material.BREWING_STAND);
+                        true, Material.BREWING_STAND, "minecraft:items/item/brewing_stand");
         public static final PriFlag BEACON = new PriFlag("beacon", "Beacon", "Whether can interact with beacon.", false,
-                        true, Material.BEACON);
+                        true, Material.BEACON, "minecraft:blocks/block/beacon");
         public static final PriFlag JUKEBOX = new PriFlag("jukebox", "Jukebox", "Whether can interact with jukebox.",
-                        false, true, Material.JUKEBOX);
+                        false, true, Material.JUKEBOX, "minecraft:blocks/block/jukebox_side");
         public static final PriFlag LECTERN = new PriFlag("lectern", "Lectern", "Whether can interact with lectern.",
-                        false, true, Material.LECTERN);
+                        false, true, Material.LECTERN, "minecraft:blocks/block/lectern_front");
         public static final PriFlag BOOKSHELF = new PriFlag("bookshelf", "Chiseled Bookshelf",
-                        "Whether can interact with chiseled bookshelf.", false, true, Material.CHISELED_BOOKSHELF);
+                        "Whether can interact with chiseled bookshelf.", false, true, Material.CHISELED_BOOKSHELF, "minecraft:blocks/block/chiseled_bookshelf_side");
 
         // special items and interactions
         public static final PriFlag DRAGON_EGG = new PriFlag("dragon_egg", "Dragon Egg",
-                        "Whether can interact with dragon egg.", false, true, Material.DRAGON_EGG);
+                        "Whether can interact with dragon egg.", false, true, Material.DRAGON_EGG, "minecraft:blocks/block/dragon_egg");
         public static final PriFlag ITEM_FRAME_INTERACTIVE = new PriFlag("item_frame_interactive",
                         "Item Frame Interactive", "Whether can interact with item frame (rotate item).", false, true,
-                        Material.ITEM_FRAME);
+                        Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final PriFlag EDIT_SIGN = new PriFlag("edit_sign", "Edit Sign", "Whether can edit sign.", false,
-                        true, Material.OAK_SIGN);
+                        true, Material.OAK_SIGN, "minecraft:items/item/oak_sign");
 
         // rest and respawn
         public static final PriFlag BED = new PriFlag("bed", "Bed", "Weather can sleep in bed (set spawn point).",
-                        false, true, Material.RED_BED);
+                        false, true, Material.RED_BED, "minecraft:blocks/block/red_bed_foot_east");
         public static final PriFlag ANCHOR = new PriFlag("anchor", "Respawn Anchor",
-                        "Weather can set/use respawn anchor.", false, true, Material.RESPAWN_ANCHOR);
+                        "Weather can set/use respawn anchor.", false, true, Material.RESPAWN_ANCHOR, "minecraft:blocks/block/respawn_anchor_top");
 
         // vehicles
         public static final PriFlag VEHICLE_SPAWN = new PriFlag("vehicle_spawn", "Vehicle Spawn",
-                        "Whether can spawn vehicle (boat, minecart).", false, true, Material.MINECART);
+                        "Whether can spawn vehicle (boat, minecart).", false, true, Material.MINECART, "minecraft:items/item/minecart");
         public static final PriFlag VEHICLE_DESTROY = new PriFlag("vehicle_destroy", "Vehicle Destroy",
-                        "Whether can destroy vehicle (boat, minecart).", false, true, Material.IRON_AXE);
+                        "Whether can destroy vehicle (boat, minecart).", false, true, Material.IRON_AXE, "minecraft:items/item/iron_axe");
 
         // farming and animals
         public static final PriFlag HARVEST = new PriFlag("harvest", "Harvest", "Whether player can harvest crops.",
-                        false, true, Material.WHEAT);
+                        false, true, Material.WHEAT, "minecraft:items/item/wheat");
         public static final PriFlag SOWING = new PriFlag("sowing", "Sowing", "Whether crops can be planted.", false,
-                        true, Material.WHEAT_SEEDS);
+                        true, Material.WHEAT_SEEDS, "minecraft:items/item/wheat_seeds");
         public static final PriFlag FERTILIZER = new PriFlag("fertilizer", "Fertilizer",
-                        "Whether bone meal and other fertilizer can be used.", false, true, Material.BONE_MEAL);
+                        "Whether bone meal and other fertilizer can be used.", false, true, Material.BONE_MEAL, "minecraft:items/item/bone_meal");
         public static final PriFlag PLANT_TREE = new PriFlag("plant_tree", "Plant Tree",
-                        "Whether saplings and similar tree plants can be planted.", false, true, Material.OAK_SAPLING);
+                        "Whether saplings and similar tree plants can be planted.", false, true, Material.OAK_SAPLING, "minecraft:blocks/block/oak_sapling");
         public static final PriFlag FEED = new PriFlag("feed", "Feed Animal", "Whether can feed animals.", false, true,
-                        Material.WHEAT);
+                        Material.WHEAT, "minecraft:items/item/wheat");
         public static final PriFlag SHEAR = new PriFlag("shear", "Shear", "Whether can cut wool from sheep.", false,
-                        true, Material.SHEARS);
+                        true, Material.SHEARS, "minecraft:items/item/shears");
         public static final PriFlag LEASH = new PriFlag("leash", "Leash",
-                        "Whether to allow leashing animals/mobs/entities.", false, true, Material.LEAD);
+                        "Whether to allow leashing animals/mobs/entities.", false, true, Material.LEAD, "minecraft:items/item/lead");
         public static final PriFlag DYE = new PriFlag("dye", "Dye", "What can dye (sheep, dog collar, cat collar).",
-                        false, true, Material.LIGHT_BLUE_DYE);
+                        false, true, Material.LIGHT_BLUE_DYE, "minecraft:items/item/light_blue_dye");
         public static final PriFlag HONEY = new PriFlag("honey", "Honey",
-                        "Whether can interact with hive (to get honey).", false, true, Material.HONEY_BOTTLE);
+                        "Whether can interact with hive (to get honey).", false, true, Material.HONEY_BOTTLE, "minecraft:items/item/honey_bottle");
 
         // food and consumption
         public static final PriFlag CAKE = new PriFlag("cake", "Cake", "Whether can eat cake.", false, true,
-                        Material.CAKE);
+                        Material.CAKE, "minecraft:items/item/cake");
 
         // trading and interaction
         public static final PriFlag TRADE = new PriFlag("trade", "Villager Trade", "Whether can trade with villager.",
-                        false, true, Material.EMERALD);
+                        false, true, Material.EMERALD, "minecraft:items/item/emerald");
 
         // projectiles and throwing
         public static final PriFlag SHOOT = new PriFlag("shoot", "Shoot Arrows",
-                        "Whether bows and crossbows can shoot arrows.", false, true, Material.BOW);
+                        "Whether bows and crossbows can shoot arrows.", false, true, Material.BOW, "minecraft:items/item/bow");
         public static final PriFlag TRIDENT = new PriFlag("trident", "Throw Trident", "Whether tridents can be thrown.",
-                        false, true, Material.TRIDENT);
+                        false, true, Material.TRIDENT, "minecraft:items/item/trident");
         public static final PriFlag FIREBALL = new PriFlag("fireball", "Launch Fireball",
-                        "Whether players can launch fireballs.", false, true, Material.FIRE_CHARGE);
+                        "Whether players can launch fireballs.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final PriFlag WIND_CHARGE = new PriFlag("wind_charge", "Use Wind Charge",
-                        "Whether players can launch wind charges.", false, true, Material.FIRE_CHARGE);
+                        "Whether players can launch wind charges.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final PriFlag EGG = new PriFlag("egg", "Throw Egg", "Whether can throw egg.", false, true,
-                        Material.EGG);
+                        Material.EGG, "minecraft:items/item/egg");
         public static final PriFlag HOOK = new PriFlag("hook", "Hook", "Whether can use fishing rod.", false, true,
-                        Material.FISHING_ROD);
+                        Material.FISHING_ROD, "minecraft:items/item/fishing_rod");
 
         // combat
         public static final PriFlag PVP = new PriFlag("pvp", "PVP", "Damage between players.", false, true,
-                        Material.DIAMOND_SWORD);
+                        Material.DIAMOND_SWORD, "minecraft:items/item/diamond_sword");
         public static final PriFlag MONSTER_KILLING = new PriFlag("monster_killing", "Monster Killing",
-                        "Whether can do harm to monsters.", false, true, Material.IRON_SWORD);
+                        "Whether can do harm to monsters.", false, true, Material.IRON_SWORD, "minecraft:items/item/iron_sword");
         public static final PriFlag ANIMAL_KILLING = new PriFlag("animal_killing", "Animal Killing",
-                        "Whether can do harm to animals.", false, true, Material.COOKED_BEEF);
+                        "Whether can do harm to animals.", false, true, Material.COOKED_BEEF, "minecraft:items/item/cooked_beef");
         public static final PriFlag VILLAGER_KILLING = new PriFlag("villager_killing", "Villager Killing",
-                        "Whether can do harm to villager.", false, true, Material.WOODEN_SWORD);
+                        "Whether can do harm to villager.", false, true, Material.WOODEN_SWORD, "minecraft:items/item/wooden_sword");
 
         private static final List<EnvFlag> env_flags = new ArrayList<>();
         private static final List<PriFlag> pri_flags = new ArrayList<>();

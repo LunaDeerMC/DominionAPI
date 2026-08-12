@@ -2,6 +2,9 @@ package cn.lunadeer.dominion.api.dtos.flag;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * Represents a flag in the Dominion system.
@@ -10,13 +13,13 @@ import org.jetbrains.annotations.NotNull;
  * default value, and enable status.
  */
 public abstract class Flag {
-
     private final String flag_name;
     private String display_name;
     private String description;
     private Boolean default_value;
     private Boolean enable;
     private Material material;
+    private String icon;
 
     /**
      * Constructs a new Flag with the specified parameters.
@@ -28,12 +31,24 @@ public abstract class Flag {
      * @param enable        the enable status of the flag
      */
     public Flag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description, @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material) {
+        this(flag_name, display_name, description, default_value, enable, material, null);
+    }
+
+    /**
+     * Constructs a Flag with an explicit native Dialog UI sprite path.
+     *
+     * @param icon resource path in {@code namespace:atlas/sprite} form; null or blank means no icon
+     */
+    public Flag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description,
+                @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material,
+                @Nullable String icon) {
         this.flag_name = flag_name;
         this.display_name = display_name;
         this.description = description;
         this.default_value = default_value;
         this.enable = enable;
-        this.material = material;
+        this.material = Objects.requireNonNull(material, "material");
+        this.icon = normalizeIcon(icon);
     }
 
     /**
@@ -95,6 +110,15 @@ public abstract class Flag {
     }
 
     /**
+     * Returns the native Dialog UI sprite path for this flag.
+     *
+     * @return resource path in {@code namespace:atlas/sprite} form
+     */
+    public @Nullable String getIcon() {
+        return icon;
+    }
+
+    /**
      * Sets the display name of the flag.
      *
      * @param displayName the new display name of the flag
@@ -136,9 +160,23 @@ public abstract class Flag {
      * @param material the new material used by this flag
      */
     public void setMaterial(String material) {
-        if (Material.matchMaterial(material) != null) {
-            this.material = Material.matchMaterial(material);
+        Material matched = Material.matchMaterial(material);
+        if (matched != null) {
+            this.material = matched;
         }
+    }
+
+    /**
+     * Sets the native Dialog UI sprite path. Null or blank means no icon.
+     *
+     * @param icon resource path in {@code namespace:atlas/sprite} form
+     */
+    public void setIcon(@Nullable String icon) {
+        this.icon = normalizeIcon(icon);
+    }
+
+    private static @Nullable String normalizeIcon(@Nullable String icon) {
+        return icon == null || icon.isBlank() ? null : icon.trim();
     }
 
     /**
@@ -193,5 +231,15 @@ public abstract class Flag {
      * @return the configuration key for the material
      */
     public abstract String getConfigurationMaterialKey();
+
+    /**
+     * Returns the flags.yml key for this flag's Dialog UI icon.
+     * This method is concrete so existing custom Flag subclasses remain valid.
+     *
+     * @return configuration key for the Dialog UI icon
+     */
+    public String getConfigurationDialogUiIconKey() {
+        return getConfigurationNameKey() + ".dialog-ui-icon";
+    }
 
 }
