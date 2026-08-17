@@ -58,7 +58,7 @@ public class Flags {
         public static final EnvFlag TNT_EXPLODE = new EnvFlag("tnt_explode", "TNT Block Damage",
                         "Whether TNT explosions can destroy blocks.", false, true, Material.TNT, "minecraft:blocks/block/tnt_side");
         public static final EnvFlag TNT_DAMAGE_ENTITY = new EnvFlag("tnt_damage_entity", "TNT Entity Damage",
-                        "Whether TNT explosions can damage entities and hanging objects.", false, true, Material.TNT, "minecraft:blocks/block/tnt_side");
+                        "Whether TNT explosions can damage entities other than armor stands and hanging entities.", false, true, Material.TNT, "minecraft:blocks/block/tnt_side");
         public static final EnvFlag WITHER_SPAWN = new EnvFlag("wither_spawn", "Wither Spawn",
                         "Whether withers can spawn.", false, true, Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
         public static final EnvFlag WITHER_EXPLODE = new EnvFlag("wither_explode", "Wither Spawn Explosion",
@@ -68,28 +68,28 @@ public class Flags {
         public static final EnvFlag CREEPER_EXPLODE = new EnvFlag("creeper_explode", "Creeper Block Damage",
                         "Whether creeper explosions can destroy blocks.", false, true, Material.CREEPER_HEAD, "minecraft:blocks/block/stone");
         public static final EnvFlag CREEPER_DAMAGE_ENTITY = new EnvFlag("creeper_damage_entity",
-                        "Creeper Decoration Damage",
-                        "Whether creeper explosions can damage armor stands and hanging objects.", false, true,
+                        "Creeper Entity Damage",
+                        "Whether creeper explosions can damage entities other than armor stands and hanging entities.", false, true,
                         Material.CREEPER_HEAD, "minecraft:blocks/block/stone");
         public static final EnvFlag WITHER_SKULL_EXPLODE = new EnvFlag("wither_skull_explode",
                         "Wither Skull Block Damage", "Whether wither skull explosions can destroy blocks.", false, true,
                         Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
         public static final EnvFlag WITHER_SKULL_DAMAGE_ENTITY = new EnvFlag("wither_skull_damage_entity",
-                        "Wither Skull Decoration Damage",
-                        "Whether wither skull explosions can damage armor stands and hanging objects.", false, true,
+                        "Wither Skull Entity Damage",
+                        "Whether wither skull explosions can damage entities other than armor stands and hanging entities.", false, true,
                         Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
         public static final EnvFlag ENDER_CRYSTAL_EXPLODE = new EnvFlag("ender_crystal_explode",
                         "End Crystal Block Damage", "Whether end crystal explosions can destroy blocks.", false, true,
                         Material.END_CRYSTAL, "minecraft:items/item/end_crystal");
         public static final EnvFlag ENDER_CRYSTAL_DAMAGE_ENTITY = new EnvFlag("ender_crystal_damage_entity",
-                        "End Crystal Decoration Damage",
-                        "Whether end crystal explosions can damage armor stands and hanging objects.", false, true,
+                        "End Crystal Entity Damage",
+                        "Whether end crystal explosions can damage entities other than armor stands and hanging entities.", false, true,
                         Material.END_CRYSTAL, "minecraft:items/item/end_crystal");
         public static final EnvFlag FIREBALL_EXPLODE = new EnvFlag("fireball_explode", "Fireball Block Damage",
                         "Whether fireball explosions can destroy blocks.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final EnvFlag FIREBALL_DAMAGE_ENTITY = new EnvFlag("fireball_damage_entity",
-                        "Fireball Decoration Damage",
-                        "Whether fireball explosions can damage armor stands and hanging objects.", false, true,
+                        "Fireball Entity Damage",
+                        "Whether fireball explosions can damage entities other than armor stands and hanging entities.", false, true,
                         Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final EnvFlag BLOCK_EXPLODE = new EnvFlag("block_explode", "Bed and Anchor Block Damage",
                         "Whether bed and respawn-anchor explosions can destroy blocks.", false, true,
@@ -143,8 +143,26 @@ public class Flags {
                         Material.LIGHT_WEIGHTED_PRESSURE_PLATE, "minecraft:blocks/block/gold_block");
 
         // other
+        /**
+         * The former coarse hanging-entity projectile flag. It is retained as
+         * a migration source for existing configuration and database columns,
+         * but is not registered as an active flag anymore.
+         */
+        @Deprecated
         public static final EnvFlag ITEM_FRAME_PROJ_DAMAGE = new EnvFlag("item_frame_proj_damage",
                         "Projectile Damage Item Frame", "Whether projectile (arrow/snowball) can break item frame.",
+                        false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
+        public static final EnvFlag ARMOR_STAND_MOB_DAMAGE = new EnvFlag("armor_stand_mob_damage",
+                        "Armor Stand Mob Damage", "Whether non-player entities can damage armor stands.",
+                        false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        public static final EnvFlag HANGING_ENTITY_MOB_DAMAGE = new EnvFlag("hanging_entity_mob_damage",
+                        "Hanging Entity Mob Damage", "Whether non-player entities can damage hanging entities.",
+                        false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
+        public static final EnvFlag ARMOR_STAND_EXPLOSION_DAMAGE = new EnvFlag("armor_stand_explosion_damage",
+                        "Armor Stand Explosion Damage", "Whether explosions can damage armor stands.",
+                        false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        public static final EnvFlag HANGING_ENTITY_EXPLOSION_DAMAGE = new EnvFlag("hanging_entity_explosion_damage",
+                        "Hanging Entity Explosion Damage", "Whether explosions can damage hanging entities.",
                         false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final EnvFlag MOB_DROP_ITEM = new EnvFlag("mob_drop_item", "Mob Drop Item",
                         "Whether mob drop item when killed.", true, true, Material.DIAMOND, "minecraft:items/item/diamond");
@@ -189,15 +207,29 @@ public class Flags {
                         Material.GRASS_BLOCK, "minecraft:blocks/block/grass_block_side");
         public static final PriFlag PLACE_LIQUID = new PriFlag("place_liquid", "Place Liquid",
                         "Whether water and lava can be placed.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
+        /** Former coarse decorative-entity placement flag retained for migration. */
+        @Deprecated
         public static final PriFlag PLACE_ENTITY = new PriFlag("place_entity", "Place Decorative Entity",
                         "Whether armor stands and item frames can be placed.", false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        public static final PriFlag PLACE_ARMOR_STAND = new PriFlag("place_armor_stand", "Place Armor Stand",
+                        "Whether armor stands can be placed.", false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        public static final PriFlag PLACE_HANGING_ENTITY = new PriFlag("place_hanging_entity", "Place Hanging Entity",
+                        "Whether hanging entities can be placed.", false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final PriFlag BREAK_BLOCK = new PriFlag("break", "Break Block",
                         "Whether normal blocks and flower-pot contents can be removed.", false, true,
                         Material.IRON_PICKAXE, "minecraft:items/item/iron_pickaxe");
         public static final PriFlag BREAK_LIQUID = new PriFlag("break_liquid", "Collect Liquid",
                         "Whether water and lava can be collected.", false, true, Material.BUCKET, "minecraft:items/item/bucket");
+        /** Former coarse decorative-entity breaking flag retained for migration. */
+        @Deprecated
         public static final PriFlag BREAK_ENTITY = new PriFlag("break_entity", "Break Decorative Entity",
                         "Whether armor stands and item frames can be broken.", false, true, Material.IRON_AXE, "minecraft:items/item/iron_axe");
+        public static final PriFlag ARMOR_STAND_PLAYER_DAMAGE = new PriFlag("armor_stand_player_damage",
+                        "Armor Stand Player Damage", "Whether players can damage armor stands.", false, true,
+                        Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        public static final PriFlag HANGING_ENTITY_PLAYER_DAMAGE = new PriFlag("hanging_entity_player_damage",
+                        "Hanging Entity Player Damage", "Whether players can damage hanging entities.", false, true,
+                        Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final PriFlag IGNITE = new PriFlag("ignite", "Ignite", "Whether can ignite fire.", false, true,
                         Material.FLINT_AND_STEEL, "minecraft:items/item/flint_and_steel");
 
@@ -209,8 +241,14 @@ public class Flags {
 
         // doors and access
         public static final PriFlag DOOR = new PriFlag("door", "Door",
-                        "Whether can interact with door (including trapdoor, fence gate).", false, true,
+                        "Whether can interact with normal doors.", false, true,
                         Material.OAK_DOOR, "minecraft:items/item/oak_door");
+        public static final PriFlag TRAPDOOR = new PriFlag("trapdoor", "Trapdoor",
+                        "Whether can interact with trapdoors.", false, true,
+                        Material.OAK_TRAPDOOR, "minecraft:items/item/oak_trapdoor");
+        public static final PriFlag FENCE_GATE = new PriFlag("fence_gate", "Fence Gate",
+                        "Whether can interact with fence gates.", false, true,
+                        Material.OAK_FENCE_GATE, "minecraft:items/item/oak_fence_gate");
         public static final PriFlag BUTTON = new PriFlag("button", "Button", "Whether can click button.", false, true,
                         Material.STONE_BUTTON, "minecraft:blocks/block/stone");
         public static final PriFlag LEVER = new PriFlag("lever", "Lever", "Whether can switch lever.", false, true,
@@ -362,7 +400,7 @@ public class Flags {
         public static final PriFlag VILLAGER_KILLING = new PriFlag("villager_killing", "Villager Killing",
                         "Whether can do harm to villager.", false, true, Material.WOODEN_SWORD, "minecraft:items/item/wooden_sword");
 
-        private static final List<Flag> legacy_flags = List.of(CONTAINER);
+        private static final List<Flag> legacy_flags = List.of(CONTAINER, PLACE_ENTITY, BREAK_ENTITY, ITEM_FRAME_PROJ_DAMAGE);
         private static final List<EnvFlag> env_flags = new ArrayList<>();
         private static final List<PriFlag> pri_flags = new ArrayList<>();
         private static final List<Flag> all_flags = new ArrayList<>();
@@ -602,12 +640,22 @@ public class Flags {
                         return CREEPER_EXPLODE;
                 if (flag == TNT_DAMAGE_ENTITY)
                         return TNT_EXPLODE;
+                if (flag == ARMOR_STAND_EXPLOSION_DAMAGE || flag == HANGING_ENTITY_EXPLOSION_DAMAGE)
+                        return TNT_DAMAGE_ENTITY;
                 if (flag == MOB_TRAMPLE)
                         return TRAMPLE;
                 if (flag == PLACE_LIQUID || flag == PLACE_ENTITY)
                         return PLACE;
+                if (flag == PLACE_ARMOR_STAND || flag == PLACE_HANGING_ENTITY)
+                        return PLACE_ENTITY;
                 if (flag == BREAK_LIQUID || flag == BREAK_ENTITY)
                         return BREAK_BLOCK;
+                if (flag == ARMOR_STAND_PLAYER_DAMAGE || flag == HANGING_ENTITY_PLAYER_DAMAGE)
+                        return BREAK_ENTITY;
+                if (flag == TRAPDOOR || flag == FENCE_GATE)
+                        return DOOR;
+                if (flag == HANGING_ENTITY_MOB_DAMAGE)
+                        return ITEM_FRAME_PROJ_DAMAGE;
                 if (flag == ARMOR_STAND_INTERACTIVE || flag == ITEM_FRAME_CONTENT)
                         return CONTAINER;
                 if (flag == CHEST || flag == BARREL || flag == SHULKER_BOX
@@ -621,6 +669,22 @@ public class Flags {
                 if (flag == TRIDENT || flag == FIREBALL || flag == WIND_CHARGE)
                         return SHOOT;
                 return null;
+        }
+
+        /**
+         * Returns all legacy flags whose values should seed a newly split flag.
+         * Most split flags have one source; explosion damage is intentionally
+         * seeded from every former source-specific explosion flag.
+         */
+        @ApiStatus.Internal
+        public static List<Flag> getLegacySources(Flag flag) {
+                if (flag == ARMOR_STAND_EXPLOSION_DAMAGE || flag == HANGING_ENTITY_EXPLOSION_DAMAGE) {
+                        return List.of(TNT_DAMAGE_ENTITY, CREEPER_DAMAGE_ENTITY,
+                                        WITHER_SKULL_DAMAGE_ENTITY, ENDER_CRYSTAL_DAMAGE_ENTITY,
+                                        FIREBALL_DAMAGE_ENTITY);
+                }
+                Flag source = getLegacySource(flag);
+                return source == null ? List.of() : List.of(source);
         }
 
         @ApiStatus.Internal
