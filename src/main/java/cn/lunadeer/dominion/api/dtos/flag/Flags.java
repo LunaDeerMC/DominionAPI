@@ -229,17 +229,45 @@ public class Flags {
                         "Whether can interact with note block.", false, true, Material.NOTE_BLOCK, "minecraft:blocks/block/note_block");
 
         // containers and storage
+        /**
+         * The former coarse container flag. It is retained as a migration source
+         * for existing configuration and database columns, but is not registered
+         * as an active flag anymore.
+         */
+        @Deprecated
         public static final PriFlag CONTAINER = new PriFlag("container", "Storage Container",
                         "Whether chest-like storage containers can be opened.", false, true, Material.CHEST, "minecraft:chests/entity/chest/normal");
+        public static final PriFlag CHEST = new PriFlag("chest", "Chest",
+                        "Whether chests can be opened.", false, true, Material.CHEST, "minecraft:chests/entity/chest/normal");
+        public static final PriFlag BARREL = new PriFlag("barrel", "Barrel",
+                        "Whether barrels can be opened.", false, true, Material.BARREL, "minecraft:blocks/block/barrel_side");
+        public static final PriFlag SHULKER_BOX = new PriFlag("shulker_box", "Shulker Box",
+                        "Whether shulker boxes can be opened.", false, true, Material.SHULKER_BOX, "minecraft:blocks/block/shulker_box");
         public static final PriFlag ARMOR_STAND_INTERACTIVE = new PriFlag("armor_stand_interactive",
                         "Armor Stand Interaction", "Whether equipment on armor stands can be changed.", false, true,
                         Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
         public static final PriFlag ITEM_FRAME_CONTENT = new PriFlag("item_frame_content", "Item Frame Content",
                         "Whether items can be inserted into or removed from item frames.", false, true,
                         Material.ITEM_FRAME, "minecraft:items/item/item_frame");
-        public static final PriFlag HOPPER = new PriFlag("hopper", "Special Container",
-                        "Such as hopper, furnace, dropper, dispenser, blast furnace, smoker.", false, true,
+        public static final PriFlag HOPPER = new PriFlag("hopper", "Hopper",
+                        "Whether hoppers can be opened.", false, true,
                         Material.HOPPER, "minecraft:items/item/hopper");
+        public static final PriFlag DROPPER = new PriFlag("dropper", "Dropper",
+                        "Whether droppers can be opened.", false, true, Material.DROPPER, "minecraft:blocks/block/dropper_front");
+        public static final PriFlag DISPENSER = new PriFlag("dispenser", "Dispenser",
+                        "Whether dispensers can be opened.", false, true, Material.DISPENSER, "minecraft:blocks/block/dispenser_front");
+        public static final PriFlag FURNACE = new PriFlag("furnace", "Furnace",
+                        "Whether furnaces can be opened.", false, true, Material.FURNACE, "minecraft:blocks/block/furnace_front");
+        public static final PriFlag BLAST_FURNACE = new PriFlag("blast_furnace", "Blast Furnace",
+                        "Whether blast furnaces can be opened.", false, true, Material.BLAST_FURNACE, "minecraft:blocks/block/blast_furnace_front");
+        public static final PriFlag SMOKER = new PriFlag("smoker", "Smoker",
+                        "Whether smokers can be opened.", false, true, Material.SMOKER, "minecraft:blocks/block/smoker_front");
+        public static final PriFlag FLOWER_POT = new PriFlag("flower_pot", "Flower Pot",
+                        "Whether flower pots can be opened.", false, true, Material.FLOWER_POT, "minecraft:blocks/block/flower_pot");
+        public static final PriFlag COPPER_CHEST = new PriFlag("copper_chest", "Copper Chest",
+                        "Whether copper chests can be opened.", false, true, Material.CHEST, "minecraft:chests/entity/chest/normal");
+        public static final PriFlag SHELF = new PriFlag("shelf", "Shelf",
+                        "Whether shelves can be opened.", false, true, Material.BOOKSHELF, "minecraft:blocks/block/chiseled_bookshelf_side");
 
         // crafting and utilities
         public static final PriFlag CRAFT = new PriFlag("craft", "Crafting Table", "Whether can use crafting table.",
@@ -334,6 +362,7 @@ public class Flags {
         public static final PriFlag VILLAGER_KILLING = new PriFlag("villager_killing", "Villager Killing",
                         "Whether can do harm to villager.", false, true, Material.WOODEN_SWORD, "minecraft:items/item/wooden_sword");
 
+        private static final List<Flag> legacy_flags = List.of(CONTAINER);
         private static final List<EnvFlag> env_flags = new ArrayList<>();
         private static final List<PriFlag> pri_flags = new ArrayList<>();
         private static final List<Flag> all_flags = new ArrayList<>();
@@ -343,7 +372,7 @@ public class Flags {
                 for (java.lang.reflect.Field field : Flags.class.getDeclaredFields()) {
                         try {
                                 Object obj = field.get(null);
-                                if (obj instanceof Flag flag) {
+                                if (obj instanceof Flag flag && !legacy_flags.contains(flag)) {
                                         all_flags.add(flag);
                                         if (flag instanceof EnvFlag envFlag) {
                                                 env_flags.add(envFlag);
@@ -581,6 +610,12 @@ public class Flags {
                         return BREAK_BLOCK;
                 if (flag == ARMOR_STAND_INTERACTIVE || flag == ITEM_FRAME_CONTENT)
                         return CONTAINER;
+                if (flag == CHEST || flag == BARREL || flag == SHULKER_BOX
+                                || flag == COPPER_CHEST || flag == SHELF)
+                        return CONTAINER;
+                if (flag == DROPPER || flag == DISPENSER || flag == FURNACE
+                                || flag == BLAST_FURNACE || flag == SMOKER || flag == FLOWER_POT)
+                        return HOPPER;
                 if (flag == FERTILIZER || flag == PLANT_TREE)
                         return SOWING;
                 if (flag == TRIDENT || flag == FIREBALL || flag == WIND_CHARGE)
