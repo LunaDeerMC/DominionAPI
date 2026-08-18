@@ -15,8 +15,8 @@ public class Flags {
         // ================================== ENV(Environment)
 
         // animals
-        public static final EnvFlag ANIMAL_SPAWN = new EnvFlag("animal_spawn", "Animal Spawn (Breeding)",
-                        "Whether animals can spawn (including spawn egg & breeding).", true, false,
+        public static final EnvFlag ANIMAL_SPAWN = new EnvFlag("animal_spawn", "Animal Spawn",
+                        "Whether animals can spawn through natural or world-generated spawning (not breeding, spawners or spawn eggs).", true, false,
                         Material.COW_SPAWN_EGG, "minecraft:items/item/cow_spawn_egg");
         public static final EnvFlag ANIMAL_BREED = new EnvFlag("animal_breed", "Animal Breeding",
                         "Whether animal breeding can create offspring.", true, false, Material.WHEAT, "minecraft:items/item/wheat");
@@ -26,8 +26,8 @@ public class Flags {
                         "Whether animals can be created with spawn eggs.", true, false, Material.COW_SPAWN_EGG, "minecraft:items/item/cow_spawn_egg");
         public static final EnvFlag ANIMAL_MOVE = new EnvFlag("animal_move", "Animal Move",
                         "Whether animals can move in dominion.", true, false, Material.CHERRY_FENCE, "minecraft:blocks/block/cherry_planks");
-        public static final EnvFlag VILLAGER_SPAWN = new EnvFlag("villager_spawn", "Villager Breed",
-                        "Whether villager can breeding (including spawn egg).", true, false,
+        public static final EnvFlag VILLAGER_SPAWN = new EnvFlag("villager_spawn", "Villager Spawn",
+                        "Whether villagers can spawn through natural or world-generated spawning (not breeding, spawners or spawn eggs).", true, false,
                         Material.VILLAGER_SPAWN_EGG, "minecraft:items/item/villager_spawn_egg");
         public static final EnvFlag VILLAGER_BREED = new EnvFlag("villager_breed", "Villager Breeding",
                         "Whether villager breeding can create children.", true, false, Material.BREAD, "minecraft:items/item/bread");
@@ -38,7 +38,7 @@ public class Flags {
 
         // monster
         public static final EnvFlag MONSTER_SPAWN = new EnvFlag("monster_spawn", "Monster Spawn",
-                        "Whether monster can spawn (including spawn egg).", false, false, Material.ZOMBIE_SPAWN_EGG, "minecraft:items/item/zombie_spawn_egg");
+                        "Whether monsters can spawn through natural or world-generated spawning (not spawners or spawn eggs).", false, false, Material.ZOMBIE_SPAWN_EGG, "minecraft:items/item/zombie_spawn_egg");
         public static final EnvFlag MONSTER_SPAWNER = new EnvFlag("monster_spawner", "Monster Spawner",
                         "Whether monsters can spawn from monster spawners.", false, false, Material.SPAWNER, "minecraft:blocks/block/spawner");
         public static final EnvFlag MONSTER_SPAWN_EGG = new EnvFlag("monster_spawn_egg", "Monster Spawn Egg",
@@ -47,8 +47,14 @@ public class Flags {
                         "Whether monster can move in dominion.", true, false, Material.CRIMSON_FENCE, "minecraft:blocks/block/crimson_planks");
         public static final EnvFlag MONSTER_DAMAGE = new EnvFlag("monster_damage", "Monster Kill Player",
                         "Whether monster can do harm to player.", true, false, Material.SKELETON_SPAWN_EGG, "minecraft:items/item/skeleton_spawn_egg");
+        /** Former combined Enderman block movement flag retained for migration. */
+        @Deprecated
         public static final EnvFlag ENDER_MAN = new EnvFlag("ender_man", "Enderman Block Movement",
-                        "Whether endermen can pick up or place blocks.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
+                        "Former combined permission for Endermen picking up or placing blocks.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
+        public static final EnvFlag ENDER_MAN_PICKUP_BLOCK = new EnvFlag("ender_man_pickup_block", "Enderman Pick Up Block",
+                        "Whether Endermen can pick up blocks.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
+        public static final EnvFlag ENDER_MAN_PLACE_BLOCK = new EnvFlag("ender_man_place_block", "Enderman Place Block",
+                        "Whether Endermen can place blocks.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
         public static final EnvFlag ENDER_MAN_SPAWN = new EnvFlag("ender_man_spawn", "Enderman Spawn",
                         "Whether endermen can spawn.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
         public static final EnvFlag ENDER_MAN_TELEPORT = new EnvFlag("ender_man_teleport", "Enderman Teleport",
@@ -91,8 +97,46 @@ public class Flags {
                         "Fireball Entity Damage",
                         "Whether fireball explosions can damage entities other than armor stands and hanging entities.", false, true,
                         Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        public static final EnvFlag TNT_DAMAGE_ARMOR_STAND = new EnvFlag("tnt_damage_armor_stand",
+                        "TNT Armor Stand Damage", "Whether TNT explosions can damage armor stands.", false, true,
+                        Material.TNT, "minecraft:blocks/block/tnt_side");
+        public static final EnvFlag TNT_DAMAGE_HANGING_ENTITY = new EnvFlag("tnt_damage_hanging_entity",
+                        "TNT Hanging Entity Damage", "Whether TNT explosions can damage hanging entities.", false, true,
+                        Material.TNT, "minecraft:blocks/block/tnt_side");
+        public static final EnvFlag CREEPER_DAMAGE_ARMOR_STAND = new EnvFlag("creeper_damage_armor_stand",
+                        "Creeper Armor Stand Damage", "Whether creeper explosions can damage armor stands.", false, true,
+                        Material.CREEPER_HEAD, "minecraft:blocks/block/stone");
+        public static final EnvFlag CREEPER_DAMAGE_HANGING_ENTITY = new EnvFlag("creeper_damage_hanging_entity",
+                        "Creeper Hanging Entity Damage", "Whether creeper explosions can damage hanging entities.", false, true,
+                        Material.CREEPER_HEAD, "minecraft:blocks/block/stone");
+        public static final EnvFlag WITHER_SKULL_DAMAGE_ARMOR_STAND = new EnvFlag("wither_skull_damage_armor_stand",
+                        "Wither Skull Armor Stand Damage", "Whether wither skull explosions can damage armor stands.", false, true,
+                        Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
+        public static final EnvFlag WITHER_SKULL_DAMAGE_HANGING_ENTITY = new EnvFlag("wither_skull_damage_hanging_entity",
+                        "Wither Skull Hanging Entity Damage", "Whether wither skull explosions can damage hanging entities.", false, true,
+                        Material.WITHER_SKELETON_SKULL, "minecraft:blocks/block/stone");
+        public static final EnvFlag ENDER_CRYSTAL_DAMAGE_ARMOR_STAND = new EnvFlag("ender_crystal_damage_armor_stand",
+                        "End Crystal Armor Stand Damage", "Whether end crystal explosions can damage armor stands.", false, true,
+                        Material.END_CRYSTAL, "minecraft:items/item/end_crystal");
+        public static final EnvFlag ENDER_CRYSTAL_DAMAGE_HANGING_ENTITY = new EnvFlag("ender_crystal_damage_hanging_entity",
+                        "End Crystal Hanging Entity Damage", "Whether end crystal explosions can damage hanging entities.", false, true,
+                        Material.END_CRYSTAL, "minecraft:items/item/end_crystal");
+        public static final EnvFlag FIREBALL_DAMAGE_ARMOR_STAND = new EnvFlag("fireball_damage_armor_stand",
+                        "Fireball Armor Stand Damage", "Whether fireball explosions can damage armor stands.", false, true,
+                        Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        public static final EnvFlag FIREBALL_DAMAGE_HANGING_ENTITY = new EnvFlag("fireball_damage_hanging_entity",
+                        "Fireball Hanging Entity Damage", "Whether fireball explosions can damage hanging entities.", false, true,
+                        Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        public static final EnvFlag BED_EXPLODE = new EnvFlag("bed_explode", "Bed Explosion Block Damage",
+                        "Whether beds can explode and destroy blocks in this dominion.", false, true,
+                        Material.RED_BED, "minecraft:blocks/block/red_bed_foot_east");
+        public static final EnvFlag ANCHOR_EXPLODE = new EnvFlag("anchor_explode", "Respawn Anchor Explosion Block Damage",
+                        "Whether respawn anchors can explode and destroy blocks in this dominion.", false, true,
+                        Material.RESPAWN_ANCHOR, "minecraft:blocks/block/respawn_anchor_top");
+        /** Former combined bed and respawn-anchor explosion flag retained for migration. */
+        @Deprecated
         public static final EnvFlag BLOCK_EXPLODE = new EnvFlag("block_explode", "Bed and Anchor Block Damage",
-                        "Whether bed and respawn-anchor explosions can destroy blocks.", false, true,
+                        "Former combined permission for bed and respawn-anchor explosions destroying blocks.", false, true,
                         Material.RESPAWN_ANCHOR, "minecraft:blocks/block/respawn_anchor_top");
         public static final EnvFlag DRAGON_BREAK_BLOCK = new EnvFlag("dragon_break_block", "Ender Dragon Break Block",
                         "Whether ender dragon can break blocks.", false, true, Material.ENDER_DRAGON_SPAWN_EGG, "minecraft:items/item/ender_dragon_spawn_egg");
@@ -100,20 +144,45 @@ public class Flags {
         // natural
         public static final EnvFlag FIRE_SPREAD = new EnvFlag("fire_spread", "Fire Spread",
                         "Prevent fire spread in dominion.", false, true, Material.FLINT_AND_STEEL, "minecraft:items/item/flint_and_steel");
+        /** Former combined burn flag from before block/entity burning was split. */
+        @Deprecated
+        public static final EnvFlag BURN = new EnvFlag("burn", "Burn (Legacy)",
+                        "Former combined permission for blocks burning and entities taking heat damage.", false, true,
+                        Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final EnvFlag BURN_BLOCK = new EnvFlag("burn_block", "Burn Block", "Whether blocks can burn.",
                         false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        /** Former combined fire/lava entity damage flag retained for migration. */
+        @Deprecated
         public static final EnvFlag BURN_ENTITY = new EnvFlag("burn_entity", "Burn Entity",
-                        "Whether entity can burn or take high-temperature damage (not including player).", true, true,
+                        "Former combined permission for fire and lava damage to entities (not players).", true, true,
                         Material.CAMPFIRE, "minecraft:items/item/campfire");
-        public static final EnvFlag FLOW_IN_PROTECTION = new EnvFlag("flow_in_protection", "Flow In",
-                        "Prevent external water/lava flow into dominion.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
+        public static final EnvFlag BURN_ENTITY_FIRE = new EnvFlag("burn_entity_fire", "Burn Entity (Fire)",
+                        "Whether entities other than players can burn or take fire damage.", true, true,
+                        Material.CAMPFIRE, "minecraft:items/item/campfire");
+        public static final EnvFlag BURN_ENTITY_LAVA = new EnvFlag("burn_entity_lava", "Burn Entity (Lava)",
+                        "Whether entities other than players can take lava or hot-floor damage.", true, true,
+                        Material.LAVA_BUCKET, "minecraft:items/item/lava_bucket");
+        public static final EnvFlag FLOW_IN_WATER = new EnvFlag("flow_in_water", "Water Flow In",
+                        "Whether external water can flow into this dominion.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
+        public static final EnvFlag FLOW_IN_LAVA = new EnvFlag("flow_in_lava", "Lava Flow In",
+                        "Whether external lava can flow into this dominion.", false, true, Material.LAVA_BUCKET, "minecraft:items/item/lava_bucket");
+        /** Former combined water/lava flow flag retained for migration. */
+        @Deprecated
+        public static final EnvFlag FLOW_IN_PROTECTION = new EnvFlag("flow_in_protection", "Water and Lava Flow In",
+                        "Former combined permission for external water and lava flow into this dominion.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
         public static final EnvFlag GRAVITY_BLOCK = new EnvFlag("gravity_block", "Falling Block",
                         "Whether gravity block can fall in dominion (false will make them to item).", false, true,
                         Material.SAND, "minecraft:blocks/block/sand");
         public static final EnvFlag ICE_MELT = new EnvFlag("ice_melt", "Ice Melt", "Whether to allow ice to melt.",
                         false, false, Material.ICE, "minecraft:blocks/block/ice");
+        public static final EnvFlag ICE_FORM_NATURAL = new EnvFlag("ice_form_natural", "Natural Ice Form",
+                        "Whether ice can form through natural environmental changes.", false, true, Material.ICE, "minecraft:blocks/block/ice");
+        public static final EnvFlag ICE_FORM_FROST_WALKER = new EnvFlag("ice_form_frost_walker", "Frost Walker Ice Form",
+                        "Whether Frost Walker can create ice.", false, true, Material.PACKED_ICE, "minecraft:blocks/block/packed_ice");
+        /** Former combined natural and Frost Walker ice formation flag retained for migration. */
+        @Deprecated
         public static final EnvFlag ICE_FORM = new EnvFlag("ice_form", "Ice Form",
-                        "Whether to allow ice to form (prevents Frost Walker).", false, true, Material.PACKED_ICE, "minecraft:blocks/block/packed_ice");
+                        "Former combined permission for natural ice formation and Frost Walker.", false, true, Material.PACKED_ICE, "minecraft:blocks/block/packed_ice");
         public static final EnvFlag SNOW_ACCUMULATION = new EnvFlag("snow_accumulation", "Snow Accumulation",
                         "Whether to allow snow accumulation.", false, false, Material.SNOW, "minecraft:blocks/block/snow");
         public static final EnvFlag SNOW_MELT = new EnvFlag("snow_melt", "Snow Melt", "Whether to allow snow to melt.",
@@ -158,11 +227,15 @@ public class Flags {
         public static final EnvFlag HANGING_ENTITY_MOB_DAMAGE = new EnvFlag("hanging_entity_mob_damage",
                         "Hanging Entity Mob Damage", "Whether non-player entities can damage hanging entities.",
                         false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
+        /** Former source-agnostic explosion damage flag retained for migration. */
+        @Deprecated
         public static final EnvFlag ARMOR_STAND_EXPLOSION_DAMAGE = new EnvFlag("armor_stand_explosion_damage",
-                        "Armor Stand Explosion Damage", "Whether explosions can damage armor stands.",
+                        "Armor Stand Explosion Damage (Legacy)", "Former source-agnostic permission for explosions damaging armor stands.",
                         false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        /** Former source-agnostic explosion damage flag retained for migration. */
+        @Deprecated
         public static final EnvFlag HANGING_ENTITY_EXPLOSION_DAMAGE = new EnvFlag("hanging_entity_explosion_damage",
-                        "Hanging Entity Explosion Damage", "Whether explosions can damage hanging entities.",
+                        "Hanging Entity Explosion Damage (Legacy)", "Former source-agnostic permission for explosions damaging hanging entities.",
                         false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final EnvFlag MOB_DROP_ITEM = new EnvFlag("mob_drop_item", "Mob Drop Item",
                         "Whether mob drop item when killed.", true, true, Material.DIAMOND, "minecraft:items/item/diamond");
@@ -203,8 +276,11 @@ public class Flags {
 
         // building and placing
         public static final PriFlag PLACE = new PriFlag("place", "Place Block",
-                        "Whether normal blocks and flower-pot contents can be placed.", false, true,
+                        "Whether normal blocks can be placed (not flower-pot contents).", false, true,
                         Material.GRASS_BLOCK, "minecraft:blocks/block/grass_block_side");
+        public static final PriFlag PLACE_FLOWER_POT_CONTENT = new PriFlag("place_flower_pot_content", "Place Flower Pot Content",
+                        "Whether flowers and other contents can be placed into flower pots.", false, true,
+                        Material.FLOWER_POT, "minecraft:blocks/block/flower_pot");
         public static final PriFlag PLACE_LIQUID = new PriFlag("place_liquid", "Place Liquid",
                         "Whether water and lava can be placed.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
         /** Former coarse decorative-entity placement flag retained for migration. */
@@ -216,19 +292,38 @@ public class Flags {
         public static final PriFlag PLACE_HANGING_ENTITY = new PriFlag("place_hanging_entity", "Place Hanging Entity",
                         "Whether hanging entities can be placed.", false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final PriFlag BREAK_BLOCK = new PriFlag("break", "Break Block",
-                        "Whether normal blocks and flower-pot contents can be removed.", false, true,
+                        "Whether normal blocks can be removed (not flower-pot contents).", false, true,
                         Material.IRON_PICKAXE, "minecraft:items/item/iron_pickaxe");
+        public static final PriFlag BREAK_FLOWER_POT_CONTENT = new PriFlag("break_flower_pot_content", "Break Flower Pot Content",
+                        "Whether flowers and other contents can be removed from flower pots.", false, true,
+                        Material.FLOWER_POT, "minecraft:blocks/block/flower_pot");
         public static final PriFlag BREAK_LIQUID = new PriFlag("break_liquid", "Collect Liquid",
                         "Whether water and lava can be collected.", false, true, Material.BUCKET, "minecraft:items/item/bucket");
         /** Former coarse decorative-entity breaking flag retained for migration. */
         @Deprecated
         public static final PriFlag BREAK_ENTITY = new PriFlag("break_entity", "Break Decorative Entity",
                         "Whether armor stands and item frames can be broken.", false, true, Material.IRON_AXE, "minecraft:items/item/iron_axe");
-        public static final PriFlag ARMOR_STAND_PLAYER_DAMAGE = new PriFlag("armor_stand_player_damage",
-                        "Armor Stand Player Damage", "Whether players can damage armor stands.", false, true,
+        public static final PriFlag ARMOR_STAND_DIRECT_BREAK = new PriFlag("armor_stand_direct_break",
+                        "Directly Break Armor Stand", "Whether players can directly break armor stands.", false, true,
                         Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        public static final PriFlag ARMOR_STAND_PROJECTILE_BREAK = new PriFlag("armor_stand_projectile_break",
+                        "Projectile Break Armor Stand", "Whether player-fired projectiles can break armor stands.", false, true,
+                        Material.BOW, "minecraft:items/item/bow");
+        public static final PriFlag HANGING_ENTITY_DIRECT_BREAK = new PriFlag("hanging_entity_direct_break",
+                        "Directly Break Hanging Entity", "Whether players can directly break hanging entities.", false, true,
+                        Material.ITEM_FRAME, "minecraft:items/item/item_frame");
+        public static final PriFlag HANGING_ENTITY_PROJECTILE_BREAK = new PriFlag("hanging_entity_projectile_break",
+                        "Projectile Break Hanging Entity", "Whether player-fired projectiles can break hanging entities.", false, true,
+                        Material.BOW, "minecraft:items/item/bow");
+        /** Former combined player damage flag retained for migration. */
+        @Deprecated
+        public static final PriFlag ARMOR_STAND_PLAYER_DAMAGE = new PriFlag("armor_stand_player_damage",
+                        "Armor Stand Player Damage (Legacy)", "Former combined permission for direct and projectile damage to armor stands.", false, true,
+                        Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
+        /** Former combined player damage flag retained for migration. */
+        @Deprecated
         public static final PriFlag HANGING_ENTITY_PLAYER_DAMAGE = new PriFlag("hanging_entity_player_damage",
-                        "Hanging Entity Player Damage", "Whether players can damage hanging entities.", false, true,
+                        "Hanging Entity Player Damage (Legacy)", "Former combined permission for direct and projectile damage to hanging entities.", false, true,
                         Material.ITEM_FRAME, "minecraft:items/item/item_frame");
         public static final PriFlag IGNITE = new PriFlag("ignite", "Ignite", "Whether can ignite fire.", false, true,
                         Material.FLINT_AND_STEEL, "minecraft:items/item/flint_and_steel");
@@ -377,14 +472,44 @@ public class Flags {
                         false, true, Material.EMERALD, "minecraft:items/item/emerald");
 
         // projectiles and throwing
+        public static final PriFlag PROJECTILE_CHARGE = new PriFlag("projectile_charge", "Charge Bow or Crossbow",
+                        "Whether players can charge bows and crossbows.", false, true, Material.BOW, "minecraft:items/item/bow");
+        public static final PriFlag ARROW_LAUNCH = new PriFlag("arrow_launch", "Launch Arrow",
+                        "Whether players can launch arrows.", false, true, Material.ARROW, "minecraft:items/item/arrow");
+        public static final PriFlag ARROW_HIT = new PriFlag("arrow_hit", "Arrow Impact",
+                        "Whether player-fired arrows can impact blocks or entities.", false, true, Material.ARROW, "minecraft:items/item/arrow");
+        public static final PriFlag ARROW_DAMAGE = new PriFlag("arrow_damage", "Arrow Damage",
+                        "Whether player-fired arrows can damage entities.", false, true, Material.ARROW, "minecraft:items/item/arrow");
+        /** Former combined bow/crossbow and arrow flag retained for migration. */
+        @Deprecated
         public static final PriFlag SHOOT = new PriFlag("shoot", "Shoot Arrows",
-                        "Whether bows and crossbows can shoot arrows.", false, true, Material.BOW, "minecraft:items/item/bow");
+                        "Former combined permission for charging bows/crossbows and launching or using arrows.", false, true, Material.BOW, "minecraft:items/item/bow");
+        public static final PriFlag TRIDENT_LAUNCH = new PriFlag("trident_launch", "Launch Trident",
+                        "Whether players can launch tridents.", false, true, Material.TRIDENT, "minecraft:items/item/trident");
+        public static final PriFlag TRIDENT_HIT = new PriFlag("trident_hit", "Trident Impact",
+                        "Whether player-fired tridents can impact blocks or entities.", false, true, Material.TRIDENT, "minecraft:items/item/trident");
+        /** Former combined trident launch and impact flag retained for migration. */
+        @Deprecated
         public static final PriFlag TRIDENT = new PriFlag("trident", "Throw Trident", "Whether tridents can be thrown.",
                         false, true, Material.TRIDENT, "minecraft:items/item/trident");
-        public static final PriFlag FIREBALL = new PriFlag("fireball", "Launch Fireball",
+        public static final PriFlag FIREBALL_LAUNCH = new PriFlag("fireball_launch", "Launch Fireball",
                         "Whether players can launch fireballs.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
-        public static final PriFlag WIND_CHARGE = new PriFlag("wind_charge", "Use Wind Charge",
+        public static final PriFlag FIREBALL_HIT = new PriFlag("fireball_hit", "Fireball Impact",
+                        "Whether player-fired fireballs can impact blocks or entities.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        /** Former combined fireball launch and impact flag retained for migration. */
+        @Deprecated
+        public static final PriFlag FIREBALL = new PriFlag("fireball", "Launch Fireball",
+                        "Former combined permission for launching and impacting with fireballs.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        public static final PriFlag WIND_CHARGE_LAUNCH = new PriFlag("wind_charge_launch", "Launch Wind Charge",
                         "Whether players can launch wind charges.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        public static final PriFlag WIND_CHARGE_HIT = new PriFlag("wind_charge_hit", "Wind Charge Impact",
+                        "Whether player-fired wind charges can impact blocks or entities.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        public static final PriFlag WIND_CHARGE_EXPLODE = new PriFlag("wind_charge_explode", "Wind Charge Explosion",
+                        "Whether player-fired wind charges can explode.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        /** Former combined wind charge launch, impact and explosion flag retained for migration. */
+        @Deprecated
+        public static final PriFlag WIND_CHARGE = new PriFlag("wind_charge", "Use Wind Charge",
+                        "Former combined permission for launching, impacting and exploding wind charges.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
         public static final PriFlag EGG = new PriFlag("egg", "Throw Egg", "Whether can throw egg.", false, true,
                         Material.EGG, "minecraft:items/item/egg");
         public static final PriFlag HOOK = new PriFlag("hook", "Hook", "Whether can use fishing rod.", false, true,
@@ -400,7 +525,13 @@ public class Flags {
         public static final PriFlag VILLAGER_KILLING = new PriFlag("villager_killing", "Villager Killing",
                         "Whether can do harm to villager.", false, true, Material.WOODEN_SWORD, "minecraft:items/item/wooden_sword");
 
-        private static final List<Flag> legacy_flags = List.of(CONTAINER, PLACE_ENTITY, BREAK_ENTITY, ITEM_FRAME_PROJ_DAMAGE);
+        private static final List<Flag> legacy_flags = List.of(
+                        BURN, BURN_ENTITY, ENDER_MAN, BLOCK_EXPLODE, FLOW_IN_PROTECTION, ICE_FORM,
+                        ARMOR_STAND_EXPLOSION_DAMAGE, HANGING_ENTITY_EXPLOSION_DAMAGE,
+                        ARMOR_STAND_PLAYER_DAMAGE, HANGING_ENTITY_PLAYER_DAMAGE,
+                        SHOOT, TRIDENT, FIREBALL, WIND_CHARGE,
+                        CONTAINER, PLACE_ENTITY, BREAK_ENTITY, ITEM_FRAME_PROJ_DAMAGE
+        );
         private static final List<EnvFlag> env_flags = new ArrayList<>();
         private static final List<PriFlag> pri_flags = new ArrayList<>();
         private static final List<Flag> all_flags = new ArrayList<>();
@@ -629,29 +760,50 @@ public class Flags {
                         return VILLAGER_SPAWN;
                 if (flag == MONSTER_SPAWNER || flag == MONSTER_SPAWN_EGG)
                         return MONSTER_SPAWN;
-                if (flag == ENDER_MAN_SPAWN || flag == ENDER_MAN_TELEPORT)
+                if (flag == ENDER_MAN_PICKUP_BLOCK || flag == ENDER_MAN_PLACE_BLOCK
+                                || flag == ENDER_MAN_SPAWN || flag == ENDER_MAN_TELEPORT)
                         return ENDER_MAN;
                 if (flag == WITHER_EXPLODE || flag == WITHER_BREAK_BLOCK)
                         return WITHER_SPAWN;
-                if (flag == BLOCK_EXPLODE || flag == CREEPER_DAMAGE_ENTITY
+                if (flag == BED_EXPLODE || flag == ANCHOR_EXPLODE)
+                        return BLOCK_EXPLODE;
+                if (flag == CREEPER_DAMAGE_ENTITY
                                 || flag == WITHER_SKULL_EXPLODE || flag == WITHER_SKULL_DAMAGE_ENTITY
                                 || flag == ENDER_CRYSTAL_EXPLODE || flag == ENDER_CRYSTAL_DAMAGE_ENTITY
                                 || flag == FIREBALL_EXPLODE || flag == FIREBALL_DAMAGE_ENTITY)
                         return CREEPER_EXPLODE;
                 if (flag == TNT_DAMAGE_ENTITY)
                         return TNT_EXPLODE;
-                if (flag == ARMOR_STAND_EXPLOSION_DAMAGE || flag == HANGING_ENTITY_EXPLOSION_DAMAGE)
-                        return TNT_DAMAGE_ENTITY;
+                if (flag == TNT_DAMAGE_ARMOR_STAND || flag == CREEPER_DAMAGE_ARMOR_STAND
+                                || flag == WITHER_SKULL_DAMAGE_ARMOR_STAND
+                                || flag == ENDER_CRYSTAL_DAMAGE_ARMOR_STAND
+                                || flag == FIREBALL_DAMAGE_ARMOR_STAND)
+                        return ARMOR_STAND_EXPLOSION_DAMAGE;
+                if (flag == TNT_DAMAGE_HANGING_ENTITY || flag == CREEPER_DAMAGE_HANGING_ENTITY
+                                || flag == WITHER_SKULL_DAMAGE_HANGING_ENTITY
+                                || flag == ENDER_CRYSTAL_DAMAGE_HANGING_ENTITY
+                                || flag == FIREBALL_DAMAGE_HANGING_ENTITY)
+                        return HANGING_ENTITY_EXPLOSION_DAMAGE;
+                if (flag == BURN_BLOCK)
+                        return BURN;
+                if (flag == BURN_ENTITY_FIRE || flag == BURN_ENTITY_LAVA)
+                        return BURN_ENTITY;
+                if (flag == FLOW_IN_WATER || flag == FLOW_IN_LAVA)
+                        return FLOW_IN_PROTECTION;
+                if (flag == ICE_FORM_NATURAL || flag == ICE_FORM_FROST_WALKER)
+                        return ICE_FORM;
                 if (flag == MOB_TRAMPLE)
                         return TRAMPLE;
-                if (flag == PLACE_LIQUID || flag == PLACE_ENTITY)
+                if (flag == PLACE_LIQUID || flag == PLACE_FLOWER_POT_CONTENT || flag == PLACE_ENTITY)
                         return PLACE;
                 if (flag == PLACE_ARMOR_STAND || flag == PLACE_HANGING_ENTITY)
                         return PLACE_ENTITY;
-                if (flag == BREAK_LIQUID || flag == BREAK_ENTITY)
+                if (flag == BREAK_LIQUID || flag == BREAK_FLOWER_POT_CONTENT || flag == BREAK_ENTITY)
                         return BREAK_BLOCK;
-                if (flag == ARMOR_STAND_PLAYER_DAMAGE || flag == HANGING_ENTITY_PLAYER_DAMAGE)
-                        return BREAK_ENTITY;
+                if (flag == ARMOR_STAND_DIRECT_BREAK || flag == ARMOR_STAND_PROJECTILE_BREAK)
+                        return ARMOR_STAND_PLAYER_DAMAGE;
+                if (flag == HANGING_ENTITY_DIRECT_BREAK || flag == HANGING_ENTITY_PROJECTILE_BREAK)
+                        return HANGING_ENTITY_PLAYER_DAMAGE;
                 if (flag == TRAPDOOR || flag == FENCE_GATE)
                         return DOOR;
                 if (flag == HANGING_ENTITY_MOB_DAMAGE)
@@ -666,22 +818,24 @@ public class Flags {
                         return HOPPER;
                 if (flag == FERTILIZER || flag == PLANT_TREE)
                         return SOWING;
-                if (flag == TRIDENT || flag == FIREBALL || flag == WIND_CHARGE)
+                if (flag == PROJECTILE_CHARGE || flag == ARROW_LAUNCH || flag == ARROW_HIT || flag == ARROW_DAMAGE
+                                || flag == TRIDENT_LAUNCH || flag == TRIDENT_HIT
+                                || flag == FIREBALL_LAUNCH || flag == FIREBALL_HIT
+                                || flag == WIND_CHARGE_LAUNCH || flag == WIND_CHARGE_HIT || flag == WIND_CHARGE_EXPLODE)
                         return SHOOT;
                 return null;
         }
 
         /**
          * Returns all legacy flags whose values should seed a newly split flag.
-         * Most split flags have one source; explosion damage is intentionally
-         * seeded from every former source-specific explosion flag.
+         * Most split flags have one source. The historical {@code burn} flag
+         * is included as a fallback for installations that never had the
+         * intermediate {@code burn_entity} column.
          */
         @ApiStatus.Internal
         public static List<Flag> getLegacySources(Flag flag) {
-                if (flag == ARMOR_STAND_EXPLOSION_DAMAGE || flag == HANGING_ENTITY_EXPLOSION_DAMAGE) {
-                        return List.of(TNT_DAMAGE_ENTITY, CREEPER_DAMAGE_ENTITY,
-                                        WITHER_SKULL_DAMAGE_ENTITY, ENDER_CRYSTAL_DAMAGE_ENTITY,
-                                        FIREBALL_DAMAGE_ENTITY);
+                if (flag == BURN_ENTITY_FIRE || flag == BURN_ENTITY_LAVA) {
+                        return List.of(BURN_ENTITY, BURN);
                 }
                 Flag source = getLegacySource(flag);
                 return source == null ? List.of() : List.of(source);
