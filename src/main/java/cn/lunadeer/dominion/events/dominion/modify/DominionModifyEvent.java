@@ -28,32 +28,34 @@ public class DominionModifyEvent extends ResultEvent {
     }
 
     /**
-     * Gets the CompletableFuture that will be completed with the created DominionDTO.
+     * Gets the future that will be completed with the modified dominion.
      * <p>
      * Under most circumstances, you should not need to use this method directly. If you
      * need to perform actions after the dominion is modified, you should use the
      * {@link #afterModified(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the modified dominion, or {@code null} when
+     *         the operation fails
      */
     public CompletableFuture<DominionDTO> getFutureToComplete() {
         return future;
     }
 
     /**
-     * Call back after the dominion is modified.
+     * Registers a callback to run after the dominion modification finishes.
      * <p>
-     * Use this method to perform actions after the dominion has been modified.
+     * The callback receives the modified dominion, or {@code null} when the
+     * operation fails.
      *
-     * @param consumer the consumer to handle the created dominion
-     * @return a CompletableFuture that completes when the consumer has been executed
+     * @param consumer the consumer to handle the modified dominion
+     * @return a future that completes when the consumer has been executed
      */
     public CompletableFuture<Void> afterModified(Consumer<DominionDTO> consumer) {
         return future.thenAccept(consumer);
     }
 
     /**
-     * Returns the dominion to be modified.
+     * Gets the dominion to be modified.
      * <p>
      * This method retrieves the dominion that is going to be modified by this event.
      * To get the modified dominion after the event is processed, use the

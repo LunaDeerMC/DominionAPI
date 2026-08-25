@@ -9,7 +9,10 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Interface representing a Member Data Transfer Object (DTO).
+ * Public view of a player's membership in a dominion.
+ * <p>
+ * A member can have individual privilege values and can optionally belong to
+ * a group whose privileges are evaluated alongside those values.
  */
 public interface MemberDTO {
     /**
@@ -56,12 +59,11 @@ public interface MemberDTO {
     @NotNull Map<PriFlag, Boolean> getFlagsValue();
 
     /**
-     * Sets the value of a specific flag for the member.
-     * Returns the member object if successful, otherwise returns null.
+     * Sets the value of a specific privilege flag for the member.
      *
      * @param flag  the flag
      * @param value the value of the flag
-     * @return the member object, or null if the operation fails
+     * @return this member after the flag has been updated
      * @throws SQLException if a database access error occurs
      */
     @Nullable MemberDTO setFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;

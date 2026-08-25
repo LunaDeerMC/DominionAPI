@@ -24,7 +24,7 @@ public class MemberAddedEvent extends ResultEvent {
      *
      * @param operator the command sender who initiated the event
      * @param dominion the dominion to which the member is added
-     * @param player   the player who is adding the member
+     * @param player   the player record being added as a member
      */
     public MemberAddedEvent(@NotNull CommandSender operator,
                             @NotNull DominionDTO dominion,
@@ -77,7 +77,8 @@ public class MemberAddedEvent extends ResultEvent {
      * need to perform actions after the member is added, you should use the
      * {@link #afterAdded(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the added member, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<MemberDTO> getFutureToComplete() {
         return future;
@@ -86,20 +87,20 @@ public class MemberAddedEvent extends ResultEvent {
     /**
      * Call back after the member is added.
      * <p>
-     * Use this method to perform actions after the member has been created (may fail),
-     * if you need to do something with the added member.
+     * Use this method to perform actions after the member has been added (the
+     * callback receives {@code null} when the operation fails).
      *
-     * @param consumer the consumer to handle the created member
-     * @return a CompletableFuture that completes when the consumer has been executed
+     * @param consumer the consumer to handle the added member
+     * @return a future that completes when the consumer has been executed
      */
     public CompletableFuture<Void> afterAdded(Consumer<MemberDTO> consumer) {
         return future.thenAccept(consumer);
     }
 
     /**
-     * Sets the newly added member.
+     * This compatibility method does nothing.
      *
-     * @param member the newly added member
+     * @param member ignored
      */
     @Deprecated(since = "4.6.0", forRemoval = true)
     public void setMember(@Nullable MemberDTO member) {
@@ -107,10 +108,10 @@ public class MemberAddedEvent extends ResultEvent {
     }
 
     /**
-     * Gets the newly added member. If there is none, returns null.
-     * Only has a value if the addition was successful.
+     * This compatibility method always returns {@code null}. Use
+     * {@link #afterAdded(Consumer)} to observe the asynchronous result.
      *
-     * @return the newly added member, or null if none
+     * @return always {@code null}
      */
     @Deprecated(since = "4.6.0", forRemoval = true)
     public @Nullable MemberDTO getMember() {

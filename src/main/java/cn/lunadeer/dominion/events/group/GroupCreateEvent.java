@@ -87,36 +87,42 @@ public class GroupCreateEvent extends ResultEvent {
      * need to perform actions after the group is created, you should use the
      * {@link #afterCreated(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the created group, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<GroupDTO> getFutureToComplete() {
         return future;
     }
 
     /**
-     * Call back after the group is created.
+     * Registers a callback to run after the group creation operation finishes.
      * <p>
-     * Use this method to perform actions after the group has been created (may fail),
-     * if you need to do something with the created group,
+     * The callback receives the created group, or {@code null} when the
+     * operation fails.
      *
      * @param consumer the consumer to handle the created group
-     * @return a CompletableFuture that completes when the consumer has been executed
+     * @return a future that completes when the consumer has been executed
      */
     public CompletableFuture<Void> afterCreated(Consumer<GroupDTO> consumer) {
         return future.thenAccept(consumer);
     }
 
     /**
-     * @param group the group to set
-     * @deprecated This method is deprecated and will be removed in future versions.
+     * This compatibility method does nothing.
+     *
+     * @param group ignored
+     * @deprecated since 4.6.0; use {@link #afterCreated(Consumer)} instead
      */
     @Deprecated(since = "4.6.0", forRemoval = true)
     public void setGroup(@NotNull GroupDTO group) {
     }
 
     /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     * To get the created dominion, use the {@link #afterCreated(Consumer)} method instead.
+     * This compatibility method always returns {@code null}. Use
+     * {@link #afterCreated(Consumer)} to observe the asynchronous result.
+     *
+     * @return always {@code null}
+     * @deprecated since 4.6.0; use {@link #afterCreated(Consumer)} instead
      */
     @Deprecated(since = "4.6.0", forRemoval = true)
     public @Nullable GroupDTO getGroup() {

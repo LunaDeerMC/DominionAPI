@@ -29,7 +29,7 @@ public class DominionSetTpLocationEvent extends DominionModifyEvent {
     /**
      * Gets the old teleport location.
      *
-     * @return the old teleport location, or null if it was not set
+     * @return the old teleport location
      */
     public @NotNull Location getOldTpLocation() {
         return oldTpLocation;

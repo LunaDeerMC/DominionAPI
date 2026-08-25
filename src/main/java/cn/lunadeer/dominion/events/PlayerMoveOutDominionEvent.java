@@ -36,7 +36,7 @@ public class PlayerMoveOutDominionEvent extends CallableEvent {
     /**
      * Gets the dominion the player moved out of.
      * <p>
-     * Might be null if this dominion called because of dominion deletion.
+     * It may be null when the event is fired because the dominion was deleted.
      *
      * @return the dominion
      */

@@ -20,6 +20,7 @@ public class DominionCreateEvent extends ResultEvent {
 
     private boolean skipEconomy;
     private String name;
+    /** The world in which the dominion will be created. */
     public World world;
     private CuboidDTO cuboid;
     private DominionDTO parent;
@@ -158,34 +159,38 @@ public class DominionCreateEvent extends ResultEvent {
     }
 
     /**
-     * Gets the CompletableFuture that will be completed with the created DominionDTO.
+     * Gets the future that will be completed with the created dominion.
      * <p>
      * Under most circumstances, you should not need to use this method directly. If you
      * need to perform actions after the dominion is created, you should use the
      * {@link #afterCreated(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the created dominion, or {@code null} when
+     *         the operation fails
      */
     public CompletableFuture<DominionDTO> getFutureToComplete() {
         return future;
     }
 
     /**
-     * Call back after the dominion is created.
+     * Registers a callback to run after the dominion creation operation finishes.
      * <p>
-     * Use this method to perform actions after the dominion has been created (may fail),
-     * if you need to do something with the created dominion.
+     * The callback receives the created dominion, or {@code null} when the
+     * operation fails.
      *
      * @param consumer the consumer to handle the created dominion
-     * @return a CompletableFuture that completes when the consumer has been executed
+     * @return a future that completes when the consumer has been executed
      */
     public CompletableFuture<Void> afterCreated(Consumer<DominionDTO> consumer) {
         return future.thenAccept(consumer);
     }
 
     /**
-     * @deprecated This method is deprecated and will be removed in future versions.
-     * To get the created dominion, use the {@link #afterCreated(Consumer)} method instead.
+     * This compatibility method is a no-op and always returns {@code null}.
+     * Use {@link #afterCreated(Consumer)} to observe the asynchronous result.
+     *
+     * @return always {@code null}
+     * @deprecated since 4.6.0; use {@link #afterCreated(Consumer)} instead
      */
     @Deprecated(since = "4.6.0", forRemoval = true)
     public @Nullable DominionDTO getDominion() {
@@ -193,7 +198,11 @@ public class DominionCreateEvent extends ResultEvent {
     }
 
     /**
-     * @deprecated This method is deprecated and will be removed in future versions.
+     * This compatibility method does nothing; the created dominion is delivered
+     * through {@link #afterCreated(Consumer)}.
+     *
+     * @param dominion ignored
+     * @deprecated since 4.6.0; use {@link #afterCreated(Consumer)} instead
      */
     @Deprecated(since = "4.6.0", forRemoval = true)
     public void setDominion(@NotNull DominionDTO dominion) {

@@ -11,7 +11,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Utility class for parsing color codes in strings.
+ * Utility methods for converting Dominion hex color syntax.
+ * <p>
+ * Hex colors use the form {@code &#RRGGBB}; the Bukkit conversion method also
+ * emits the legacy {@code &x&r&r&g&g&b&b} representation.
  */
 public class ColorParser {
 

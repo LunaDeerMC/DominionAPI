@@ -15,7 +15,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Interface representing a Dominion Data Transfer Object (DTO).
+ * Public view of a Dominion and its persisted settings.
+ * <p>
+ * Mutating methods update the Dominion data store and return this dominion
+ * instance when the update succeeds. Database failures are reported through
+ * {@link SQLException}.
  */
 public interface DominionDTO {
     /**
@@ -34,25 +38,28 @@ public interface DominionDTO {
 
     /**
      * Gets the DTO of the dominion owner.
+     * <p>
+     * Implementations may return {@link PlayerDTO#UNKNOWN} when the owner is
+     * not present in the player cache.
      *
      * @return the DTO of the dominion owner
      */
     @NotNull PlayerDTO getOwnerDTO();
 
     /**
-     * Sets the owner of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the owner of the dominion.
      *
      * @param owner the UUID of the dominion owner
-     * @return the dominion object
+     * @return this dominion after the owner has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setOwner(UUID owner) throws SQLException;
 
     /**
-     * Sets the owner of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the owner of the dominion using a Bukkit player.
      *
      * @param owner the dominion owner
-     * @return the dominion object
+     * @return this dominion after the owner has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setOwner(Player owner) throws SQLException;
@@ -65,10 +72,10 @@ public interface DominionDTO {
     @NotNull String getName();
 
     /**
-     * Sets the name of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the name of the dominion.
      *
      * @param name the name of the dominion
-     * @return the dominion object
+     * @return this dominion after the name has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setName(String name) throws SQLException;
@@ -90,16 +97,19 @@ public interface DominionDTO {
 
     /**
      * Gets the cuboid of the dominion.
+     * <p>
+     * The cuboid uses the coordinate conventions documented by
+     * {@link CuboidDTO}.
      *
      * @return the cuboid of the dominion
      */
     @NotNull CuboidDTO getCuboid();
 
     /**
-     * Sets the cuboid of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the cuboid of the dominion.
      *
      * @param cuboid the cuboid of the dominion
-     * @return the dominion object
+     * @return this dominion after the cuboid has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setCuboid(@NotNull CuboidDTO cuboid) throws SQLException;
@@ -112,41 +122,41 @@ public interface DominionDTO {
     @NotNull Integer getParentDomId();
 
     /**
-     * Gets the welcome message of the dominion.
+     * Gets the message sent when a player enters the dominion.
      *
-     * @return the welcome message of the dominion
+     * @return the enter message
      */
     @NotNull String getJoinMessage();
 
     /**
-     * Sets the welcome message of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the message sent when a player enters the dominion.
      *
-     * @param joinMessage the welcome message of the dominion
-     * @return the dominion object
+     * @param joinMessage the enter message
+     * @return this dominion after the message has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setJoinMessage(String joinMessage) throws SQLException;
 
     /**
-     * Gets the leave message of the dominion.
+     * Gets the message sent when a player leaves the dominion.
      *
-     * @return the leave message of the dominion
+     * @return the leave message
      */
     @NotNull String getLeaveMessage();
 
     /**
-     * Sets the leave message of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the message sent when a player leaves the dominion.
      *
-     * @param leaveMessage the leave message of the dominion
-     * @return the dominion object
+     * @param leaveMessage the leave message
+     * @return this dominion after the message has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setLeaveMessage(String leaveMessage) throws SQLException;
 
     /**
-     * Gets all environment flag values of the dominion.
+     * Gets the environment flag values configured for the dominion.
      *
-     * @return the environment flag values of the dominion
+     * @return a map from environment flags to their configured values
      */
     @NotNull Map<EnvFlag, Boolean> getEnvironmentFlagValue();
 
@@ -159,9 +169,9 @@ public interface DominionDTO {
     boolean getEnvFlagValue(@NotNull EnvFlag flag);
 
     /**
-     * Gets all guest privilege flag values of the dominion.
+     * Gets the privilege flag values applied to guests of the dominion.
      *
-     * @return the guest privilege flag values of the dominion
+     * @return a map from privilege flags to their configured guest values
      */
     @NotNull Map<PriFlag, Boolean> getGuestPrivilegeFlagValue();
 
@@ -174,37 +184,40 @@ public interface DominionDTO {
     boolean getGuestFlagValue(@NotNull PriFlag flag);
 
     /**
-     * Sets the value of a specific environment or guest privilege flag of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the value of an environment flag for the dominion.
      *
      * @param flag  the flag
      * @param value the value of the flag
-     * @return the dominion object
+     * @return this dominion after the flag has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setEnvFlagValue(@NotNull EnvFlag flag, @NotNull Boolean value) throws SQLException;
 
     /**
-     * Sets the value of a specific environment or guest privilege flag of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the value of a guest privilege flag for the dominion.
      *
      * @param flag  the flag
      * @param value the value of the flag
-     * @return the dominion object
+     * @return this dominion after the flag has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setGuestFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;
 
     /**
-     * Gets the teleport location of the dominion. If no teleport location is set, returns the center location of the dominion.
+     * Gets the teleport location of the dominion.
+     * <p>
+     * If no custom location is configured, the center location of the cuboid
+     * is returned.
      *
      * @return the teleport location of the dominion
      */
     @NotNull Location getTpLocation();
 
     /**
-     * Sets the teleport location of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the teleport location of the dominion.
      *
      * @param tpLocation the teleport location of the dominion
-     * @return the dominion object
+     * @return this dominion after the teleport location has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setTpLocation(Location tpLocation) throws SQLException;
@@ -231,37 +244,37 @@ public interface DominionDTO {
     int getColorB();
 
     /**
-     * Gets the color of the dominion as a string.
+     * Gets the color of the dominion as a hexadecimal string.
      *
-     * @return the color of the dominion as a string
+     * @return a color in {@code #RRGGBB} form
      */
     @NotNull String getColor();
 
     /**
      * Gets the hexadecimal representation of the dominion's color.
      *
-     * @return the hexadecimal representation of the dominion's color
+     * @return the RGB value in the range {@code 0x000000} to {@code 0xFFFFFF}
      */
     int getColorHex();
 
     /**
-     * Sets the color of the dominion. Returns the dominion object if successful, otherwise returns null.
+     * Sets the map color of the dominion.
      *
      * @param color the color
-     * @return the dominion object
+     * @return this dominion after the color has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setColor(@NotNull Color color) throws SQLException;
 
     /**
-     * Gets all groups of the dominion.
+     * Gets all groups belonging to the dominion.
      *
      * @return the list of groups
      */
     List<GroupDTO> getGroups();
 
     /**
-     * Gets all members of the dominion.
+     * Gets all members belonging to the dominion.
      *
      * @return the list of members
      */

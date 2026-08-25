@@ -85,7 +85,8 @@ public class GroupAddMemberEvent extends ResultEvent {
      * need to perform actions after the member is added, you should use the
      * {@link #afterAdded(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the added member, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<MemberDTO> getFutureToComplete() {
         return future;

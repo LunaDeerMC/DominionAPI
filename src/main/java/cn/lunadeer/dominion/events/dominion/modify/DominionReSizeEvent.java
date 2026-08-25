@@ -14,20 +14,28 @@ public class DominionReSizeEvent extends DominionModifyEvent {
      * Enum representing the type of size change.
      */
     public enum TYPE {
-        EXPAND,     // Expand
-        CONTRACT    // Contract
+        /** Increase one boundary of the dominion. */
+        EXPAND,
+        /** Decrease one boundary of the dominion. */
+        CONTRACT
     }
 
     /**
      * Enum representing the direction of size change.
      */
     public enum DIRECTION {
-        NORTH,  // North
-        EAST,   // East
-        SOUTH,  // South
-        WEST,   // West
-        UP,     // Up
-        DOWN    // Down
+        /** The negative z direction. */
+        NORTH,
+        /** The positive x direction. */
+        EAST,
+        /** The positive z direction. */
+        SOUTH,
+        /** The negative x direction. */
+        WEST,
+        /** The positive y direction. */
+        UP,
+        /** The negative y direction. */
+        DOWN
     }
 
     private boolean skipEconomy;
@@ -77,7 +85,7 @@ public class DominionReSizeEvent extends DominionModifyEvent {
     }
 
     /**
-     * Gets the old cuboid representing the dominion's size before the change.
+     * Gets a snapshot of the dominion cuboid before the change.
      *
      * @return the old cuboid
      */
@@ -131,7 +139,8 @@ public class DominionReSizeEvent extends DominionModifyEvent {
     }
 
     /**
-     * Gets the new cuboid representing the dominion's size after the change.
+     * Calculates the cuboid that would result from the current resize values.
+     * This method does not modify the dominion.
      *
      * @return the new cuboid
      */

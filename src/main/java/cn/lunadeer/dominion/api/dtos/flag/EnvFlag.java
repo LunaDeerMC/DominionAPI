@@ -5,9 +5,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents an environment flag in the Dominion system.
- * This class extends the Flag class and provides specific
- * configuration keys for environment-related flags.
+ * A flag controlling environmental behavior inside a dominion.
+ * <p>
+ * Environment flags use the {@code environment.<flag>} configuration
+ * namespace.
  */
 public class EnvFlag extends Flag {
 
@@ -25,6 +26,17 @@ public class EnvFlag extends Flag {
         super(flag_name, display_name, description, default_value, enable, material);
     }
 
+    /**
+     * Constructs an environment flag with an optional native Dialog UI icon.
+     *
+     * @param flag_name     the stable flag name
+     * @param display_name  the default display name
+     * @param description   the default description
+     * @param default_value the default value
+     * @param enable        whether the flag is enabled
+     * @param material      the material used in chest UIs
+     * @param icon          the Dialog UI sprite path, or {@code null} for no icon
+     */
     public EnvFlag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description,
                    @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material,
                    @Nullable String icon) {
@@ -36,6 +48,7 @@ public class EnvFlag extends Flag {
      *
      * @return the configuration description key
      */
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationDescKey() {
         return "environment." + getFlagName() + ".description";
@@ -46,6 +59,7 @@ public class EnvFlag extends Flag {
      *
      * @return the configuration default key
      */
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationDefaultKey() {
         return "environment." + getFlagName() + ".default";
@@ -56,16 +70,19 @@ public class EnvFlag extends Flag {
      *
      * @return the configuration enable key
      */
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationEnableKey() {
         return "environment." + getFlagName() + ".enable";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationNameKey() {
         return "environment." + getFlagName();
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationMaterialKey() {
         return "environment." + getFlagName() + ".material";

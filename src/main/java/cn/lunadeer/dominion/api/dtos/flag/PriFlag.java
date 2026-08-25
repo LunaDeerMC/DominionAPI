@@ -5,9 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents a privilege flag in the Dominion system.
- * This class extends the Flag class and provides specific
- * configuration keys for privilege-related flags.
+ * A flag controlling an action that players may perform in a dominion.
+ * <p>
+ * Privilege flags use the {@code privilege.<flag>} configuration namespace.
  */
 public class PriFlag extends Flag {
 
@@ -25,6 +25,17 @@ public class PriFlag extends Flag {
         super(flag_name, display_name, description, default_value, enable, material);
     }
 
+    /**
+     * Constructs a privilege flag with an optional native Dialog UI icon.
+     *
+     * @param flag_name     the stable flag name
+     * @param display_name  the default display name
+     * @param description   the default description
+     * @param default_value the default value
+     * @param enable        whether the flag is enabled
+     * @param material      the material used in chest UIs
+     * @param icon          the Dialog UI sprite path, or {@code null} for no icon
+     */
     public PriFlag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description,
                    @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material,
                    @Nullable String icon) {
@@ -36,6 +47,7 @@ public class PriFlag extends Flag {
      *
      * @return the configuration description key
      */
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationDescKey() {
         return "privilege." + getFlagName() + ".description";
@@ -46,6 +58,7 @@ public class PriFlag extends Flag {
      *
      * @return the configuration default key
      */
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationDefaultKey() {
         return "privilege." + getFlagName() + ".default";
@@ -56,16 +69,19 @@ public class PriFlag extends Flag {
      *
      * @return the configuration enable key
      */
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationEnableKey() {
         return "privilege." + getFlagName() + ".enable";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationNameKey() {
         return "privilege." + getFlagName();
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getConfigurationMaterialKey() {
         return "privilege." + getFlagName() + ".material";

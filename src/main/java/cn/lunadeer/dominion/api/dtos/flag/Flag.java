@@ -7,10 +7,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
- * Represents a flag in the Dominion system.
- * This abstract class provides the basic structure and methods
- * for flags, including their name, display name, description,
- * default value, and enable status.
+ * Base type for an environment or privilege flag.
+ * <p>
+ * A flag has a stable configuration name, presentation metadata, a default
+ * value, and an enabled state. The concrete subclasses provide the
+ * configuration-key namespace used by Dominion.
  */
 public abstract class Flag {
     private final String flag_name;
@@ -24,20 +25,28 @@ public abstract class Flag {
     /**
      * Constructs a new Flag with the specified parameters.
      *
-     * @param flag_name     the name of the flag
-     * @param display_name  the display name of the flag
-     * @param description   the description of the flag
+     * @param flag_name     the stable name of the flag
+     * @param display_name  the default display name of the flag
+     * @param description   the default description of the flag
      * @param default_value the default value of the flag
      * @param enable        the enable status of the flag
+     * @param material      the material used to represent the flag in chest UIs
      */
     public Flag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description, @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material) {
         this(flag_name, display_name, description, default_value, enable, material, null);
     }
 
     /**
-     * Constructs a Flag with an explicit native Dialog UI sprite path.
+     * Constructs a flag with an explicit native Dialog UI sprite path.
      *
-     * @param icon resource path in {@code namespace:atlas/sprite} form; null or blank means no icon
+     * @param flag_name     the stable name of the flag
+     * @param display_name  the default display name of the flag
+     * @param description   the default description of the flag
+     * @param default_value the default value of the flag
+     * @param enable        the enable status of the flag
+     * @param material      the material used to represent the flag in chest UIs
+     * @param icon          resource path in {@code namespace:atlas/sprite} form;
+     *                      {@code null} or blank means no icon
      */
     public Flag(@NotNull String flag_name, @NotNull String display_name, @NotNull String description,
                 @NotNull Boolean default_value, @NotNull Boolean enable, @NotNull Material material,
@@ -91,7 +100,7 @@ public abstract class Flag {
     }
 
     /**
-     * Returns the enable status of the flag.
+     * Returns whether the flag is enabled in the current configuration.
      *
      * @return the enable status of the flag
      */
@@ -156,8 +165,9 @@ public abstract class Flag {
 
     /**
      * Sets the material used by this flag in chest user interfaces.
+     * Invalid material names are ignored.
      *
-     * @param material the new material used by this flag
+     * @param material the Bukkit material name to use
      */
     public void setMaterial(String material) {
         Material matched = Material.matchMaterial(material);
@@ -168,6 +178,7 @@ public abstract class Flag {
 
     /**
      * Sets the native Dialog UI sprite path. Null or blank means no icon.
+     * Leading and trailing whitespace is removed.
      *
      * @param icon resource path in {@code namespace:atlas/sprite} form
      */
@@ -233,7 +244,7 @@ public abstract class Flag {
     public abstract String getConfigurationMaterialKey();
 
     /**
-     * Returns the flags.yml key for this flag's Dialog UI icon.
+     * Returns the {@code flags.yml} key for this flag's Dialog UI icon.
      * This method is concrete so existing custom Flag subclasses remain valid.
      *
      * @return configuration key for the Dialog UI icon

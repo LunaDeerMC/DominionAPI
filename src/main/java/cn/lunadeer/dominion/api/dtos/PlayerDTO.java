@@ -9,7 +9,10 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 /**
- * Interface representing a Player Data Transfer Object (DTO).
+ * Public view of a player record stored by Dominion.
+ * <p>
+ * Player records contain the last known profile information used by the API;
+ * they do not require the player to be online.
  */
 public interface PlayerDTO {
     /**
@@ -34,10 +37,13 @@ public interface PlayerDTO {
     String getLastKnownName();
 
     /**
-     * Updates the last known name of the player. Returns the updated player object.
+     * Updates the last known name and skin URL of the player.
      *
      * @param name the new last known name of the player
-     * @return the updated player object
+     * @param skinUrl the new skin URL, or {@code null} to use the default skin
+     * @return this player record after the profile has been updated
+     * @throws SQLException if the profile cannot be persisted
+     * @throws MalformedURLException if the supplied or default skin URL is invalid
      */
     PlayerDTO updateLastKnownName(@NotNull String name, @Nullable URL skinUrl) throws SQLException, MalformedURLException;
 
@@ -50,11 +56,19 @@ public interface PlayerDTO {
 
     /**
      * Gets the URL of the player's skin.
+     * <p>
+     * Implementations may return a default skin URL when no custom skin is stored.
      *
      * @return the URL of the player's skin
+     * @throws MalformedURLException if the stored skin URL is malformed
      */
     @NotNull URL getSkinUrl() throws MalformedURLException;
 
+    /**
+     * Placeholder record used when a player cannot be resolved from the cache.
+     * Its numeric identifiers are {@code -1}, its UUID is the all-zero UUID,
+     * and its name is {@code "Unknown"}.
+     */
     public static PlayerDTO UNKNOWN = new PlayerDTO() {
         @Override
         public Integer getId() {

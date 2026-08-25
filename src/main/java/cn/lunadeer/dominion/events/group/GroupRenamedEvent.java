@@ -113,26 +113,27 @@ public class GroupRenamedEvent extends ResultEvent {
     }
 
     /**
-     * Gets the CompletableFuture that will be completed with the renamed GroupDTO.
+     * Gets the future that will be completed with the renamed group.
      * <p>
      * Under most circumstances, you should not need to use this method directly. If you
-     * need to perform actions after the group is renamed, you should use the
-     * {@link #afterCreated(Consumer)} method instead.
+     * need to perform actions after the group is renamed, use the
+     * {@link #afterCreated(Consumer)} compatibility callback instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the renamed group, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<GroupDTO> getFutureToComplete() {
         return future;
     }
 
     /**
-     * Call back after the group is renamed.
+     * Registers a callback to run after the group is renamed.
      * <p>
-     * Use this method to perform actions after the group has been renamed (may fail),
-     * if you need to do something with the renamed group,
+     * The method name is retained for API compatibility; the callback receives
+     * the renamed group, or {@code null} when the operation fails.
      *
      * @param consumer the consumer to handle the renamed group
-     * @return a CompletableFuture that completes when the consumer has been executed
+     * @return a future that completes when the consumer has been executed
      */
     public CompletableFuture<Void> afterCreated(Consumer<GroupDTO> consumer) {
         return future.thenAccept(consumer);

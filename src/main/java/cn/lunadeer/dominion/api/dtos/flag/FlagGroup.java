@@ -26,6 +26,16 @@ public abstract class FlagGroup<T extends Flag> {
     private transient Runnable changeListener = () -> {
     };
 
+    /**
+     * Constructs a flag group without a Dialog UI icon.
+     *
+     * @param id          the stable group identifier
+     * @param displayName the default display name
+     * @param description the default description
+     * @param material    the material used to represent the group in chest UIs
+     * @param flagType    the concrete flag type accepted by the group
+     * @param flags       the initial flags, kept in iteration order
+     */
     protected FlagGroup(@NotNull String id,
                         @NotNull String displayName,
                         @NotNull String description,
@@ -35,6 +45,18 @@ public abstract class FlagGroup<T extends Flag> {
         this(id, displayName, description, material, null, flagType, flags);
     }
 
+    /**
+     * Constructs a flag group.
+     *
+     * @param id          the stable group identifier; it must match {@code [a-z0-9_-]+}
+     * @param displayName the default display name
+     * @param description the default description
+     * @param material    the material used to represent the group in chest UIs
+     * @param icon        the Dialog UI sprite path, or {@code null} for no icon
+     * @param flagType    the concrete flag type accepted by the group
+     * @param flags       the initial flags, kept in iteration order
+     * @throws IllegalArgumentException if {@code id} is not a valid group identifier
+     */
     protected FlagGroup(@NotNull String id,
                         @NotNull String displayName,
                         @NotNull String description,
@@ -57,42 +79,87 @@ public abstract class FlagGroup<T extends Flag> {
         }
     }
 
+    /**
+     * Gets the stable identifier of this group.
+     *
+     * @return the group identifier
+     */
     public final @NotNull String getId() {
         return id;
     }
 
+    /**
+     * Gets the group's display name.
+     *
+     * @return the display name
+     */
     public synchronized @NotNull String getDisplayName() {
         return displayName;
     }
 
+    /**
+     * Sets the group's display name.
+     *
+     * @param displayName the new display name
+     */
     public synchronized void setDisplayName(@NotNull String displayName) {
         this.displayName = Objects.requireNonNull(displayName);
         changed();
     }
 
+    /**
+     * Gets the group's description.
+     *
+     * @return the description
+     */
     public synchronized @NotNull String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the group's description.
+     *
+     * @param description the new description
+     */
     public synchronized void setDescription(@NotNull String description) {
         this.description = Objects.requireNonNull(description);
         changed();
     }
 
+    /**
+     * Gets the material used to represent this group in chest UIs.
+     *
+     * @return the group's material
+     */
     public synchronized @NotNull Material getMaterial() {
         return material;
     }
 
+    /**
+     * Sets the material used to represent this group in chest UIs.
+     *
+     * @param material the new material
+     */
     public synchronized void setMaterial(@NotNull Material material) {
         this.material = Objects.requireNonNull(material);
         changed();
     }
 
+    /**
+     * Gets the native Dialog UI sprite path for this group.
+     *
+     * @return the sprite path, or {@code null} when the group has no icon
+     */
     public synchronized @Nullable String getIcon() {
         return icon;
     }
 
-    /** Null or blank means that this group has no Dialog UI icon. */
+    /**
+     * Sets the native Dialog UI sprite path.
+     * Null or blank means that this group has no Dialog UI icon.
+     *
+     * @param icon the sprite path, or {@code null} to remove the icon
+     */
     public synchronized void setIcon(@Nullable String icon) {
         this.icon = normalizeIcon(icon);
         changed();
@@ -102,6 +169,13 @@ public abstract class FlagGroup<T extends Flag> {
         return icon == null || icon.isBlank() ? null : icon.trim();
     }
 
+    /**
+     * Adds a flag to this group.
+     *
+     * @param flag the flag to add
+     * @return {@code true} if the flag was not already present
+     * @throws IllegalArgumentException if the flag is not an instance of this group's flag type
+     */
     public synchronized boolean addFlag(@NotNull T flag) {
         requireType(flag);
         boolean added = flags.add(flag);
@@ -109,20 +183,42 @@ public abstract class FlagGroup<T extends Flag> {
         return added;
     }
 
+    /**
+     * Removes a flag from this group.
+     *
+     * @param flag the flag to remove
+     * @return {@code true} if the flag was present
+     */
     public synchronized boolean removeFlag(@NotNull T flag) {
         boolean removed = flags.remove(flag);
         if (removed) changed();
         return removed;
     }
 
+    /**
+     * Checks whether this group contains a flag.
+     *
+     * @param flag the flag to look up
+     * @return {@code true} if the flag is in this group
+     */
     public synchronized boolean containsFlag(@NotNull T flag) {
         return flags.contains(flag);
     }
 
+    /**
+     * Gets the flags in their configured order.
+     *
+     * @return an immutable snapshot of the group's flags
+     */
     public synchronized @NotNull List<T> getFlags() {
         return List.copyOf(flags);
     }
 
+    /**
+     * Gets the flag type accepted by this group.
+     *
+     * @return the concrete flag class
+     */
     public final @NotNull Class<T> getFlagType() {
         return flagType;
     }
@@ -145,11 +241,20 @@ public abstract class FlagGroup<T extends Flag> {
         return "flag-groups." + getLanguageNamespace() + "." + id + ".description";
     }
 
-    /** Returns the flags.yml key for this group's Dialog UI icon. */
+    /**
+     * Returns the {@code flags.yml} key for this group's Dialog UI icon.
+     *
+     * @return the configuration key for the group's icon
+     */
     public final @NotNull String getConfigurationDialogUiIconKey() {
         return "groups." + getLanguageNamespace() + "." + id + ".dialog-ui-icon";
     }
 
+    /**
+     * Gets the language-file namespace used by this group type.
+     *
+     * @return the language namespace
+     */
     protected abstract @NotNull String getLanguageNamespace();
 
     synchronized void attachChangeListener(@NotNull Runnable listener) {

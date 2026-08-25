@@ -10,14 +10,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * This class provides the API interface for creating, modifying, and managing groups within dominions.
- * All operations are asynchronous and return CompletableFuture objects for non-blocking execution.
+ * Provides asynchronous operations for creating, modifying, and managing groups
+ * within dominions.
  * <p>
  * Groups allow dominion owners to organize players with similar permissions and manage their access
  * to the dominion collectively. Each group can have its own set of privilege flags that determine
  * what actions group members can perform within the dominion.
  * <p>
- * These methods are controlled by the Dominion system so they are safe to use in any context.
+ * These methods are controlled by the Dominion system, including permission,
+ * validation, cache, and event processing. A returned future normally completes
+ * with the updated DTO and completes with {@code null} when the operation is
+ * cancelled or fails.
  * <p>
  * The operator parameter of each method defines who triggers the operation. If the operator is a specific player,
  * these methods will check permissions accordingly. For no-permission-required operations, you can pass
@@ -26,6 +29,7 @@ import java.util.concurrent.CompletableFuture;
  * @since 4.6.0
  */
 public abstract class GroupProvider {
+    /** The provider instance initialized by Dominion. */
     protected static GroupProvider instance;
 
     /**
@@ -46,8 +50,8 @@ public abstract class GroupProvider {
      * @param group    the group whose flag will be updated
      * @param flag     the specific privilege flag to modify
      * @param newValue the new value for the flag (true to allow, false to deny)
-     * @return a CompletableFuture that resolves to the updated GroupDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated group, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<GroupDTO> setGroupFlag(@NotNull CommandSender operator,
                                                              @NotNull DominionDTO dominion,
@@ -61,8 +65,8 @@ public abstract class GroupProvider {
      * @param operator  the command sender performing this operation (for permission checks and logging)
      * @param dominion  the dominion where the group will be created
      * @param groupName the name of the new group (must be unique within the dominion)
-     * @return a CompletableFuture that resolves to the created GroupDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the created group, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<GroupDTO> createGroup(@NotNull CommandSender operator,
                                                             @NotNull DominionDTO dominion,
@@ -75,8 +79,8 @@ public abstract class GroupProvider {
      * @param operator the command sender performing this operation (for permission checks and logging)
      * @param dominion the dominion containing the group to be deleted
      * @param group    the group to be deleted
-     * @return a CompletableFuture that resolves to the deleted GroupDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the deleted group, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<GroupDTO> deleteGroup(@NotNull CommandSender operator,
                                                             @NotNull DominionDTO dominion,
@@ -89,8 +93,8 @@ public abstract class GroupProvider {
      * @param dominion the dominion containing the group to be renamed
      * @param group    the group to be renamed
      * @param newName  the new name for the group (must be unique within the dominion)
-     * @return a CompletableFuture that resolves to the updated GroupDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the renamed group, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<GroupDTO> renameGroup(@NotNull CommandSender operator,
                                                             @NotNull DominionDTO dominion,
@@ -105,8 +109,8 @@ public abstract class GroupProvider {
      * @param dominion the dominion containing the group
      * @param group    the group to which the member will be added
      * @param member   the member to be added to the group
-     * @return a CompletableFuture that resolves to the updated MemberDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated member, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<MemberDTO> addMember(@NotNull CommandSender operator,
                                                            @NotNull DominionDTO dominion,
@@ -122,8 +126,8 @@ public abstract class GroupProvider {
      * @param dominion the dominion containing the group
      * @param group    the group from which the member will be removed
      * @param member   the member to be removed from the group
-     * @return a CompletableFuture that resolves to the updated MemberDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated member, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<MemberDTO> removeMember(@NotNull CommandSender operator,
                                                               @NotNull DominionDTO dominion,

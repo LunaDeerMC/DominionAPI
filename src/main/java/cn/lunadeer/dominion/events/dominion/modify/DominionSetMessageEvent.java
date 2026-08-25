@@ -13,8 +13,10 @@ public class DominionSetMessageEvent extends DominionModifyEvent {
      * Enum representing the type of message being set.
      */
     public enum TYPE {
-        ENTER,  // Message when entering the dominion
-        LEAVE,  // Message when leaving the dominion
+        /** Message sent when entering the dominion. */
+        ENTER,
+        /** Message sent when leaving the dominion. */
+        LEAVE
     }
 
     private final String oldMessage;

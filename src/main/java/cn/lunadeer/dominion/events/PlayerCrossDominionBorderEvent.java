@@ -9,7 +9,8 @@ import org.jetbrains.annotations.Nullable;
  * Event triggered when a player crosses a dominion border, which includes entering, leaving, or moving from one dominion to another.
  * When a player moves from a location without a dominion to inside a dominion, `from` is null.
  * When a player moves from inside a dominion to a location without a dominion, `to` is null.
- * Typically, `from` and `to` can both be null but not at the same time, and if both are not null, they will not be the same.
+ * At least one of `from` and `to` is normally non-null; when both are non-null,
+ * they represent different dominions.
  * For listening to player entering dominion events, refer to {@link PlayerMoveInDominionEvent}.
  * For listening to player leaving dominion events, refer to {@link PlayerMoveOutDominionEvent}.
  */

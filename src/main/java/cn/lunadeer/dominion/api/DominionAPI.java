@@ -24,20 +24,25 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Interface representing the Dominion API.
+ * Entry point for the public Dominion API.
  * <p>
- * This interface provides methods to interact with the Dominion plugin.
+ * The API exposes read-only cache access, privilege checks, provider instances,
+ * and a small number of maintenance operations. It is initialized by the
+ * Dominion plugin during startup.
  * <p>
  * Use the {@link #getInstance()} method to retrieve the singleton instance of the DominionAPI.
  */
 public abstract class DominionAPI {
 
+    /** The API instance initialized by the Dominion plugin. */
     protected static DominionAPI instance;
 
     /**
-     * Retrieves the singleton instance of the DominionAPI.
-     * This method checks if the Dominion plugin is enabled and if the version is compatible.
-     * If these checks pass, it retrieves the instance of the DominionAPI from the DominionInterface class.
+     * Returns the Dominion API instance initialized by the plugin.
+     * <p>
+     * This method does not load or enable the Dominion plugin. Call it after
+     * declaring Dominion as a dependency in {@code plugin.yml} and after the
+     * plugin has been enabled.
      *
      * @return the singleton instance of the DominionAPI
      */
@@ -62,10 +67,10 @@ public abstract class DominionAPI {
     public abstract @Nullable PlayerDTO getPlayer(@NotNull UUID player);
 
     /**
-     * Retrieves the name of a player by their UUID.
+     * Retrieves the cached name of a player by their UUID.
      *
      * @param uuid the UUID of the player
-     * @return the name of the player associated with the given UUID
+     * @return the cached name, or an implementation-defined placeholder when the player is unknown
      */
     public abstract @NotNull String getPlayerName(@NotNull UUID uuid);
 
@@ -80,9 +85,9 @@ public abstract class DominionAPI {
     public abstract List<DominionDTO> getAllDominions();
 
     /**
-     * Retrieves all DominionDTO objects owned by a specific player.
+     * Retrieves all dominions owned by a specific player.
      * <p>
-     * This method retrieves the dominions owned by the specified player from the cache of this server.
+     * In multi-server mode, the result can include dominions cached for other servers.
      *
      * @param player the UUID of the player
      * @return a list of DominionDTO objects owned by the specified player
@@ -90,10 +95,9 @@ public abstract class DominionAPI {
     public abstract List<DominionDTO> getAllDominionsOfPlayer(@NotNull UUID player);
 
     /**
-     * Retrieves the child dominions of a given parent dominion.
+     * Retrieves the direct child dominions of a given parent dominion.
      * <p>
-     * This method retrieves the child dominions of the specified parent dominion from the cache of this server.
-     * If multi-servers mode is enabled, it also retrieves child dominions from the caches of other servers.
+     * In multi-server mode, the result can include children cached for other servers.
      *
      * @param parent the parent DominionDTO whose children are to be retrieved
      * @return a list of child DominionDTO objects
@@ -155,9 +159,9 @@ public abstract class DominionAPI {
     public abstract List<DominionDTO> getPlayerAdminDominionDTOs(UUID player);
 
     /**
-     * Retrieves a MemberDTO by the player's UUID.
+     * Retrieves a member by a Bukkit player object.
      * <p>
-     * This method retrieves the MemberDTO associated with the given player from the specified dominion.
+     * This overload uses the player's UUID and is equivalent to the UUID overload.
      *
      * @param dominion the DominionDTO to retrieve the member from
      * @param player   the Player object representing the player
@@ -178,9 +182,10 @@ public abstract class DominionAPI {
     public abstract @Nullable MemberDTO getMember(@Nullable DominionDTO dominion, @NotNull UUID player);
 
     /**
-     * Retrieves a GroupDTO by the member's group ID.
+     * Retrieves the group to which a member belongs.
      * <p>
-     * This method retrieves the GroupDTO associated with the group ID of the given member.
+     * A member whose group ID is {@code -1}, or whose group cannot be found,
+     * produces a {@code null} result.
      *
      * @param member the MemberDTO whose group ID is to be used for retrieval
      * @return the GroupDTO associated with the given member's group ID, or null if not found
@@ -199,11 +204,11 @@ public abstract class DominionAPI {
     public abstract @Nullable GroupDTO getGroup(Integer id);
 
     /**
-     * Retrieves the current dominion of a player.
+     * Resolves and updates the dominion currently containing a player.
      * <p>
-     * This method retrieves the current dominion of the player based on their location. It checks if the player is still
-     * in the same dominion and if the dominion has no children. If the player has moved to a different dominion, it triggers
-     * the appropriate events and updates the player's current dominion ID.
+     * The lookup is based on the player's current location. When the result
+     * changes, the corresponding enter, leave, or border-crossing events are
+     * fired and the cached current-dominion value is updated.
      *
      * @param player the Player object representing the player
      * @return the DominionDTO associated with the player's current location, or null if not found
@@ -220,7 +225,7 @@ public abstract class DominionAPI {
     public abstract void resetPlayerCurrentDominionId(@NotNull Player player);
 
     /**
-     * Retrieves the total count of dominions.
+     * Retrieves the total number of dominions visible to this server.
      * <p>
      * This method calculates the total number of dominions by summing the count of dominions on this server and, if
      * multi-servers mode is enabled, the counts from other servers.
@@ -230,7 +235,7 @@ public abstract class DominionAPI {
     public abstract Integer dominionCount();
 
     /**
-     * Retrieves the total count of groups.
+     * Retrieves the total number of groups visible to this server.
      * <p>
      * This method calculates the total number of groups by summing the count of groups on this server and, if
      * multi-servers mode is enabled, the counts from other servers.
@@ -240,7 +245,7 @@ public abstract class DominionAPI {
     public abstract Integer groupCount();
 
     /**
-     * Retrieves the total count of members.
+     * Retrieves the total number of members visible to this server.
      * <p>
      * This method calculates the total number of members by summing the count of members on this server and, if
      * multi-servers mode is enabled, the counts from other servers.
@@ -273,7 +278,6 @@ public abstract class DominionAPI {
      * because this method does not check the
      * <a href="https://dominion.lunadeer.cn/notes/doc/owner/config-ref/world-wide/">world-wide privilege</a> flag,
      * which is not recommended to use.
-     * <p>
      *
      * @param dom    the DominionDTO to check the privilege flag in, or null if not applicable
      * @param flag   the privilege flag to check
@@ -306,7 +310,6 @@ public abstract class DominionAPI {
      * because this method does not check the
      * <a href="https://dominion.lunadeer.cn/notes/doc/owner/config-ref/world-wide/">world-wide privilege</a> flag,
      * which is not recommended to use.
-     * <p>
      *
      * @param dom    the DominionDTO to check the privilege flag in, or null if not applicable
      * @param flag   the privilege flag to check
@@ -336,7 +339,6 @@ public abstract class DominionAPI {
      * because this method does not check the
      * <a href="https://dominion.lunadeer.cn/notes/doc/owner/config-ref/world-wide/">world-wide privilege</a> flag,
      * which is not recommended to use.
-     * <p>
      *
      * @param dom  the DominionDTO to check for the environment flag, or null if not applicable
      * @param flag the environment flag to check
@@ -345,7 +347,7 @@ public abstract class DominionAPI {
     public abstract boolean checkEnvironmentFlag(@Nullable DominionDTO dom, @NotNull EnvFlag flag);
 
     /**
-     * Retrieves the DominionProvider instance.
+     * Retrieves the provider for dominion operations.
      * <p>
      * This method provides access to the DominionProvider, which handles dominion-related operations
      * such as creating, updating, and deleting dominions.
@@ -357,7 +359,7 @@ public abstract class DominionAPI {
     }
 
     /**
-     * Retrieves the GroupProvider instance.
+     * Retrieves the provider for group operations.
      * <p>
      * This method provides access to the GroupProvider, which handles group-related operations
      * such as creating, updating, and deleting groups within dominions.
@@ -369,7 +371,7 @@ public abstract class DominionAPI {
     }
 
     /**
-     * Retrieves the MemberProvider instance.
+     * Retrieves the provider for member operations.
      * <p>
      * This method provides access to the MemberProvider, which handles member-related operations
      * such as adding, updating, and removing members from dominions and groups.
@@ -380,18 +382,38 @@ public abstract class DominionAPI {
         return MemberProvider.getInstance();
     }
 
+    /**
+     * Retrieves the provider for player-owned privilege templates.
+     *
+     * @return the singleton {@link TemplateProvider} instance
+     */
     public static TemplateProvider getTemplateProvider() {
         return TemplateProvider.getInstance();
     }
 
+    /**
+     * Retrieves the provider for copying management data between dominions.
+     *
+     * @return the singleton {@link CopyProvider} instance
+     */
     public static CopyProvider getCopyProvider() {
         return CopyProvider.getInstance();
     }
 
+    /**
+     * Retrieves the provider for player data and group-title operations.
+     *
+     * @return the singleton {@link PlayerProvider} instance
+     */
     public static PlayerProvider getPlayerProvider() {
         return PlayerProvider.getInstance();
     }
 
+    /**
+     * Retrieves the provider for dominion teleportation.
+     *
+     * @return the singleton {@link TeleportProvider} instance
+     */
     public static TeleportProvider getTeleportProvider() {
         return TeleportProvider.getInstance();
     }
@@ -405,10 +427,12 @@ public abstract class DominionAPI {
     public abstract void reloadCache();
 
     /**
-     * Reloads the dominion configuration.
+     * Reloads the Dominion configuration and related runtime state.
      * <p>
      * This method reloads configuration files and settings for the dominion system.
      * Use this to apply changes made to configuration files without restarting the server.
+     *
+     * @throws Exception if configuration or database reloading fails
      */
     public abstract void reloadConfig() throws Exception;
 
@@ -421,20 +445,22 @@ public abstract class DominionAPI {
     public abstract CompletableFuture<Void> applyFlagChanges();
 
     /**
-     * Retrieves the whitelist of MCA initiative.
+     * Exports and retrieves the active MCA whitelist.
      * <p>
-     * This method will generate a list of McaRecord objects representing the coordinates of MCA initiative areas that are whitelisted.
+     * The active whitelist is regenerated by the plugin before it is returned.
      *
-     * @return a list of McaRecord objects representing the MCA whitelist coordinates
+     * @return the current list of whitelisted MCA regions
      */
     public abstract List<McaRecord> getMcaWhiteListInitiative();
 
     /**
-     * Retrieves the whitelist of MCA passive from cache.
+     * Retrieves the passive MCA whitelist from the cache.
      * <p>
-     * If not in cache (generated by /dom export mca), it will return an empty list.
-     * 
-     * @return a list of McaRecord objects representing the MCA passive whitelist coordinates, or an empty list if not in cache
+     * This method does not trigger an export. The returned value depends on
+     * whether the cache has already been populated, for example by
+     * {@code /dom export mca}.
+     *
+     * @return the cached list of whitelisted MCA regions
      */
     public abstract List<McaRecord> getMcaWhiteListPassive();
 }

@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Interface representing a Group Data Transfer Object (DTO).
+ * Public view of a permission group belonging to a dominion.
+ * <p>
+ * A group's name may contain Dominion color syntax. Its privilege values are
+ * evaluated for members assigned to the group.
  */
 public interface GroupDTO {
     /**
@@ -27,11 +30,10 @@ public interface GroupDTO {
     @NotNull Integer getDomID();
 
     /**
-     * Sets the name of the group, which can include color codes.
-     * Returns the group object if successful, otherwise returns null.
+     * Sets the name of the group. The name may include Dominion color codes.
      *
      * @param name the name of the group
-     * @return the group object
+     * @return this group after the name has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull GroupDTO setName(@NotNull String name) throws SQLException;
@@ -45,23 +47,23 @@ public interface GroupDTO {
     @NotNull String getNamePlain();
 
     /**
-     * Gets the raw name of the group (with color codes).
+     * Gets the raw name of the group, including Dominion color codes.
      *
      * @return the raw name of the group
      */
     @NotNull String getNameRaw();
 
     /**
-     * Gets the name of the group with color codes as a `Component` type.
+     * Gets the formatted group title as an Adventure {@link Component}.
      *
-     * @return the name of the group with color codes
+     * @return the formatted group title
      */
     @NotNull Component getNameColoredComponent();
 
     /**
-     * Gets the name of the group with color codes as a Bukkit type.
+     * Gets the formatted group title as a Bukkit legacy color-code string.
      *
-     * @return the name of the group with color codes
+     * @return the formatted group title
      */
     @NotNull String getNameColoredBukkit();
 
@@ -81,12 +83,11 @@ public interface GroupDTO {
     @NotNull Map<PriFlag, Boolean> getFlagsValue();
 
     /**
-     * Sets the value of a specific flag for the group.
-     * Returns the group object if successful, otherwise returns null.
+     * Sets the value of a specific privilege flag for the group.
      *
      * @param flag  the flag
      * @param value the value of the flag
-     * @return the group object
+     * @return this group after the flag has been updated
      * @throws SQLException if a database access error occurs
      */
     @NotNull GroupDTO setFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;

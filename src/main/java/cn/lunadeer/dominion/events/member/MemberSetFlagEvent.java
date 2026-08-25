@@ -46,7 +46,7 @@ public class MemberSetFlagEvent extends ResultEvent {
 
 
     /**
-     * Gets the dominion to which the group belongs.
+     * Gets the dominion to which the member belongs.
      *
      * @return the dominion
      */
@@ -106,7 +106,8 @@ public class MemberSetFlagEvent extends ResultEvent {
      * need to perform actions after the member is set, you should use the
      * {@link #afterSet(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the modified member, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<MemberDTO> getFutureToComplete() {
         return future;

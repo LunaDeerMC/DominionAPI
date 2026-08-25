@@ -78,23 +78,24 @@ public class GroupRemoveMemberEvent extends ResultEvent {
      * Gets the CompletableFuture that will be completed with the removed MemberDTO.
      * <p>
      * Under most circumstances, you should not need to use this method directly. If you
-     * need to perform actions after the member is removed, you should use the
-     * {@link #afterAdded(Consumer)} method instead.
+     * need to perform actions after the member is removed, use the
+     * {@link #afterAdded(Consumer)} compatibility callback instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the removed member, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<MemberDTO> getFutureToComplete() {
         return future;
     }
 
     /**
-     * Call back after the member is removed.
+     * Registers a callback to run after the member is removed.
      * <p>
-     * Use this method to perform actions after the member has been removed (may fail),
-     * if you need to do something with the removed member.
+     * The method name is retained for API compatibility; the callback receives
+     * the removed member, or {@code null} when the operation fails.
      *
-     * @param consumer the consumer to handle the created member
-     * @return a CompletableFuture that completes when the consumer has been executed
+     * @param consumer the consumer to handle the removed member
+     * @return a future that completes when the consumer has been executed
      */
     public CompletableFuture<Void> afterAdded(Consumer<MemberDTO> consumer) {
         return future.thenAccept(consumer);

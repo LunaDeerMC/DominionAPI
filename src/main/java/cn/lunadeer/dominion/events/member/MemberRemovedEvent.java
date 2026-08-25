@@ -77,7 +77,8 @@ public class MemberRemovedEvent extends ResultEvent {
      * need to perform actions after the member is removed, you should use the
      * {@link #afterRemoved(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the removed member, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<MemberDTO> getFutureToComplete() {
         return future;

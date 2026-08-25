@@ -6,14 +6,16 @@ import org.bukkit.World;
 import java.util.Vector;
 
 /**
- * Represents a cuboid (rectangular prism) in a 3D space.
- * This class provides methods to manipulate and query the cuboid's properties,
- * such as its dimensions, volume, and intersection with other cuboids.
+ * Represents an axis-aligned cuboid in block coordinates.
+ * <p>
+ * The lower and upper coordinates are normalized independently on each axis.
+ * Containment of a block coordinate uses a half-open range: the lower bound is
+ * inclusive and the upper bound is exclusive.
  */
 public class CuboidDTO {
 
     /**
-     * A constant representing a zero-sized cuboid.
+     * A cuboid whose coordinate extents are all zero.
      */
     public static CuboidDTO ZERO = new CuboidDTO(0, 0, 0, 0, 0, 0);
 
@@ -21,10 +23,10 @@ public class CuboidDTO {
     private int[] pos2 = new int[3];
 
     /**
-     * Constructs a CuboidDTO with the specified positions.
+     * Constructs a cuboid from two three-element coordinate arrays.
      *
-     * @param pos1 the first position of the cuboid
-     * @param pos2 the second position of the cuboid
+     * @param pos1 the first position as {@code [x, y, z]}
+     * @param pos2 the second position as {@code [x, y, z]}
      */
     public CuboidDTO(int[] pos1, int[] pos2) {
         this.pos1 = pos1;
@@ -33,9 +35,9 @@ public class CuboidDTO {
     }
 
     /**
-     * Constructs a CuboidDTO with the same positions as the specified cuboid.
+     * Constructs a copy of the specified cuboid.
      *
-     * @param cuboid the cuboid to copy positions from
+     * @param cuboid the cuboid whose coordinates are copied
      */
     public CuboidDTO(CuboidDTO cuboid) {
         this.pos1 = cuboid.getPos1().clone();
@@ -63,10 +65,10 @@ public class CuboidDTO {
     }
 
     /**
-     * Constructs a CuboidDTO with the specified world and positions.
+     * Constructs a cuboid from two three-element coordinate vectors.
      *
-     * @param pos1 the first position of the cuboid
-     * @param pos2 the second position of the cuboid
+     * @param pos1 the first position as {@code [x, y, z]}
+     * @param pos2 the second position as {@code [x, y, z]}
      */
     public CuboidDTO(Vector<Integer> pos1, Vector<Integer> pos2) {
         this.pos1[0] = pos1.get(0);
@@ -79,7 +81,8 @@ public class CuboidDTO {
     }
 
     /**
-     * Constructs a CuboidDTO with the specified world and locations.
+     * Constructs a cuboid from the block coordinates of two Bukkit locations.
+     * The world associated with either location is not stored by this class.
      *
      * @param loc1 the first location of the cuboid
      * @param loc2 the second location of the cuboid
@@ -95,7 +98,7 @@ public class CuboidDTO {
     }
 
     /**
-     * Sorts the positions to ensure pos1 is always less than or equal to pos2.
+     * Normalizes the two corners so that {@code pos1[i] <= pos2[i]} for every axis.
      */
     private void sortPos() {
         int[] temp = new int[3];
@@ -109,43 +112,49 @@ public class CuboidDTO {
     }
 
     /**
-     * Gets the first position of the cuboid.
+     * Gets a copy of the lower corner of the cuboid.
      *
-     * @return the first position of the cuboid
+     * @return a three-element array in {@code [x, y, z]} order
      */
     public int[] getPos1() {
         return pos1.clone();
     }
 
     /**
-     * Sets the first position of the cuboid.
+     * Sets the first corner of the cuboid.
+     * <p>
+     * The supplied array is copied. This method does not automatically
+     * normalize the second corner after the assignment.
      *
-     * @param pos1 the new first position of the cuboid
+     * @param pos1 the new corner as {@code [x, y, z]}
      */
     public void setPos1(int[] pos1) {
         this.pos1 = pos1.clone();
     }
 
     /**
-     * Gets the second position of the cuboid.
+     * Gets a copy of the upper corner of the cuboid.
      *
-     * @return the second position of the cuboid
+     * @return a three-element array in {@code [x, y, z]} order
      */
     public int[] getPos2() {
         return pos2.clone();
     }
 
     /**
-     * Sets the second position of the cuboid.
+     * Sets the second corner of the cuboid.
+     * <p>
+     * The supplied array is copied. This method does not automatically
+     * normalize the first corner after the assignment.
      *
-     * @param pos2 the new second position of the cuboid
+     * @param pos2 the new corner as {@code [x, y, z]}
      */
     public void setPos2(int[] pos2) {
         this.pos2 = pos2.clone();
     }
 
     /**
-     * Gets the first location of the cuboid in the specified world.
+     * Converts the lower corner to a Bukkit location in the specified world.
      *
      * @param world the world in which the cuboid is located
      * @return the first location of the cuboid
@@ -155,7 +164,7 @@ public class CuboidDTO {
     }
 
     /**
-     * Gets the second location of the cuboid in the specified world.
+     * Converts the upper corner to a Bukkit location in the specified world.
      *
      * @param world the world in which the cuboid is located
      * @return the second location of the cuboid
@@ -219,52 +228,53 @@ public class CuboidDTO {
     }
 
     /**
-     * Gets the length of the cuboid along the x-axis.
+     * Gets the coordinate extent of the cuboid along the x-axis.
      *
-     * @return the length of the cuboid along the x-axis
+     * @return {@code x2 - x1}
      */
     public long xLength() {
         return pos2[0] - pos1[0];
     }
 
     /**
-     * Gets the length of the cuboid along the y-axis.
+     * Gets the coordinate extent of the cuboid along the y-axis.
      *
-     * @return the length of the cuboid along the y-axis
+     * @return {@code y2 - y1}
      */
     public long yLength() {
         return pos2[1] - pos1[1];
     }
 
     /**
-     * Gets the length of the cuboid along the z-axis.
+     * Gets the coordinate extent of the cuboid along the z-axis.
      *
-     * @return the length of the cuboid along the z-axis
+     * @return {@code z2 - z1}
      */
     public long zLength() {
         return pos2[2] - pos1[2];
     }
 
     /**
-     * Gets the square area of the cuboid's base (x and z dimensions).
+     * Gets the area of the cuboid's horizontal base (x and z extents).
      *
-     * @return the square area of the cuboid's base
+     * @return {@link #xLength()} multiplied by {@link #zLength()}
      */
     public long getSquare() {
         return xLength() * zLength();
     }
 
     /**
-     * Gets the volume of the cuboid.
+     * Gets the cuboid volume from its three coordinate extents.
      *
-     * @return the volume of the cuboid
+     * @return {@link #xLength()} multiplied by {@link #yLength()} and {@link #zLength()}
      */
     public long getVolume() {
         return xLength() * yLength() * zLength();
     }
 
     /**
-     * Checks if this cuboid intersects with another cuboid.
+     * Checks whether this cuboid has a non-zero-volume intersection with another cuboid.
+     * Cuboids that only touch at a face, edge, or corner do not intersect.
      *
      * @param cuboid the other cuboid to check for intersection
      * @return true if the cuboids intersect, false otherwise
@@ -276,7 +286,7 @@ public class CuboidDTO {
     }
 
     /**
-     * Checks if this cuboid contains another cuboid.
+     * Checks whether this cuboid contains another cuboid, including coincident boundaries.
      *
      * @param cuboid the other cuboid to check for containment
      * @return true if this cuboid contains the other cuboid, false otherwise
@@ -286,7 +296,7 @@ public class CuboidDTO {
     }
 
     /**
-     * Checks if this cuboid contains another cuboid, optionally ignoring the y-dimension.
+     * Checks whether this cuboid contains another cuboid, optionally ignoring the y-axis.
      *
      * @param cuboid  the other cuboid to check for containment
      * @param ignoreY if true, ignores the y-dimension in the containment check
@@ -301,7 +311,8 @@ public class CuboidDTO {
     }
 
     /**
-     * Checks if this cuboid contains the specified coordinates.
+     * Checks whether the specified block coordinate is inside this cuboid.
+     * The lower bounds are inclusive and the upper bounds are exclusive.
      *
      * @param x the x-coordinate to check
      * @param y the y-coordinate to check
@@ -313,7 +324,7 @@ public class CuboidDTO {
     }
 
     /**
-     * Checks if this cuboid is contained by another cuboid.
+     * Checks whether this cuboid is contained by another cuboid.
      *
      * @param cuboid the other cuboid to check for containment
      * @return true if this cuboid is contained by the other cuboid, false otherwise
@@ -323,29 +334,31 @@ public class CuboidDTO {
     }
 
     /**
-     * Calculates the difference in square area between this cuboid and another cuboid.
+     * Calculates this cuboid's horizontal area minus another cuboid's area.
      *
      * @param cuboid the other cuboid to compare with
-     * @return the difference in square area
+     * @return {@code this.getSquare() - cuboid.getSquare()}
      */
     public long minusSquareWith(CuboidDTO cuboid) {
         return getSquare() - cuboid.getSquare();
     }
 
     /**
-     * Calculates the difference in volume between this cuboid and another cuboid.
+     * Calculates this cuboid's volume minus another cuboid's volume.
      *
      * @param cuboid the other cuboid to compare with
-     * @return the difference in volume
+     * @return {@code this.getVolume() - cuboid.getVolume()}
      */
     public long minusVolumeWith(CuboidDTO cuboid) {
         return getVolume() - cuboid.getVolume();
     }
 
     /**
-     * Expands the cuboid upwards by the specified size.
+     * Moves the upper y-boundary by the specified amount.
+     * A negative amount contracts the cuboid; the implementation preserves a
+     * minimum one-coordinate-unit extent when a boundary would cross.
      *
-     * @param size the amount to expand the cuboid upwards
+     * @param size the number of coordinate units to add to the upper y-boundary
      */
     public void addUp(int size) {
         if (pos2[1] + size < pos1[1]) {
@@ -356,9 +369,9 @@ public class CuboidDTO {
     }
 
     /**
-     * Expands the cuboid downwards by the specified size.
+     * Moves the lower y-boundary by the specified amount.
      *
-     * @param size the amount to expand the cuboid downwards
+     * @param size the number of coordinate units to subtract from the lower y-boundary
      */
     public void addDown(int size) {
         if (pos1[1] - size > pos2[1]) {
@@ -369,9 +382,9 @@ public class CuboidDTO {
     }
 
     /**
-     * Expands the cuboid northwards by the specified size.
+     * Moves the lower z-boundary by the specified amount (north).
      *
-     * @param size the amount to expand the cuboid northwards
+     * @param size the number of coordinate units to subtract from the lower z-boundary
      */
     public void addNorth(int size) {
         if (pos1[2] - size > pos2[2]) {
@@ -382,9 +395,9 @@ public class CuboidDTO {
     }
 
     /**
-     * Expands the cuboid southwards by the specified size.
+     * Moves the upper z-boundary by the specified amount (south).
      *
-     * @param size the amount to expand the cuboid southwards
+     * @param size the number of coordinate units to add to the upper z-boundary
      */
     public void addSouth(int size) {
         if (pos2[2] + size < pos1[2]) {
@@ -395,9 +408,9 @@ public class CuboidDTO {
     }
 
     /**
-     * Expands the cuboid eastwards by the specified size.
+     * Moves the upper x-boundary by the specified amount (east).
      *
-     * @param size the amount to expand the cuboid eastwards
+     * @param size the number of coordinate units to add to the upper x-boundary
      */
     public void addEast(int size) {
         if (pos2[0] + size < pos1[0]) {
@@ -408,9 +421,9 @@ public class CuboidDTO {
     }
 
     /**
-     * Expands the cuboid westwards by the specified size.
+     * Moves the lower x-boundary by the specified amount (west).
      *
-     * @param size the amount to expand the cuboid westwards
+     * @param size the number of coordinate units to subtract from the lower x-boundary
      */
     public void addWest(int size) {
         if (pos1[0] - size > pos2[0]) {

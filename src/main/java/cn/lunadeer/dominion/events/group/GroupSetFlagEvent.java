@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
- * Event triggered when group's flag is changed.
+ * Event triggered when a group's privilege flag is changed.
  */
 public class GroupSetFlagEvent extends ResultEvent {
 
@@ -105,20 +105,21 @@ public class GroupSetFlagEvent extends ResultEvent {
      * need to perform actions after the group is set, you should use the
      * {@link #afterSet(Consumer)} method instead.
      *
-     * @return the CompletableFuture to be completed
+     * @return the future; its result is the modified group, or {@code null} when the
+     *         operation fails
      */
     public CompletableFuture<GroupDTO> getFutureToComplete() {
         return future;
     }
 
     /**
-     * Call back after the group is set.
+     * Registers a callback to run after the group flag is set.
      * <p>
-     * Use this method to perform actions after the group has been set (may fail),
-     * if you need to do something with the set group,
+     * The callback receives the updated group, or {@code null} when the
+     * operation fails.
      *
      * @param consumer the consumer to handle the set group
-     * @return a CompletableFuture that completes when the consumer has been executed
+     * @return a future that completes when the consumer has been executed
      */
     public CompletableFuture<Void> afterSet(Consumer<GroupDTO> consumer) {
         return future.thenAccept(consumer);

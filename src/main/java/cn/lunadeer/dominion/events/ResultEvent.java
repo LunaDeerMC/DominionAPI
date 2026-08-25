@@ -4,7 +4,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 
 /**
- * Represents an event that can be cancelled and involves a command sender.
+ * Base event for an operation initiated by a command sender.
+ * <p>
+ * Subclasses are cancellable and can use the operator for permission checks,
+ * notifications, or audit logging.
  */
 public class ResultEvent extends CallableEvent implements Cancellable {
 

@@ -15,7 +15,10 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Registry for logical flag groups.
+ * Registry for logical flag groups used by Dominion's permission UIs.
+ * <p>
+ * Groups affect presentation and bulk editing only; they do not change the
+ * result of privilege evaluation. Registered groups retain insertion order.
  */
 public final class FlagGroups {
     private static final Map<String, EnvFlagGroup> ENV_GROUPS = new LinkedHashMap<>();
@@ -25,40 +28,96 @@ public final class FlagGroups {
     private FlagGroups() {
     }
 
+    /**
+     * Registers an environment flag group.
+     *
+     * @param plugin the plugin requesting registration
+     * @param group  the group to register
+     * @return {@code true} when the group was registered; {@code false} when
+     *         its identifier is already registered or is reserved
+     */
     public static synchronized boolean registerEnvFlagGroup(@NotNull JavaPlugin plugin,
                                                             @NotNull EnvFlagGroup group) {
         return register(ENV_GROUPS, group);
     }
 
+    /**
+     * Registers a privilege flag group.
+     *
+     * @param plugin the plugin requesting registration
+     * @param group  the group to register
+     * @return {@code true} when the group was registered; {@code false} when
+     *         its identifier is already registered or is reserved
+     */
     public static synchronized boolean registerPriFlagGroup(@NotNull JavaPlugin plugin,
                                                             @NotNull PriFlagGroup group) {
         return register(PRI_GROUPS, group);
     }
 
+    /**
+     * Removes an environment flag group from the registry.
+     *
+     * @param id the identifier of the group to remove
+     * @return the removed group, or {@code null} if no group has that identifier
+     */
     public static synchronized @Nullable EnvFlagGroup unregisterEnvFlagGroup(@NotNull String id) {
         return unregister(ENV_GROUPS, id);
     }
 
+    /**
+     * Removes a privilege flag group from the registry.
+     *
+     * @param id the identifier of the group to remove
+     * @return the removed group, or {@code null} if no group has that identifier
+     */
     public static synchronized @Nullable PriFlagGroup unregisterPriFlagGroup(@NotNull String id) {
         return unregister(PRI_GROUPS, id);
     }
 
+    /**
+     * Looks up an environment flag group by identifier.
+     *
+     * @param id the group identifier
+     * @return the registered group, or {@code null} when it is not registered
+     */
     public static synchronized @Nullable EnvFlagGroup getEnvFlagGroup(@NotNull String id) {
         return ENV_GROUPS.get(id);
     }
 
+    /**
+     * Looks up a privilege flag group by identifier.
+     *
+     * @param id the group identifier
+     * @return the registered group, or {@code null} when it is not registered
+     */
     public static synchronized @Nullable PriFlagGroup getPriFlagGroup(@NotNull String id) {
         return PRI_GROUPS.get(id);
     }
 
+    /**
+     * Gets all registered environment flag groups in registration order.
+     *
+     * @return an immutable snapshot of the registered groups
+     */
     public static synchronized @NotNull List<EnvFlagGroup> getEnvFlagGroups() {
         return List.copyOf(ENV_GROUPS.values());
     }
 
+    /**
+     * Gets all registered privilege flag groups in registration order.
+     *
+     * @return an immutable snapshot of the registered groups
+     */
     public static synchronized @NotNull List<PriFlagGroup> getPriFlagGroups() {
         return List.copyOf(PRI_GROUPS.values());
     }
 
+    /**
+     * Creates a dynamic group containing environment flags not in a registered group.
+     * The returned group is not added to the registry.
+     *
+     * @return the current ungrouped environment flags
+     */
     public static synchronized @NotNull EnvFlagGroup getUngroupedEnvFlags() {
         LinkedHashSet<EnvFlag> grouped = new LinkedHashSet<>();
         ENV_GROUPS.values().forEach(group -> grouped.addAll(group.getFlags()));
@@ -67,6 +126,12 @@ public final class FlagGroups {
                 Material.PAPER, "minecraft:items/item/paper", flags);
     }
 
+    /**
+     * Creates a dynamic group containing privilege flags not in a registered group.
+     * The returned group is not added to the registry.
+     *
+     * @return the current ungrouped privilege flags
+     */
     public static synchronized @NotNull PriFlagGroup getUngroupedPriFlags() {
         LinkedHashSet<PriFlag> grouped = new LinkedHashSet<>();
         PRI_GROUPS.values().forEach(group -> grouped.addAll(group.getFlags()));
@@ -75,10 +140,24 @@ public final class FlagGroups {
                 Material.PAPER, "minecraft:items/item/paper", flags);
     }
 
+    /**
+     * Gets the registry revision.
+     * <p>
+     * The revision changes when a group is added, removed, reloaded, or its
+     * presentation metadata changes.
+     *
+     * @return the current registry revision
+     */
     public static long getRevision() {
         return REVISION.get();
     }
 
+    /**
+     * Replaces the configured groups during plugin configuration loading.
+     *
+     * @param environment the environment groups to load
+     * @param privilege   the privilege groups to load
+     */
     @ApiStatus.Internal
     public static synchronized void replaceConfiguredGroups(@NotNull Collection<EnvFlagGroup> environment,
                                                             @NotNull Collection<PriFlagGroup> privilege) {
@@ -91,6 +170,11 @@ public final class FlagGroups {
         REVISION.incrementAndGet();
     }
 
+    /**
+     * Creates the built-in default environment groups.
+     *
+     * @return the default environment groups in display order
+     */
     @ApiStatus.Internal
     public static @NotNull List<EnvFlagGroup> defaultEnvironmentGroups() {
         return List.of(
@@ -161,6 +245,11 @@ public final class FlagGroups {
         );
     }
 
+    /**
+     * Creates the built-in default privilege groups.
+     *
+     * @return the default privilege groups in display order
+     */
     @ApiStatus.Internal
     public static @NotNull List<PriFlagGroup> defaultPrivilegeGroups() {
         return List.of(

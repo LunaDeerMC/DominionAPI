@@ -18,10 +18,12 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * This class provides the API interface for creating, modifying, and managing dominions.
- * All operations are asynchronous and return CompletableFuture objects for non-blocking execution.
+ * Provides asynchronous operations for creating, modifying, and managing dominions.
  * <p>
- * These methods are controlled by the Dominion system so they are safe to use in any context.
+ * These methods are controlled by the Dominion system, including permission,
+ * validation, economy, cache, and event processing.
+ * A returned future normally completes with the updated DTO and completes
+ * with {@code null} when the event is cancelled or the operation fails.
  * <p>
  * The operator parameter of each method defines who triggers the operation. If the operator is a specific player,
  * these methods will check permissions accordingly. For no-permission-required operations, you can pass
@@ -30,12 +32,13 @@ import java.util.concurrent.CompletableFuture;
  * @since 4.6.0
  */
 public abstract class DominionProvider {
+    /** The provider instance initialized by Dominion. */
     protected static DominionProvider instance;
 
     /**
      * Gets the singleton instance of the DominionProvider.
      *
-     * @return the current DominionProvider instance, or null if not initialized
+     * @return the current provider instance, or {@code null} if not initialized
      */
     public static DominionProvider getInstance() {
         return instance;
@@ -51,8 +54,8 @@ public abstract class DominionProvider {
      * @param cuboid      the 3D area that defines the dominion's boundaries
      * @param parent      the parent dominion, or null if this is a top-level dominion
      * @param skipEconomy whether to skip economy checks and charges for this operation
-     * @return a CompletableFuture that resolves to the created DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the created dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> createDominion(@NotNull CommandSender operator,
                                                                   @NotNull String name, @NotNull UUID owner,
@@ -67,8 +70,8 @@ public abstract class DominionProvider {
      * @param type      the type of resize operation (expand or contract)
      * @param direction the direction in which to resize (north, south, east, west, up, down)
      * @param size      the number of blocks to resize by (positive integer)
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the resized dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> resizeDominion(@NotNull CommandSender operator,
                                                                   @NotNull DominionDTO dominion,
@@ -83,8 +86,8 @@ public abstract class DominionProvider {
      * @param dominion    the dominion to be deleted
      * @param skipEconomy whether to skip economy refunds for this operation
      * @param force       whether to force deletion even if there are sub-dominions or other dependencies
-     * @return a CompletableFuture that resolves to the deleted DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the deleted dominion, or {@code null}
+     *         if the operation is cancelled, denied, or fails
      */
     public abstract CompletableFuture<DominionDTO> deleteDominion(@NotNull CommandSender operator,
                                                                   @NotNull DominionDTO dominion,
@@ -99,8 +102,8 @@ public abstract class DominionProvider {
      * @param operator    the command sender performing this operation
      * @param dominion    the dominion to be deleted
      * @param skipEconomy whether to skip economy refunds for this operation
-     * @return a CompletableFuture that resolves to the deleted DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the deleted dominion, or {@code null}
+     *         if the operation is cancelled, denied, or fails
      */
     public CompletableFuture<DominionDTO> deleteDominion(@NotNull CommandSender operator,
                                                          @NotNull DominionDTO dominion,
@@ -114,8 +117,8 @@ public abstract class DominionProvider {
      * @param operator the command sender performing this operation
      * @param dominion the dominion to be renamed
      * @param newName  the new name for the dominion (must be unique within the parent scope)
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the renamed dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> renameDominion(@NotNull CommandSender operator,
                                                                   @NotNull DominionDTO dominion,
@@ -128,8 +131,8 @@ public abstract class DominionProvider {
      * @param dominion the dominion to be transferred
      * @param newOwner the player who will become the new owner
      * @param force    whether to force the transfer even if the new owner doesn't meet requirements
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the transferred dominion, or {@code null}
+     *         if the operation is cancelled, denied, or fails
      */
     public abstract CompletableFuture<DominionDTO> transferDominion(@NotNull CommandSender operator,
                                                                     @NotNull DominionDTO dominion,
@@ -144,8 +147,8 @@ public abstract class DominionProvider {
      * @param operator the command sender performing this operation
      * @param dominion the dominion to be transferred
      * @param newOwner the player who will become the new owner
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public CompletableFuture<DominionDTO> transferDominion(@NotNull CommandSender operator,
                                                            @NotNull DominionDTO dominion,
@@ -160,8 +163,8 @@ public abstract class DominionProvider {
      * @param operator      the command sender performing this operation
      * @param dominion      the dominion whose teleport location will be updated
      * @param newTpLocation the new teleport location within the dominion
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> setDominionTpLocation(@NotNull CommandSender operator,
                                                                          @NotNull DominionDTO dominion,
@@ -174,8 +177,8 @@ public abstract class DominionProvider {
      * @param dominion   the dominion whose message will be updated
      * @param type       the type of message to set (enter, leave, etc.)
      * @param newMessage the new message text
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> setDominionMessage(@NotNull CommandSender operator,
                                                                       @NotNull DominionDTO dominion,
@@ -189,8 +192,8 @@ public abstract class DominionProvider {
      * @param operator the command sender performing this operation
      * @param dominion the dominion whose map color will be updated
      * @param newColor the new color for the dominion on maps
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> setDominionMapColor(@NotNull CommandSender operator,
                                                                        @NotNull DominionDTO dominion,
@@ -204,8 +207,8 @@ public abstract class DominionProvider {
      * @param dominion the dominion whose environment flag will be updated
      * @param flag     the specific environment flag to modify
      * @param newValue the new value for the flag (true to enable, false to disable)
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> setDominionEnvFlag(@NotNull CommandSender operator,
                                                                       @NotNull DominionDTO dominion,
@@ -220,8 +223,8 @@ public abstract class DominionProvider {
      * @param dominion the dominion whose guest flag will be updated
      * @param flag     the specific privilege flag to modify
      * @param newValue the new value for the flag (true to allow, false to deny)
-     * @return a CompletableFuture that resolves to the updated DominionDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated dominion, or {@code null}
+     *         if the operation is cancelled or fails
      */
     public abstract CompletableFuture<DominionDTO> setDominionGuestFlag(@NotNull CommandSender operator,
                                                                         @NotNull DominionDTO dominion,

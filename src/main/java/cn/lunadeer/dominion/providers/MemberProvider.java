@@ -10,14 +10,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * This class provides the API interface for creating, modifying, and managing members within dominions.
- * All operations are asynchronous and return CompletableFuture objects for non-blocking execution.
+ * Provides asynchronous operations for creating, modifying, and managing
+ * dominion members.
  * <p>
  * Members are players who have been granted specific access permissions to a dominion. Each member
  * can have individual privilege flags that determine what actions they can perform within the dominion.
  * Members can also be part of groups, inheriting additional privileges from their group membership.
  * <p>
- * These methods are controlled by the Dominion system so they are safe to use in any context.
+ * These methods are controlled by the Dominion system, including permission,
+ * validation, cache, and event processing. A returned future normally completes
+ * with the updated DTO and completes with {@code null} when the operation is
+ * cancelled or fails.
  * <p>
  * The operator parameter of each method defines who triggers the operation. If the operator is a specific player,
  * these methods will check permissions accordingly. For no-permission-required operations, you can pass
@@ -26,6 +29,7 @@ import java.util.concurrent.CompletableFuture;
  * @since 4.6.0
  */
 public abstract class MemberProvider {
+    /** The provider instance initialized by Dominion. */
     protected static MemberProvider instance;
 
     /**
@@ -46,8 +50,8 @@ public abstract class MemberProvider {
      * @param member   the member whose flag will be updated
      * @param flag     the specific privilege flag to modify
      * @param newValue the new value for the flag (true to allow, false to deny)
-     * @return a CompletableFuture that resolves to the updated MemberDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the updated member, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<MemberDTO> setMemberFlag(@NotNull CommandSender operator,
                                                                @NotNull DominionDTO dominion,
@@ -62,8 +66,8 @@ public abstract class MemberProvider {
      * @param operator the command sender performing this operation (for permission checks and logging)
      * @param dominion the dominion where the player will be added as a member
      * @param player   the player to be added as a member to the dominion
-     * @return a CompletableFuture that resolves to the created MemberDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the created member, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<MemberDTO> addMember(@NotNull CommandSender operator,
                                                            @NotNull DominionDTO dominion,
@@ -76,8 +80,8 @@ public abstract class MemberProvider {
      * @param operator the command sender performing this operation (for permission checks and logging)
      * @param dominion the dominion from which the member will be removed
      * @param member   the member to be removed from the dominion
-     * @return a CompletableFuture that resolves to the removed MemberDTO.
-     * Use {@link CompletableFuture#get()} to get the result if null meaning the operation failed.
+     * @return a future that completes with the removed member, or {@code null} if
+     *         the operation is cancelled or fails
      */
     public abstract CompletableFuture<MemberDTO> removeMember(@NotNull CommandSender operator,
                                                               @NotNull DominionDTO dominion,
