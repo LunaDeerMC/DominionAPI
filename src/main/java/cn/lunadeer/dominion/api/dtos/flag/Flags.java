@@ -306,6 +306,14 @@ public class Flags {
         public static final EnvFlag HANGING_ENTITY_MOB_DAMAGE = new EnvFlag("hanging_entity_mob_damage",
                         "Hanging Entity Mob Damage", "Whether non-player entities can damage hanging entities.",
                         false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
+        /** Controls mobs and their projectiles breaking cushions. */
+        public static final EnvFlag CUSHION_MOB_DAMAGE = new EnvFlag("cushion_mob_damage",
+                        "Cushion Mob Damage", "Whether mobs and their projectiles can break cushions.",
+                        false, true, Material.WHITE_WOOL, "minecraft:blocks/block/white_wool");
+        /** Controls environmental and unattributed cushion removal; known explosions use separate flags. */
+        public static final EnvFlag CUSHION_ENVIRONMENT_BREAK = new EnvFlag("cushion_environment_break",
+                        "Cushion Environment Break", "Whether fire, physics, pistons and non-player/non-mob projectiles can remove cushions. Known explosions use their own flags; lightning is not covered.",
+                        false, true, Material.WHITE_WOOL, "minecraft:blocks/block/white_wool");
         /** Former source-agnostic explosion damage flag retained for migration. */
         @Deprecated
         public static final EnvFlag ARMOR_STAND_EXPLOSION_DAMAGE = new EnvFlag("armor_stand_explosion_damage",
@@ -390,6 +398,14 @@ public class Flags {
         /** Controls placing hanging entities. */
         public static final PriFlag PLACE_HANGING_ENTITY = new PriFlag("place_hanging_entity", "Place Hanging Entity",
                         "Whether hanging entities can be placed.", false, true, Material.ITEM_FRAME, "minecraft:items/item/item_frame");
+        /** Controls player placement of cushions. */
+        public static final PriFlag CUSHION_PLACE = new PriFlag("cushion_place", "Cushion Place",
+                        "Whether players can place cushions.", false, true,
+                        Material.WHITE_WOOL, "minecraft:blocks/block/white_wool");
+        /** Controls direct and player-projectile cushion removal. */
+        public static final PriFlag CUSHION_BREAK = new PriFlag("cushion_break", "Cushion Break",
+                        "Whether players can break cushions directly or with their projectiles.", false, true,
+                        Material.WHITE_WOOL, "minecraft:blocks/block/white_wool");
         /** Controls ordinary block breaking. */
         public static final PriFlag BREAK_BLOCK = new PriFlag("break", "Break Block",
                         "Whether normal blocks can be removed (not flower-pot contents).", false, true,
