@@ -136,6 +136,11 @@ public class Flags {
                         "Fireball Entity Damage",
                         "Whether fireball explosions can damage entities other than armor stands and hanging entities.", false, true,
                         Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
+        /** Controls firework damage to entities without preventing launches or visual explosions. */
+        public static final EnvFlag FIREWORK_DAMAGE_ENTITY = new EnvFlag("firework_damage_entity",
+                        "Firework Entity Damage",
+                        "Whether fireworks can damage entities. Does not prevent firework effects or elytra boosting.", false, true,
+                        Material.FIREWORK_ROCKET, "minecraft:items/item/firework_rocket");
         /** Controls TNT explosion damage to armor stands. */
         public static final EnvFlag TNT_DAMAGE_ARMOR_STAND = new EnvFlag("tnt_damage_armor_stand",
                         "TNT Armor Stand Damage", "Whether TNT explosions can damage armor stands.", false, true,
