@@ -199,6 +199,10 @@ public class Flags {
                         "Whether ender dragon can break blocks.", false, true, Material.ENDER_DRAGON_SPAWN_EGG, "minecraft:items/item/ender_dragon_spawn_egg");
 
         // natural
+        /** Controls only automatic creation of paired Nether portal exits. */
+        public static final EnvFlag NETHER_PORTAL_CREATE = new EnvFlag("nether_portal_create", "Automatic Nether Portal Creation",
+                        "Whether paired Nether portal exits can be generated automatically in this dominion (not manual ignition or existing portal use).",
+                        false, true, Material.OBSIDIAN, "minecraft:blocks/block/obsidian");
         /** Controls fire spreading. */
         public static final EnvFlag FIRE_SPREAD = new EnvFlag("fire_spread", "Fire Spread",
                         "Prevent fire spread in dominion.", false, true, Material.FLINT_AND_STEEL, "minecraft:items/item/flint_and_steel");

@@ -223,7 +223,7 @@ public final class FlagGroups {
                         Material.GRASS_BLOCK, "minecraft:blocks/block/grass_block_side", Flags.FLOW_IN_WATER, Flags.FLOW_IN_LAVA,
                         Flags.GRAVITY_BLOCK, Flags.ICE_MELT, Flags.ICE_FORM_NATURAL, Flags.ICE_FORM_FROST_WALKER,
                         Flags.SNOW_ACCUMULATION, Flags.SNOW_MELT, Flags.TRAMPLE,
-                        Flags.MOB_TRAMPLE, Flags.DECAY),
+                        Flags.MOB_TRAMPLE, Flags.DECAY, Flags.NETHER_PORTAL_CREATE),
                 env("fluid-flow", "Fluid Flow", "External water and lava flowing into a dominion.",
                         Material.WATER_BUCKET, "minecraft:items/item/water_bucket", Flags.FLOW_IN_WATER, Flags.FLOW_IN_LAVA),
                 env("ice-and-snow", "Ice and Snow", "Ice and snow melting, forming and accumulating.",
