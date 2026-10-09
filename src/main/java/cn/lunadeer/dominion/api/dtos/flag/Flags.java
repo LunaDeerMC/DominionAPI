@@ -6,8 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -17,7 +19,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * The public constants are the canonical flag instances. Custom flags can be
  * registered with {@link #registerEnvFlag(JavaPlugin, EnvFlag)} or
  * {@link #registerPriFlag(JavaPlugin, PriFlag)}. Legacy constants are kept
- * for migration and are not returned by the active-flag lookup methods.
+ * as read-only aliases for older integrations and as migration sources.
+ * Public lookups include these aliases; active-flag methods exclude them
+ * from configuration and management interfaces. Registry lists are immutable
+ * snapshots in registration order; retrieve a new snapshot after registration.
  */
 public class Flags {
         // ================================== ENV(Environment)
@@ -69,7 +74,11 @@ public class Flags {
         /** Controls damage dealt to players by monsters. */
         public static final EnvFlag MONSTER_DAMAGE = new EnvFlag("monster_damage", "Monster Kill Player",
                         "Whether monster can do harm to player.", true, false, Material.SKELETON_SPAWN_EGG, "minecraft:items/item/skeleton_spawn_egg");
-        /** Former combined Enderman block movement flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #ENDER_MAN_PICKUP_BLOCK}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag ENDER_MAN = new EnvFlag("ender_man", "Enderman Block Movement",
                         "Former combined permission for Endermen picking up or placing blocks.", false, true, Material.ENDERMAN_SPAWN_EGG, "minecraft:items/item/enderman_spawn_egg");
@@ -189,7 +198,11 @@ public class Flags {
         public static final EnvFlag ANCHOR_EXPLODE = new EnvFlag("anchor_explode", "Respawn Anchor Explosion Block Damage",
                         "Whether respawn anchors can explode and destroy blocks in this dominion.", false, true,
                         Material.RESPAWN_ANCHOR, "minecraft:blocks/block/respawn_anchor_top");
-        /** Former combined bed and respawn-anchor explosion flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #BED_EXPLODE}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag BLOCK_EXPLODE = new EnvFlag("block_explode", "Bed and Anchor Block Damage",
                         "Former combined permission for bed and respawn-anchor explosions destroying blocks.", false, true,
@@ -206,7 +219,11 @@ public class Flags {
         /** Controls fire spreading. */
         public static final EnvFlag FIRE_SPREAD = new EnvFlag("fire_spread", "Fire Spread",
                         "Prevent fire spread in dominion.", false, true, Material.FLINT_AND_STEEL, "minecraft:items/item/flint_and_steel");
-        /** Former combined burn flag from before block/entity burning was split. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #BURN_BLOCK}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag BURN = new EnvFlag("burn", "Burn (Legacy)",
                         "Former combined permission for blocks burning and entities taking heat damage.", false, true,
@@ -214,7 +231,11 @@ public class Flags {
         /** Controls blocks burning. */
         public static final EnvFlag BURN_BLOCK = new EnvFlag("burn_block", "Burn Block", "Whether blocks can burn.",
                         false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
-        /** Former combined fire/lava entity damage flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #BURN_ENTITY_FIRE}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag BURN_ENTITY = new EnvFlag("burn_entity", "Burn Entity",
                         "Former combined permission for fire and lava damage to entities (not players).", true, true,
@@ -233,7 +254,11 @@ public class Flags {
         /** Controls external lava flowing into the dominion. */
         public static final EnvFlag FLOW_IN_LAVA = new EnvFlag("flow_in_lava", "Lava Flow In",
                         "Whether external lava can flow into this dominion.", false, true, Material.LAVA_BUCKET, "minecraft:items/item/lava_bucket");
-        /** Former combined water/lava flow flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #FLOW_IN_WATER}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag FLOW_IN_PROTECTION = new EnvFlag("flow_in_protection", "Water and Lava Flow In",
                         "Former combined permission for external water and lava flow into this dominion.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
@@ -250,7 +275,11 @@ public class Flags {
         /** Controls ice formation caused by Frost Walker. */
         public static final EnvFlag ICE_FORM_FROST_WALKER = new EnvFlag("ice_form_frost_walker", "Frost Walker Ice Form",
                         "Whether Frost Walker can create ice.", false, true, Material.PACKED_ICE, "minecraft:blocks/block/packed_ice");
-        /** Former combined natural and Frost Walker ice formation flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #ICE_FORM_NATURAL}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag ICE_FORM = new EnvFlag("ice_form", "Ice Form",
                         "Former combined permission for natural ice formation and Frost Walker.", false, true, Material.PACKED_ICE, "minecraft:blocks/block/packed_ice");
@@ -294,9 +323,9 @@ public class Flags {
 
         // other
         /**
-         * The former coarse hanging-entity projectile flag. It is retained as
-         * a migration source for existing configuration and database columns,
-         * but is not registered as an active flag anymore.
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #HANGING_ENTITY_MOB_DAMAGE}; configure that flag instead
          */
         @Deprecated
         public static final EnvFlag ITEM_FRAME_PROJ_DAMAGE = new EnvFlag("item_frame_proj_damage",
@@ -318,12 +347,20 @@ public class Flags {
         public static final EnvFlag CUSHION_ENVIRONMENT_BREAK = new EnvFlag("cushion_environment_break",
                         "Cushion Environment Break", "Whether fire, physics, pistons and non-player/non-mob projectiles can remove cushions. Known explosions use their own flags; lightning is not covered.",
                         false, true, Material.WHITE_WOOL, "minecraft:blocks/block/white_wool");
-        /** Former source-agnostic explosion damage flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #TNT_DAMAGE_ARMOR_STAND}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag ARMOR_STAND_EXPLOSION_DAMAGE = new EnvFlag("armor_stand_explosion_damage",
                         "Armor Stand Explosion Damage (Legacy)", "Former source-agnostic permission for explosions damaging armor stands.",
                         false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
-        /** Former source-agnostic explosion damage flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #TNT_DAMAGE_HANGING_ENTITY}; configure that flag instead
+         */
         @Deprecated
         public static final EnvFlag HANGING_ENTITY_EXPLOSION_DAMAGE = new EnvFlag("hanging_entity_explosion_damage",
                         "Hanging Entity Explosion Damage (Legacy)", "Former source-agnostic permission for explosions damaging hanging entities.",
@@ -392,7 +429,11 @@ public class Flags {
         /** Controls placing water and lava. */
         public static final PriFlag PLACE_LIQUID = new PriFlag("place_liquid", "Place Liquid",
                         "Whether water and lava can be placed.", false, true, Material.WATER_BUCKET, "minecraft:items/item/water_bucket");
-        /** Former coarse decorative-entity placement flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #PLACE_ARMOR_STAND}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag PLACE_ENTITY = new PriFlag("place_entity", "Place Decorative Entity",
                         "Whether armor stands and item frames can be placed.", false, true, Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
@@ -421,7 +462,11 @@ public class Flags {
         /** Controls collecting water and lava. */
         public static final PriFlag BREAK_LIQUID = new PriFlag("break_liquid", "Collect Liquid",
                         "Whether water and lava can be collected.", false, true, Material.BUCKET, "minecraft:items/item/bucket");
-        /** Former coarse decorative-entity breaking flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #ARMOR_STAND_DIRECT_BREAK}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag BREAK_ENTITY = new PriFlag("break_entity", "Break Decorative Entity",
                         "Whether armor stands and item frames can be broken.", false, true, Material.IRON_AXE, "minecraft:items/item/iron_axe");
@@ -441,12 +486,20 @@ public class Flags {
         public static final PriFlag HANGING_ENTITY_PROJECTILE_BREAK = new PriFlag("hanging_entity_projectile_break",
                         "Projectile Break Hanging Entity", "Whether player-fired projectiles can break hanging entities.", false, true,
                         Material.BOW, "minecraft:items/item/bow");
-        /** Former combined player damage flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #ARMOR_STAND_DIRECT_BREAK}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag ARMOR_STAND_PLAYER_DAMAGE = new PriFlag("armor_stand_player_damage",
                         "Armor Stand Player Damage (Legacy)", "Former combined permission for direct and projectile damage to armor stands.", false, true,
                         Material.ARMOR_STAND, "minecraft:items/item/armor_stand");
-        /** Former combined player damage flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #HANGING_ENTITY_DIRECT_BREAK}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag HANGING_ENTITY_PLAYER_DAMAGE = new PriFlag("hanging_entity_player_damage",
                         "Hanging Entity Player Damage (Legacy)", "Former combined permission for direct and projectile damage to hanging entities.", false, true,
@@ -502,9 +555,9 @@ public class Flags {
 
         // containers and storage
         /**
-         * The former coarse container flag. It is retained as a migration source
-         * for existing configuration and database columns, but is not registered
-         * as an active flag anymore.
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #CHEST}; configure that flag instead
          */
         @Deprecated
         public static final PriFlag CONTAINER = new PriFlag("container", "Storage Container",
@@ -664,7 +717,11 @@ public class Flags {
         /** Controls damage caused by player-fired arrows. */
         public static final PriFlag ARROW_DAMAGE = new PriFlag("arrow_damage", "Arrow Damage",
                         "Whether player-fired arrows can damage entities.", false, true, Material.ARROW, "minecraft:items/item/arrow");
-        /** Former combined bow/crossbow and arrow flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #ARROW_LAUNCH}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag SHOOT = new PriFlag("shoot", "Shoot Arrows",
                         "Former combined permission for charging bows/crossbows and launching or using arrows.", false, true, Material.BOW, "minecraft:items/item/bow");
@@ -674,7 +731,11 @@ public class Flags {
         /** Controls impacts caused by player-fired tridents. */
         public static final PriFlag TRIDENT_HIT = new PriFlag("trident_hit", "Trident Impact",
                         "Whether player-fired tridents can impact blocks or entities.", false, true, Material.TRIDENT, "minecraft:items/item/trident");
-        /** Former combined trident launch and impact flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #TRIDENT_LAUNCH}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag TRIDENT = new PriFlag("trident", "Throw Trident", "Whether tridents can be thrown.",
                         false, true, Material.TRIDENT, "minecraft:items/item/trident");
@@ -684,7 +745,11 @@ public class Flags {
         /** Controls impacts caused by player-fired fireballs. */
         public static final PriFlag FIREBALL_HIT = new PriFlag("fireball_hit", "Fireball Impact",
                         "Whether player-fired fireballs can impact blocks or entities.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
-        /** Former combined fireball launch and impact flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #FIREBALL_LAUNCH}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag FIREBALL = new PriFlag("fireball", "Launch Fireball",
                         "Former combined permission for launching and impacting with fireballs.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
@@ -697,7 +762,11 @@ public class Flags {
         /** Controls explosions caused by player-fired wind charges. */
         public static final PriFlag WIND_CHARGE_EXPLODE = new PriFlag("wind_charge_explode", "Wind Charge Explosion",
                         "Whether player-fired wind charges can explode.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
-        /** Former combined wind charge launch, impact and explosion flag retained for migration. */
+        /**
+         * Read-only compatibility alias retained for historical migrations.
+         *
+         * @deprecated runtime reads use {@link #WIND_CHARGE_LAUNCH}; configure that flag instead
+         */
         @Deprecated
         public static final PriFlag WIND_CHARGE = new PriFlag("wind_charge", "Use Wind Charge",
                         "Former combined permission for launching, impacting and exploding wind charges.", false, true, Material.FIRE_CHARGE, "minecraft:items/item/fire_charge");
@@ -722,28 +791,48 @@ public class Flags {
         public static final PriFlag VILLAGER_KILLING = new PriFlag("villager_killing", "Villager Killing",
                         "Whether can do harm to villager.", false, true, Material.WOODEN_SWORD, "minecraft:items/item/wooden_sword");
 
-        private static final List<Flag> legacy_flags = List.of(
-                        BURN, BURN_ENTITY, ENDER_MAN, BLOCK_EXPLODE, FLOW_IN_PROTECTION, ICE_FORM,
-                        ARMOR_STAND_EXPLOSION_DAMAGE, HANGING_ENTITY_EXPLOSION_DAMAGE,
-                        ARMOR_STAND_PLAYER_DAMAGE, HANGING_ENTITY_PLAYER_DAMAGE,
-                        SHOOT, TRIDENT, FIREBALL, WIND_CHARGE,
-                        CONTAINER, PLACE_ENTITY, BREAK_ENTITY, ITEM_FRAME_PROJ_DAMAGE
-        );
-        private static final List<EnvFlag> env_flags = new ArrayList<>();
-        private static final List<PriFlag> pri_flags = new ArrayList<>();
-        private static final List<Flag> all_flags = new ArrayList<>();
+        private static final Map<Flag, Flag> legacy_aliases = createLegacyAliases();
+        private static final Map<String, Flag> registered_flags = new LinkedHashMap<>();
         private static final AtomicLong revision = new AtomicLong();
+
+        private static Map<Flag, Flag> createLegacyAliases() {
+                Map<Flag, Flag> aliases = new LinkedHashMap<>();
+                aliases.put(BURN, BURN_BLOCK);
+                aliases.put(BURN_ENTITY, BURN_ENTITY_FIRE);
+                aliases.put(ENDER_MAN, ENDER_MAN_PICKUP_BLOCK);
+                aliases.put(BLOCK_EXPLODE, BED_EXPLODE);
+                aliases.put(FLOW_IN_PROTECTION, FLOW_IN_WATER);
+                aliases.put(ICE_FORM, ICE_FORM_NATURAL);
+                aliases.put(ARMOR_STAND_EXPLOSION_DAMAGE, TNT_DAMAGE_ARMOR_STAND);
+                aliases.put(HANGING_ENTITY_EXPLOSION_DAMAGE, TNT_DAMAGE_HANGING_ENTITY);
+                aliases.put(ARMOR_STAND_PLAYER_DAMAGE, ARMOR_STAND_DIRECT_BREAK);
+                aliases.put(HANGING_ENTITY_PLAYER_DAMAGE, HANGING_ENTITY_DIRECT_BREAK);
+                aliases.put(SHOOT, ARROW_LAUNCH);
+                aliases.put(TRIDENT, TRIDENT_LAUNCH);
+                aliases.put(FIREBALL, FIREBALL_LAUNCH);
+                aliases.put(WIND_CHARGE, WIND_CHARGE_LAUNCH);
+                aliases.put(CONTAINER, CHEST);
+                aliases.put(PLACE_ENTITY, PLACE_ARMOR_STAND);
+                aliases.put(BREAK_ENTITY, ARMOR_STAND_DIRECT_BREAK);
+                aliases.put(ITEM_FRAME_PROJ_DAMAGE, HANGING_ENTITY_MOB_DAMAGE);
+                aliases.forEach((legacy, target) -> {
+                        if (aliases.containsKey(target)
+                                        || (legacy instanceof EnvFlag) != (target instanceof EnvFlag)
+                                        || (legacy instanceof PriFlag) != (target instanceof PriFlag)) {
+                                throw new IllegalStateException("Invalid legacy flag replacement: " + legacy.getFlagName());
+                        }
+                        legacy.bindReadAlias(target);
+                });
+                return Collections.unmodifiableMap(aliases);
+        }
 
         static {
                 for (java.lang.reflect.Field field : Flags.class.getDeclaredFields()) {
                         try {
                                 Object obj = field.get(null);
-                                if (obj instanceof Flag flag && !legacy_flags.contains(flag)) {
-                                        all_flags.add(flag);
-                                        if (flag instanceof EnvFlag envFlag) {
-                                                env_flags.add(envFlag);
-                                        } else if (flag instanceof PriFlag priFlag) {
-                                                pri_flags.add(priFlag);
+                                if (obj instanceof Flag flag) {
+                                        if (registered_flags.putIfAbsent(flag.getFlagName(), flag) != null) {
+                                                throw new IllegalStateException("Duplicate built-in flag: " + flag.getFlagName());
                                         }
                                 }
                         } catch (IllegalAccessException ignored) {
@@ -752,137 +841,216 @@ public class Flags {
         }
 
         /**
-         * Returns all active flags, including both environment and privilege flags.
+         * Returns all flags, including read-only legacy aliases.
          *
-         * @return the active flag list; callers should treat it as read-only
+         * @return an immutable snapshot in registration order
          */
         public static List<Flag> getAllFlags() {
-                return all_flags;
+                return flagSnapshot(Flag.class, false, false);
         }
 
         /**
-         * Returns all active environment flags.
+         * Returns all environment flags, including read-only legacy aliases.
          *
-         * @return the active environment flag list; callers should treat it as read-only
+         * @return an immutable snapshot in registration order
          */
         public static List<EnvFlag> getAllEnvFlags() {
-                return env_flags;
+                return flagSnapshot(EnvFlag.class, false, false);
         }
 
         /**
-         * Returns all active privilege flags.
+         * Returns all privilege flags, including read-only legacy aliases.
          *
-         * @return the active privilege flag list; callers should treat it as read-only
+         * @return an immutable snapshot in registration order
          */
         public static List<PriFlag> getAllPriFlags() {
-                return pri_flags;
+                return flagSnapshot(PriFlag.class, false, false);
+        }
+
+        /** Returns configurable flags, excluding read-only legacy aliases. */
+        @ApiStatus.Internal
+        public static List<Flag> getActiveFlags() {
+                return flagSnapshot(Flag.class, true, false);
+        }
+
+        /** Returns configurable environment flags, excluding read-only legacy aliases. */
+        @ApiStatus.Internal
+        public static List<EnvFlag> getActiveEnvFlags() {
+                return flagSnapshot(EnvFlag.class, true, false);
+        }
+
+        /** Returns configurable privilege flags, excluding read-only legacy aliases. */
+        @ApiStatus.Internal
+        public static List<PriFlag> getActivePriFlags() {
+                return flagSnapshot(PriFlag.class, true, false);
+        }
+
+        /** Returns whether the flag is a read-only compatibility alias. */
+        public static boolean isLegacyFlag(Flag flag) {
+                return legacy_aliases.containsKey(flag);
         }
 
         /**
-         * Filters a list of flags to the flags currently marked enabled.
+         * Returns the explicit legacy-to-current mappings used for runtime reads.
+         * These mappings are independent of historical migration sources.
          *
-         * @param flags the list of flags to filter
-         * @param <T>   the type of the flags
-         * @return a list of enabled flags
+         * @return an unmodifiable map of read-only aliases to their current flags
          */
-        private static <T extends Flag> List<T> getEnabledFlags(List<T> flags) {
-                List<T> enabledFlags = new ArrayList<>();
-                for (T flag : flags) {
-                        if (flag.getEnable()) {
-                                enabledFlags.add(flag);
-                        }
+        public static Map<Flag, Flag> getLegacyAliases() {
+                return legacy_aliases;
+        }
+
+        /** Returns the current flag whose value a legacy API read should use. */
+        public static Flag resolveReadFlag(Flag flag) {
+                return legacy_aliases.getOrDefault(flag, flag);
+        }
+
+        /** Resolves an environment flag without changing its flag type. */
+        public static EnvFlag resolveReadFlag(EnvFlag flag) {
+                return (EnvFlag) resolveReadFlag((Flag) flag);
+        }
+
+        /** Resolves a privilege flag without changing its flag type. */
+        public static PriFlag resolveReadFlag(PriFlag flag) {
+                return (PriFlag) resolveReadFlag((Flag) flag);
+        }
+
+        private static <T extends Flag> List<T> flagSnapshot(Class<T> type,
+                                                             boolean activeOnly,
+                                                             boolean enabledOnly) {
+                List<Flag> snapshot;
+                synchronized (Flags.class) {
+                        snapshot = List.copyOf(registered_flags.values());
                 }
-                return enabledFlags;
+                // Custom getters can consult other registries; never call them under our lock.
+                return snapshot.stream()
+                                .filter(type::isInstance)
+                                .filter(flag -> !activeOnly || !isLegacyFlag(flag))
+                                .filter(flag -> !enabledOnly || flag.getEnable())
+                                .map(type::cast)
+                                .toList();
         }
 
         /**
          * Returns all enabled environment flags.
          *
-         * @return a new list containing the enabled environment flags
+         * @return an immutable snapshot of enabled environment flags in registration order
          */
         public static List<EnvFlag> getAllEnvFlagsEnable() {
-                return getEnabledFlags(env_flags);
+                return flagSnapshot(EnvFlag.class, false, true);
         }
 
         /**
          * Returns all enabled privilege flags.
          *
-         * @return a new list containing the enabled privilege flags
+         * @return an immutable snapshot of enabled privilege flags in registration order
          */
         public static List<PriFlag> getAllPriFlagsEnable() {
-                return getEnabledFlags(pri_flags);
+                return flagSnapshot(PriFlag.class, false, true);
         }
 
         /**
          * Returns all enabled environment and privilege flags.
          *
-         * @return a new list containing the enabled flags
+         * @return an immutable snapshot of enabled flags in registration order
          */
         public static List<Flag> getAllFlagsEnable() {
-                return getEnabledFlags(all_flags);
+                return flagSnapshot(Flag.class, false, true);
+        }
+
+        /** Returns enabled configurable flags, excluding legacy aliases. */
+        @ApiStatus.Internal
+        public static List<Flag> getActiveFlagsEnable() {
+                return flagSnapshot(Flag.class, true, true);
+        }
+
+        /** Returns enabled configurable environment flags, excluding legacy aliases. */
+        @ApiStatus.Internal
+        public static List<EnvFlag> getActiveEnvFlagsEnable() {
+                return flagSnapshot(EnvFlag.class, true, true);
+        }
+
+        /** Returns enabled configurable privilege flags, excluding legacy aliases. */
+        @ApiStatus.Internal
+        public static List<PriFlag> getActivePriFlagsEnable() {
+                return flagSnapshot(PriFlag.class, true, true);
+        }
+
+        private static synchronized <T extends Flag> T findFlag(String name, Class<T> type, boolean activeOnly) {
+                Flag flag = registered_flags.get(name);
+                return type.isInstance(flag) && (!activeOnly || !isLegacyFlag(flag)) ? type.cast(flag) : null;
         }
 
         /**
-         * Finds a flag by its stable name in a list.
-         *
-         * @param flags the list of flags to search
-         * @param name  the name of the flag
-         * @param <T>   the type of the flags
-         * @return the flag with the given name, or null if not found
-         */
-        private static <T extends Flag> T getFlagByName(List<T> flags, String name) {
-                for (T flag : flags) {
-                        if (flag.getFlagName().equals(name)) {
-                                return flag;
-                        }
-                }
-                return null;
-        }
-
-        /**
-         * Finds an active flag by its stable name.
+         * Finds a flag by its stable name, including read-only legacy aliases.
          *
          * @param name the name of the flag
          * @return the flag with the given name, or null if not found
          */
         public static Flag getFlag(String name) {
-                return getFlagByName(all_flags, name);
+                return findFlag(name, Flag.class, false);
         }
 
         /**
-         * Finds an active environment flag by its stable name.
+         * Finds an environment flag by its stable name, including legacy aliases.
          *
          * @param name the name of the environment flag
          * @return the environment flag with the given name, or null if not found
          */
         public static EnvFlag getEnvFlag(String name) {
-                return getFlagByName(env_flags, name);
+                return findFlag(name, EnvFlag.class, false);
         }
 
         /**
-         * Finds an active privilege flag by its stable name.
+         * Finds a privilege flag by its stable name, including legacy aliases.
          *
          * @param name the name of the privilege flag
          * @return the privilege flag with the given name, or {@code null} if not found
          */
         public static PriFlag getPreFlag(String name) {
-                return getFlagByName(pri_flags, name);
+                return findFlag(name, PriFlag.class, false);
         }
 
-        /**
-         * Registers a flag.
-         *
-         * <p>This internal helper adds the flag to the in-memory active-flag lists.
-         *
-         * @param flag the flag to register
-         */
-        private static void registerFlag(Flag flag) {
-                if (flag instanceof EnvFlag) {
-                        env_flags.add((EnvFlag) flag);
-                } else if (flag instanceof PriFlag) {
-                        pri_flags.add((PriFlag) flag);
+        /** Finds a configurable flag by name, excluding legacy aliases. */
+        @ApiStatus.Internal
+        public static Flag getActiveFlag(String name) {
+                return findFlag(name, Flag.class, true);
+        }
+
+        /** Finds a configurable environment flag by name, excluding legacy aliases. */
+        @ApiStatus.Internal
+        public static EnvFlag getActiveEnvFlag(String name) {
+                return findFlag(name, EnvFlag.class, true);
+        }
+
+        /** Finds a configurable privilege flag by name, excluding legacy aliases. */
+        @ApiStatus.Internal
+        public static PriFlag getActivePriFlag(String name) {
+                return findFlag(name, PriFlag.class, true);
+        }
+
+        private static String registrationName(Flag flag, Class<? extends Flag> type) {
+                if (!type.isInstance(flag) || isLegacyFlag(flag)) return null;
+                String name = flag.getFlagName();
+                return name == null || name.isBlank() ? null : name;
+        }
+
+        private static boolean registerFlag(JavaPlugin plugin, Flag proposed, Class<? extends Flag> type) {
+                String proposedName = registrationName(proposed, type);
+                if (proposedName == null) return false;
+                synchronized (Flags.class) {
+                        if (registered_flags.containsKey(proposedName)) return false;
                 }
-                all_flags.add(flag);
+                FlagRegisterEvent event = new FlagRegisterEvent(plugin, proposed);
+                if (!event.call()) return false;
+                Flag accepted = event.getFlag();
+                String acceptedName = registrationName(accepted, type);
+                if (acceptedName == null) return false;
+                synchronized (Flags.class) {
+                        if (registered_flags.putIfAbsent(acceptedName, accepted) != null) return false;
+                        revision.incrementAndGet();
+                        return true;
+                }
         }
 
         /**
@@ -893,17 +1061,12 @@ public class Flags {
          *
          * @param plugin the plugin registering the flag
          * @param flag   the environment flag to register
-         * @return {@code true} if the flag was accepted by the registration
-         *         event, {@code false} if the event was cancelled
+         * @return {@code true} if the event's final flag was registered; {@code false}
+         *         if cancelled, the flag type or name is invalid, or the name is
+         *         already registered (including reserved legacy aliases)
          */
         public static boolean registerEnvFlag(JavaPlugin plugin, EnvFlag flag) {
-                if (new FlagRegisterEvent(plugin, flag).call()) {
-                        all_flags.add(flag);
-                        env_flags.add(flag);
-                        revision.incrementAndGet();
-                        return true;
-                }
-                return false;
+                return registerFlag(plugin, flag, EnvFlag.class);
         }
 
         /**
@@ -914,17 +1077,12 @@ public class Flags {
          *
          * @param plugin the plugin registering the flag
          * @param flag   the privilege flag to register
-         * @return {@code true} if the flag was accepted by the registration
-         *         event, {@code false} if the event was cancelled
+         * @return {@code true} if the event's final flag was registered; {@code false}
+         *         if cancelled, the flag type or name is invalid, or the name is
+         *         already registered (including reserved legacy aliases)
          */
         public static boolean registerPriFlag(JavaPlugin plugin, PriFlag flag) {
-                if (new FlagRegisterEvent(plugin, flag).call()) {
-                        all_flags.add(flag);
-                        pri_flags.add(flag);
-                        revision.incrementAndGet();
-                        return true;
-                }
-                return false;
+                return registerFlag(plugin, flag, PriFlag.class);
         }
 
         /**

@@ -155,31 +155,45 @@ public interface DominionDTO {
 
     /**
      * Gets the environment flag values configured for the dominion.
+     * <p>
+     * The returned map is a live view. Legacy alias keys are present whenever
+     * their replacement has a stored value, and always read that value.
+     * Active entries remain mutable; writes through legacy keys throw
+     * {@link UnsupportedOperationException}.
      *
-     * @return a map from environment flags to their configured values
+     * Collection views cannot remove entries; use map operations with active keys instead.
+     * @return a live map of configured values, including read-only legacy aliases
      */
     @NotNull Map<EnvFlag, Boolean> getEnvironmentFlagValue();
 
     /**
      * Gets the value of a specific environment flag of the dominion.
+     * Legacy aliases read their replacement, with the same missing-value behavior.
      *
      * @param flag the environment flag
-     * @return the value of the environment flag
+     * @return the configured value, or {@code false} when no value is stored
      */
     boolean getEnvFlagValue(@NotNull EnvFlag flag);
 
     /**
      * Gets the privilege flag values applied to guests of the dominion.
+     * <p>
+     * The returned map is a live view. Legacy alias keys are present whenever
+     * their replacement has a stored value, and always read that value.
+     * Active entries remain mutable; writes through legacy keys throw
+     * {@link UnsupportedOperationException}.
      *
-     * @return a map from privilege flags to their configured guest values
+     * Collection views cannot remove entries; use map operations with active keys instead.
+     * @return a live map of guest values, including read-only legacy aliases
      */
     @NotNull Map<PriFlag, Boolean> getGuestPrivilegeFlagValue();
 
     /**
      * Gets the value of a specific guest privilege flag of the dominion.
+     * Legacy aliases read their replacement, with the same missing-value behavior.
      *
      * @param flag the guest privilege flag
-     * @return the value of the guest privilege flag
+     * @return the configured value, or {@code false} for {@code ADMIN} or when no value is stored
      */
     boolean getGuestFlagValue(@NotNull PriFlag flag);
 
@@ -189,6 +203,7 @@ public interface DominionDTO {
      * @param flag  the flag
      * @param value the value of the flag
      * @return this dominion after the flag has been updated
+     * @throws IllegalArgumentException if the flag is a read-only legacy alias
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setEnvFlagValue(@NotNull EnvFlag flag, @NotNull Boolean value) throws SQLException;
@@ -199,6 +214,7 @@ public interface DominionDTO {
      * @param flag  the flag
      * @param value the value of the flag
      * @return this dominion after the flag has been updated
+     * @throws IllegalArgumentException if the flag is a read-only legacy alias
      * @throws SQLException if a database access error occurs
      */
     @NotNull DominionDTO setGuestFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;

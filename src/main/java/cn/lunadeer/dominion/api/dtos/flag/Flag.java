@@ -1,6 +1,7 @@
 package cn.lunadeer.dominion.api.dtos.flag;
 
 import org.bukkit.Material;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +22,7 @@ public abstract class Flag {
     private Boolean enable;
     private Material material;
     private String icon;
+    private Flag readAlias;
 
     /**
      * Constructs a new Flag with the specified parameters.
@@ -91,23 +93,47 @@ public abstract class Flag {
     }
 
     /**
-     * Returns the default value of the flag.
+     * Returns the default value of the flag. Legacy aliases read their current
+     * replacement's configured default.
      *
      * @return the default value of the flag
      */
     public @NotNull Boolean getDefaultValue() {
-        return default_value;
+        return readAlias == null ? default_value : readAlias.getDefaultValue();
     }
 
     /**
      * Returns whether the flag is enabled in the current configuration.
+     * Legacy aliases use their current replacement's enabled state.
      *
      * @return the enable status of the flag
      */
     public @NotNull Boolean getEnable() {
-        return enable;
+        return readAlias == null ? enable : readAlias.getEnable();
     }
 
+    /**
+     * Returns this flag's own default without resolving compatibility aliases.
+     * Historical aliases retain their original default; active flags preserve
+     * any custom {@link #getDefaultValue()} implementation.
+     */
+    @ApiStatus.Internal
+    public @NotNull Boolean getMigrationDefaultValue() {
+        return readAlias == null ? getDefaultValue() : default_value;
+    }
+
+    /** Returns the historical alias state or the active flag's custom enabled state. */
+    @ApiStatus.Internal
+    public @NotNull Boolean getMigrationEnable() {
+        return readAlias == null ? getEnable() : enable;
+    }
+
+    void bindReadAlias(Flag target) {
+        if (readAlias != null) {
+            throw new IllegalStateException("Legacy flag replacement already bound: " + flag_name);
+        }
+        readAlias = Objects.requireNonNull(target, "target");
+    }
 
     /**
      * Returns the material used by this flag in chest user interfaces.
@@ -149,8 +175,10 @@ public abstract class Flag {
      * Sets the default value of the flag.
      *
      * @param defaultValue the new default value of the flag
+     * @throws IllegalArgumentException if this is a read-only legacy alias
      */
     public void setDefaultValue(Boolean defaultValue) {
+        rejectLegacyMutation();
         this.default_value = defaultValue;
     }
 
@@ -158,9 +186,18 @@ public abstract class Flag {
      * Sets the enable status of the flag.
      *
      * @param enable the new enable status of the flag
+     * @throws IllegalArgumentException if this is a read-only legacy alias
      */
     public void setEnable(Boolean enable) {
+        rejectLegacyMutation();
         this.enable = enable;
+    }
+
+    private void rejectLegacyMutation() {
+        if (readAlias != null) {
+            throw new IllegalArgumentException("Legacy flag " + flag_name
+                    + " is read-only; configure " + readAlias.getFlagName() + " instead");
+        }
     }
 
     /**

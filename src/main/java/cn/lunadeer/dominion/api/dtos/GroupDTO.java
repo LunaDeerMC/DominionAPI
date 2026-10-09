@@ -69,6 +69,7 @@ public interface GroupDTO {
 
     /**
      * Gets the value of a specific flag for the group.
+     * Legacy aliases read their replacement and use its default when no value is stored.
      *
      * @param flag the flag
      * @return the value of the flag, or the default value if the flag does not exist
@@ -77,8 +78,14 @@ public interface GroupDTO {
 
     /**
      * Gets all flag values for the group.
+     * <p>
+     * The returned map is a live view. Legacy alias keys are present whenever
+     * their replacement has a stored value, and always read that value.
+     * Active entries remain mutable; writes through legacy keys throw
+     * {@link UnsupportedOperationException}.
      *
-     * @return a map of flag values
+     * Collection views cannot remove entries; use map operations with active keys instead.
+     * @return a live map of flag values, including read-only legacy aliases
      */
     @NotNull Map<PriFlag, Boolean> getFlagsValue();
 
@@ -88,6 +95,7 @@ public interface GroupDTO {
      * @param flag  the flag
      * @param value the value of the flag
      * @return this group after the flag has been updated
+     * @throws IllegalArgumentException if the flag is a read-only legacy alias
      * @throws SQLException if a database access error occurs
      */
     @NotNull GroupDTO setFlagValue(@NotNull PriFlag flag, @NotNull Boolean value) throws SQLException;

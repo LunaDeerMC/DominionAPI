@@ -31,6 +31,10 @@ import java.util.concurrent.CompletableFuture;
  * Dominion plugin during startup.
  * <p>
  * Use the {@link #getInstance()} method to retrieve the singleton instance of the DominionAPI.
+ * <p>
+ * All privilege and environment checks accept legacy flag aliases. They evaluate
+ * the replacement flag's current value and enabled state, using the mappings in
+ * {@link cn.lunadeer.dominion.api.dtos.flag.Flags#getLegacyAliases()}.
  */
 public abstract class DominionAPI {
 

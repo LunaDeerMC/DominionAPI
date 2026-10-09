@@ -121,7 +121,7 @@ public final class FlagGroups {
     public static synchronized @NotNull EnvFlagGroup getUngroupedEnvFlags() {
         LinkedHashSet<EnvFlag> grouped = new LinkedHashSet<>();
         ENV_GROUPS.values().forEach(group -> grouped.addAll(group.getFlags()));
-        List<EnvFlag> flags = Flags.getAllEnvFlags().stream().filter(flag -> !grouped.contains(flag)).toList();
+        List<EnvFlag> flags = Flags.getActiveEnvFlags().stream().filter(flag -> !grouped.contains(flag)).toList();
         return new EnvFlagGroup("ungrouped", "Ungrouped", "Flags that are not assigned to a configured group.",
                 Material.PAPER, "minecraft:items/item/paper", flags);
     }
@@ -135,7 +135,7 @@ public final class FlagGroups {
     public static synchronized @NotNull PriFlagGroup getUngroupedPriFlags() {
         LinkedHashSet<PriFlag> grouped = new LinkedHashSet<>();
         PRI_GROUPS.values().forEach(group -> grouped.addAll(group.getFlags()));
-        List<PriFlag> flags = Flags.getAllPriFlags().stream().filter(flag -> !grouped.contains(flag)).toList();
+        List<PriFlag> flags = Flags.getActivePriFlags().stream().filter(flag -> !grouped.contains(flag)).toList();
         return new PriFlagGroup("ungrouped", "Ungrouped", "Flags that are not assigned to a configured group.",
                 Material.PAPER, "minecraft:items/item/paper", flags);
     }

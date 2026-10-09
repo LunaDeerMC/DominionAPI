@@ -12,6 +12,7 @@ import java.util.Objects;
 /**
  * A logical, ordered group of flags used for presentation and bulk editing.
  * Flag groups do not participate in permission evaluation.
+ * Read-only legacy aliases are ignored when constructing or adding to groups.
  *
  * @param <T> the supported flag type
  */
@@ -75,7 +76,9 @@ public abstract class FlagGroup<T extends Flag> {
         this.flagType = Objects.requireNonNull(flagType);
         for (T flag : flags) {
             requireType(flag);
-            this.flags.add(flag);
+            if (!Flags.isLegacyFlag(flag)) {
+                this.flags.add(flag);
+            }
         }
     }
 
@@ -173,11 +176,13 @@ public abstract class FlagGroup<T extends Flag> {
      * Adds a flag to this group.
      *
      * @param flag the flag to add
-     * @return {@code true} if the flag was not already present
+     * @return {@code true} if the flag was added; {@code false} if it was already
+     *         present or is a read-only legacy alias
      * @throws IllegalArgumentException if the flag is not an instance of this group's flag type
      */
     public synchronized boolean addFlag(@NotNull T flag) {
         requireType(flag);
+        if (Flags.isLegacyFlag(flag)) return false;
         boolean added = flags.add(flag);
         if (added) changed();
         return added;
